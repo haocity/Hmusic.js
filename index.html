@@ -21,17 +21,30 @@
 				background-size: cover;
 			}
 			.hmusic>.banner>.banner-zz{
-				background-color: rgba(0, 0, 0, 0.2);
+				background-color: rgba(0, 0, 0, 0.4);
 				height: 100%;
 				color: #fff;
+				overflow: hidden;
 			}
 			.hmusic>.banner>.banner-zz>.songname{
 				font-size: 1.2em;
 				text-align: center;
 				padding-top: 5px;
 			}
-			.hmusic>.banner>.banner-zz>.lrc{
+			.hmusic>.banner>.banner-zz>.lrc-warp{
 				height: 160px;
+				overflow: hidden;
+			}
+			.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{
+				text-align: center;
+				transform:translateY(-10px);
+				transition: all 0.3s ease-out;
+				/*background-color: #000;*/
+			}
+			.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{
+				margin: 0;
+				padding: 0;
+				line-height: 30px;
 				/*background-color: #000;*/
 			}
 			.hmusic>.banner>.banner-zz>.ranger{
@@ -114,7 +127,9 @@
 				<div class="banner">
 					<div class="banner-zz">
 						<div class="songname">ACFUN次元之旅</div>
-						<div class="lrc"></div>
+						<div class="lrc-warp">
+							<div class="lrc"></div>
+						</div>
 						<div class="ranger">
 							<div class="ranger-n"></div>
 						</div>
@@ -150,6 +165,7 @@
 					<li>歌曲1-作者 疯狂减肥带</li>
 					<li>歌曲1-作者 疯狂减肥带</li>
 				</div>
+				<style type="text/css" class="css"></style>
 			</div>
 		</div>
 	</body>
@@ -167,6 +183,7 @@
 		hm.e.nrange=$c('.ranger-n');
 		hm.e.nowtime=$c('.nowtime');
 		hm.e.alltime=$c('.alltime');
+		hm.e.lrc=$c('.lrc');
 		function getalltime(){
 			if(hm.e.audio.duration>1){
 				hm.alltime=hm.e.audio.duration;
@@ -195,6 +212,7 @@
 				console.log('pause')
 			}
 		}
+		
 		hm.tiao=function(t){
 			hm.e.audio.currentTime=t;
 			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
@@ -212,6 +230,19 @@
 			hm.tiao(xbl.xbl*hm.alltime);
 			console.log('tiao'+xbl.xbl*hm.alltime);
 		});
+		//定时器 10
+		hm.interval=function(){
+			var t=parseFloat(hm.e.audio.currentTime.toFixed(2));
+			for(var i=0;i<hm.lrc.b.length;i++){
+				if(hm.lrc.b[i]==t){
+					var t=70-i*30;
+					hm.e.lrc.style.transform='translateY('+t+'px)';
+					$c('.css').innerHTML='.lrc>p:nth-child('+(1+i)+'){font-size:24px}';
+					break;
+				}
+			}
+		}
+		setInterval(hm.interval,10);
 		function getvtime(time) {
 	        var tm;
 	        var m = parseInt(time / 60);
@@ -250,5 +281,43 @@
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
+	    hm.getlrc=function(url){
+	    	var	xmlhttp=new XMLHttpRequest();
+	    		xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState==4 && xmlhttp.status==200)
+					{
+						var t=JSON.parse(xmlhttp.responseText);
+						hm.lrc=new Object;
+						hm.lrc.b=[];
+						hm.lrc.c=[];
+						hm.lrc.d='';
+						hm.lrc.a=t.lrc.lyric.split('\n');
+						var reg = /\[[^\]]+/;
+						var reg2=/\].+/;
+						for (var i = 0; i < hm.lrc.a.length-1; i++) {
+							var t2= hm.lrc.a[i].match(reg);
+							var t3= hm.lrc.a[i].match(reg2);
+							if(t2){
+								//hm.lrc.b.push(t2[0].substr(1));
+								var arr= t2[0].substr(1).split(':');
+								hm.lrc.b.push(parseInt(arr[0])*60+parseFloat(arr[1]));
+							}
+							if(t3){
+								hm.lrc.c.push(t3[0].substr(1))
+							}else{
+								hm.lrc.c.push('&nbsp;')
+							}
+						}
+						for (var i = 0; i < hm.lrc.c.length; i++) {
+							hm.lrc.d=hm.lrc.d+'<p>'+hm.lrc.c[i]+'</p>';
+						}
+						hm.e.lrc.innerHTML=hm.lrc.d;
+					}
+				}
+			xmlhttp.open("GET",url,true);
+			xmlhttp.send();
+	    }
+	    hm.getlrc('1.json');
 	</script>
 </html>
