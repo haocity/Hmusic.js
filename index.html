@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Hmusic.js </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<style type="text/css">
+			.warp{
+				width: 340px;
+				margin: 0 auto;
+			}
+			.hmusic{
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+				height: 500px;
+				font-family: Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif;
+			}
+			.hmusic>.banner{
+				height: 200px;
+				background-image: url(1.jpg);
+				background-position: center;
+				background-size: cover;
+			}
+			.hmusic>.banner>.banner-zz{
+				background-color: rgba(0, 0, 0, 0.2);
+				height: 100%;
+				color: #fff;
+			}
+			.hmusic>.banner>.banner-zz>.songname{
+				font-size: 1.2em;
+				text-align: center;
+				padding-top: 5px;
+			}
+			.hmusic>.banner>.banner-zz>.lrc{
+				height: 160px;
+				/*background-color: #000;*/
+			}
+			.hmusic>.banner>.banner-zz>.ranger{
+				background-color: rgba(59, 65, 67, 0.39);
+				height: 12px;
+			}
+			.hmusic>.banner>.banner-zz>.ranger>.ranger-n{
+				height: 100%;
+				background-color: rgba(3, 169, 244, 0.6);
+				width: 20%;
+			}
+			.hmusic>.con{
+				text-align: center;
+				height: 40px;
+				overflow: hidden;
+			}
+			.hmusic>.con .iconfont{
+				font-size: 1.6em;
+				color: #6d95e0;
+				cursor: pointer;
+			}
+			.hmusic>.con .iconfont:hover{
+				color: #2753af;
+			}
+			.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{
+				font-size: 2em;
+				position: relative;
+				top: 3px;
+			}
+			.hmusic>.con>.right{
+				float: right;
+				padding: 0 4px;
+			}
+			.hmusic>.con>.left{
+				float: left;
+				padding: 0 4px;
+			}
+			.hmusic>.con>.left>.nowtime{
+				display: inline-block;
+				position: relative;
+				top: -16px;
+				font-size: 0.6em;
+			}
+			.hmusic>.con>.right>.alltime{
+				display: inline-block;
+				position: relative;
+				top: -16px;
+				font-size: 0.6em;
+			}
+			.hmusic>.con>.right>.iconfont{
+				line-height: 1.6em;
+				padding-right: 30px;
+			}
+			.hmusic>.con>.left>.iconfont{
+				line-height: 1.6em;
+				padding-left: 30px;
+			}
+			
+			
+			
+			.hmusic>.longarr{
+				padding: 0 20px;
+				background-color: #dadada;
+				height: 260px;
+				overflow-y: scroll;
+				overflow-x: hidden;
+			}
+			.hmusic>.longarr>li{
+				padding: 3px 0;
+				
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="iconfont.css"/>
+	</head>
+	<body>
+		<h2>音乐播放器  Hmusic.js</h2>
+		<div class="warp">
+			<div class="hmusic">
+				<audio class="hm-audio"></audio>
+				<div class="banner">
+					<div class="banner-zz">
+						<div class="songname">ACFUN次元之旅</div>
+						<div class="lrc"></div>
+						<div class="ranger">
+							<div class="ranger-n"></div>
+						</div>
+					</div>
+				</div>
+				<div class="con">
+					<div class="left">
+						<div class="nowtime">0:00</div>
+						<i class="iconfont icon-s"></i>
+					</div>
+					<i class="iconfont icon-play"></i>
+					<i class="iconfont icon-stop" style="display: none;"></i>
+					<div class="right">
+						<i class="iconfont icon-x"></i>
+						<div class="alltime">1:00</div>
+					</div>
+					
+				</div>
+				<div class="longarr">
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+					<li>歌曲1-作者 疯狂减肥带</li>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function $c(c){
+			return document.querySelector(c)
+		}
+		hm=new Object;
+		hm.e=new Object;
+		hm.e.audio=$c('.hmusic>.hm-audio');
+		hm.e.audio.src='1.wav';
+		hm.e.btnplay=$c('.icon-play');
+		hm.e.btnstop=$c('.icon-stop');
+		hm.e.nrange=$c('.ranger-n');
+		hm.e.nowtime=$c('.nowtime');
+		hm.e.alltime=$c('.alltime');
+		function getalltime(){
+			if(hm.e.audio.duration>1){
+				hm.alltime=hm.e.audio.duration;
+				hm.e.alltime.innerHTML=getvtime(hm.alltime).m+':'+getvtime(hm.alltime).s;
+			}else{
+				setTimeout(getalltime,500)
+			}
+		}
+		setTimeout(getalltime,500);
+		hm.e.btnplay.addEventListener('click',function(){
+			hm.play();
+		});
+		hm.e.btnstop.addEventListener('click',function(){
+			hm.play();
+		});
+		hm.play=function(){
+			if(hm.e.btnplay.style.display!=='none'){
+				hm.e.btnplay.style.display='none';
+				hm.e.btnstop.style.display='inline-block';
+				hm.e.audio.play();
+				console.log('play')
+			}else{
+				hm.e.btnplay.style.display='inline-block';
+				hm.e.btnstop.style.display='none';
+				hm.e.audio.pause();
+				console.log('pause')
+			}
+		}
+		//定时器1s
+		hm.interval1s=function(){
+			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime+'%';
+			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
+		}
+		setInterval(hm.interval1s,1000);
+		function getvtime(time) {
+	        var tm;
+	        var m = parseInt(time / 60);
+	        if (parseInt(time % 60) >= 10) {
+	            tm = parseInt(time % 60);
+	        } else {
+	            tm = "0" + parseInt(time % 60);
+	        }
+	        return {
+	            m:m,
+	            s:tm
+	        };
+	    }
+	</script>
+</html>
