@@ -163,6 +163,7 @@
 		hm.e.audio.src='1.wav';
 		hm.e.btnplay=$c('.icon-play');
 		hm.e.btnstop=$c('.icon-stop');
+		hm.e.wranger=$c('.ranger');
 		hm.e.nrange=$c('.ranger-n');
 		hm.e.nowtime=$c('.nowtime');
 		hm.e.alltime=$c('.alltime');
@@ -194,12 +195,23 @@
 				console.log('pause')
 			}
 		}
+		hm.tiao=function(t){
+			hm.e.audio.currentTime=t;
+			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
+			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
+		}
 		//定时器1s
 		hm.interval1s=function(){
-			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime+'%';
+			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
 			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
 		}
 		setInterval(hm.interval1s,1000);
+		hm.e.wranger.addEventListener('mousedown',function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			var xbl = show_coords(e, this);
+			hm.tiao(xbl.xbl*hm.alltime);
+			console.log('tiao'+xbl.xbl*hm.alltime);
+		});
 		function getvtime(time) {
 	        var tm;
 	        var m = parseInt(time / 60);
@@ -212,6 +224,31 @@
 	            m:m,
 	            s:tm
 	        };
+	    }
+		function show_coords(event, elem) {
+	        var x = event.clientX - getLeft(elem);
+	        var y = event.clientY - getTop(elem);
+	        var xbl = x / elem.offsetWidth;
+	        var ybl = y / elem.offsetTop;
+	        return {
+	            x:x,
+	            y:y,
+	            w:elem.offsetWidth,
+	            xbl:xbl,
+	            ybl:ybl
+	        };
+	    }
+		//获取元素的纵坐标（相对于窗口）
+	    function getTop(e) {
+	        var offset = e.offsetTop;
+	        if (e.offsetParent != null) offset += getTop(e.offsetParent);
+	        return offset;
+	    }
+	    //获取元素的横坐标（相对于窗口）
+	    function getLeft(e) {
+	        var offset = e.offsetLeft;
+	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+	        return offset;
 	    }
 	</script>
 </html>
