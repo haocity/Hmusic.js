@@ -1,4 +1,4 @@
-var e='.warp{margin:0 auto;width:340px}.hmusic{height:500px;box-shadow:0 0 5px rgba(0,0,0,.8);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif}.hmusic>.banner{height:200px;background-image:url(1.jpg);background-position:center;background-size:cover}.hmusic>.banner>.banner-zz{overflow:hidden;height:100%;background-color:rgba(0,0,0,.4);color:#fff}.hmusic>.banner>.banner-zz>.songname{padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap}.hmusic>.banner>.banner-zz>.lrc-warp{overflow:hidden;height:10pc}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.banner-zz>.ranger{height:9pt;background-color:rgba(59,65,67,.39)}.hmusic>.banner>.banner-zz>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(3,169,244,.6)}.hmusic>.con{height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:rgba(255,255,255,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:18px;background-color:#6D95E0}.hmusic>.con .iconfont{color:#6d95e0;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#2753af}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;top:3px;font-size:2em}.hmusic>.con>.right{float:right;padding:0 4px;position:relative}.hmusic>.con>.left{float:left;padding:0 4px;position:relative}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{position:relative;top:-1pc;display:inline-block;font-size:.6em}.hmusic>.con>.right>.icon-x{padding-right:30px;line-height:1.6em}.hmusic>.con>.left>.icon-s{padding-left:30px;line-height:1.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}';
+var e='.warp{margin:0 auto;width:340px}.hmusic{height:500px;box-shadow:0 0 5px rgba(0,0,0,.8);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif}.hmusic>.banner{height:200px;background-image:url(1.jpg);background-position:center;background-size:cover}.hmusic>.banner>.banner-zz{overflow:hidden;height:100%;background-color:rgba(0,0,0,.4);color:#fff}.hmusic>.banner>.banner-zz>.songname{padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap}.hmusic>.banner>.banner-zz>.lrc-warp{overflow:hidden;height:10pc}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{white-space: nowrap;margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.banner-zz>.ranger{height:9pt;background-color:rgba(59,65,67,.39)}.hmusic>.banner>.banner-zz>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(3,169,244,.6)}.hmusic>.con{height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:rgba(255,255,255,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:18px;background-color:#6D95E0}.hmusic>.con .iconfont{color:#6d95e0;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#2753af}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;top:3px;font-size:2em}.hmusic>.con>.right{float:right;padding:0 4px;position:relative}.hmusic>.con>.left{float:left;padding:0 4px;position:relative}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{position:relative;top:-1pc;display:inline-block;font-size:.6em}.hmusic>.con>.right>.icon-x{padding-right:30px;line-height:1.6em}.hmusic>.con>.left>.icon-s{padding-left:30px;line-height:1.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}';
 var e2= document.createElement('style');
 e2.type="text/css";
 e2.innerHTML=e;
@@ -184,9 +184,7 @@ function Hmusic(ele,arr){
 		hm.volume=1;
 		hm.p=arr;//[{"title":"ACFUN次元之旅","audio":"1.wav","img":"1.jpg","lrc":"1.json"},{"title":"おちゃめ机能 -Full","audio":"2.mp3","img":"2.jpg","lrc":"2.json"}]
 		hm.e.audio=$c('.hmusic>.hm-audio');
-		hm.e.audio.src=hm.p[hm.nowduan].audio;
 		hm.e.banner=$c('.banner');
-		hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
 		hm.e.btnplay=$c('.icon-play');
 		hm.e.btnstop=$c('.icon-stop');
 		hm.e.title=$c('.songname');
@@ -205,7 +203,6 @@ function Hmusic(ele,arr){
 		hm.e.msound=$c('.sound');
 		hm.e.sounda=$c('.sound-ranger-a');
 		hm.e.soundb=$c('.sound-ranger-b');
-		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 		function getalltime(){
 			if(hm.e.audio.duration>1){
 				hm.alltime=hm.e.audio.duration;
@@ -262,7 +259,7 @@ function Hmusic(ele,arr){
 						hm.e.lrc.style.transform='translateY('+t2+'px)';
 						hm.e.lrc.style.webkitTransform='translateY('+t2+'px)';
 						hm.e.lrc.style.MozTransform='translateY('+t2+'px)';
-						$c('.css').innerHTML='.lrc>p:nth-child('+(1+i)+'){font-size:24px!important}';
+						$c('.css').innerHTML='.lrc>p:nth-child('+(1+i)+'){font-size:24px!important;white-space: inherit!important;}';
 						break;
 					}
 				}
@@ -344,20 +341,17 @@ function Hmusic(ele,arr){
 			xmlhttp.open("GET",url,true);
 			xmlhttp.send();
 	    }
-	    hm.getlrc(hm.p[hm.nowduan].lrc);
-	    hm.e.btnx.addEventListener('click',function(){
-	    	
-	    })
-	    hm.huan=function(duan){
+	    hm.huan=function(duan,stop){
 	    	if(hm.p[duan]){
 	    		hm.nowduan=duan;
 	    		hm.e.audio.src=hm.p[hm.nowduan].audio;
 				hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
 				hm.getlrc(hm.p[hm.nowduan].lrc);
 				hm.e.title.innerHTML=hm.p[hm.nowduan].title;
-				hm.e.audio.play();
+				if(!stop){hm.e.audio.play();
 				hm.e.btnplay.style.display='none';
 				hm.e.btnstop.style.display='inline-block';
+				}
 				var li=hm.e.longarr.querySelectorAll('li');
 				for (var i = 0; i < li.length; i++) {
 					li[i].style.backgroundColor='transparent';
@@ -424,4 +418,5 @@ function Hmusic(ele,arr){
 			hm.e.wsound.style.display='none';
 		})
 		
+		hm.huan(0,true);
 }
