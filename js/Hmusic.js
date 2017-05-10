@@ -285,11 +285,12 @@ function Hmusic(ele,arr){
 	        var x = event.clientX - getLeft(elem);
 	        var y = event.clientY - getTop(elem);
 	        var xbl = x / elem.offsetWidth;
-	        var ybl = y / elem.offsetTop;
+	        var ybl =1- y / elem.offsetHeight;
 	        return {
 	            x:x,
 	            y:y,
 	            w:elem.offsetWidth,
+	            h:elem.offsetHeight,
 	            xbl:xbl,
 	            ybl:ybl
 	        };
