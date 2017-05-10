@@ -101,7 +101,7 @@ function hyplaylist(ele,id){
 		            yl.arr.push(c);
 	            }
 	            console.log('加载歌单成功 正在解析各个音频地址');
-	            hyunmusic(yl.ele,yl.arr,1);
+	            Hmusic(yl.ele,yl.arr);
 	        }
 	    });
 	
@@ -128,7 +128,6 @@ function hyunmusic(ele,arr,one){
 	    },
 	    error:function(e){
 	    	console.log(e);
-	    	setTimeout(function(){ym.getmusicutl(id,i)},1000)
 	    }
 	    });
 	    if(!one){
@@ -153,8 +152,7 @@ function hyunmusic(ele,arr,one){
 	        },
 	        error:function(e){
 	    	console.log(e);
-	    	setTimeout(function(){ym.getmusicutl(id,i)},1000)
-		    }
+	    	}
 		    });
 	    }
 
@@ -251,7 +249,7 @@ function Hmusic(ele,arr){
 		});
 		//定时器 10
 		hm.interval=function(){
-			var t=parseFloat(hm.e.audio.currentTime.toFixed(2));
+			var t=hm.e.audio.currentTime.toFixed(2);
 			if(hm.lrc){
 				for(var i=0;i<hm.lrc.b.length;i++){
 					if(hm.lrc.b[i]==t){
@@ -306,6 +304,18 @@ function Hmusic(ele,arr){
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
+	    hm.getcloudurl=function(url,stop){
+	    	var	xmlhttp=new XMLHttpRequest();
+	    		xmlhttp.onreadystatechange=function(){
+					if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						var t=JSON.parse(xmlhttp.responseText);
+						hm.e.audio.src=t.data[0].url;
+						if(!stop){hm.e.audio.play();}
+					}
+				}
+	    		xmlhttp.open("GET",url,true);
+				xmlhttp.send();
+	    }
 	    hm.getlrc=function(url){
 	    	var	xmlhttp=new XMLHttpRequest();
 	    		xmlhttp.onreadystatechange=function(){
@@ -344,7 +354,11 @@ function Hmusic(ele,arr){
 	    hm.huan=function(duan,stop){
 	    	if(hm.p[duan]){
 	    		hm.nowduan=duan;
-	    		hm.e.audio.src=hm.p[hm.nowduan].audio;
+	    		if(hm.p[hm.nowduan].yunid){
+	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop);
+	    		}else{
+	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
+	    		}
 				hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
 				hm.getlrc(hm.p[hm.nowduan].lrc);
 				hm.e.title.innerHTML=hm.p[hm.nowduan].title;
