@@ -180,6 +180,7 @@ function Hmusic(ele,arr){
 		hm=new Object;
 		hm.e=new Object;
 		hm.nowduan=0;
+		hm.volume=1;
 		hm.p=arr;//[{"title":"ACFUN次元之旅","audio":"1.wav","img":"1.jpg","lrc":"1.json"},{"title":"おちゃめ机能 -Full","audio":"2.mp3","img":"2.jpg","lrc":"2.json"}]
 		hm.e.audio=$c('.hmusic>.hm-audio');
 		hm.e.audio.src=hm.p[hm.nowduan].audio;
@@ -367,7 +368,7 @@ function Hmusic(ele,arr){
 	    	}else{
 	    		hm.huan(0)
 	    	}
-	    	
+	    	hm.changersound(hm.volume);
 	    }
 	    hm.longarr='';
 	   	for (var i = 0; i < hm.p.length; i++) {
@@ -403,22 +404,6 @@ function Hmusic(ele,arr){
 		hm.e.x2.addEventListener('click',function(){
 			this.style.display='none';
 			hm.e.x1.style.display='block';
-		})
-		hm.e.sounda.addEventListener('click',function(event){
-			var e = event || window.event || arguments.callee.caller.arguments[0];
-			var bl = show_coords(e,this);
-			hm.e.soundb.style.height=bl.h*bl.ybl+'px';
-			hm.changersound(bl.ybl);
-		})
-		hm.changersound=function(i){
-			hm.e.audio.volume=i;
-			hm.volume=i;
-		}
-		hm.e.msound.addEventListener('mouseover',function(){
-			hm.e.wsound.style.display='block';
-		})
-		hm.e.msound.addEventListener('mouseleave',function(){
-			hm.e.wsound.style.display='none';
 		})
 		hm.e.sounda.addEventListener('click',function(event){
 			var e = event || window.event || arguments.callee.caller.arguments[0];
