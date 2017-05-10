@@ -5,127 +5,6 @@
 		<title>Hmusic.js </title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<script src="js/Hmusic.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_dx3vz7ez48udte29.css"/>
-		<style type="text/css">
-
-.warp {
-	margin:0 auto;
-	width:340px
-}
-.hmusic {
-	height:500px;
-	box-shadow:0 0 5px rgba(0,0,0,.8);
-	font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif
-}
-.hmusic>.banner {
-	height:200px;
-	background-image:url(1.jpg);
-	background-position:center;
-	background-size:cover
-}
-.hmusic>.banner>.banner-zz {
-	overflow:hidden;
-	height:100%;
-	background-color:rgba(0,0,0,.4);
-	color:#fff
-}
-.hmusic>.banner>.banner-zz>.songname {
-	padding-top:5px;
-	height:25px;
-	text-align:center;
-	font-size:1.2em;
-	white-space: nowrap;
-}
-.hmusic>.banner>.banner-zz>.lrc-warp {
-	overflow:hidden;
-	height:10pc
-}
-.hmusic>.banner>.banner-zz>.lrc-warp>.lrc {
-	text-align:center;
-	transition:all .3s ease-out;
-	transform:translateY(-10px)
-}
-.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p {
-	margin:0;
-	padding:0;
-	line-height:30px;
-	font-size: 12px;
-}
-.hmusic>.banner>.banner-zz>.ranger {
-	height:9pt;
-	background-color:rgba(59,65,67,.39)
-}
-.hmusic>.banner>.banner-zz>.ranger>.ranger-n {
-	width:20%;
-	height:100%;
-	background-color:rgba(3,169,244,.6)
-}
-.hmusic>.con {
-	overflow:hidden;
-	height:40px;
-	text-align:center;
-	user-select:none
-}
-.hmusic>.con .iconfont {
-	color:#6d95e0;
-	font-size:1.6em;
-	cursor:pointer
-}
-.hmusic>.con .iconfont:hover {
-	color:#2753af
-}
-.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {
-	position:relative;
-	top:3px;
-	font-size:2em
-}
-.hmusic>.con>.right {
-	float:right;
-	padding:0 4px;
-	position:relative;
-}
-.hmusic>.con>.left {
-	float:left;
-	padding:0 4px;
-	position:relative;
-}
-.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {
-	position:relative;
-	top:-1pc;
-	display:inline-block;
-	font-size:.6em
-}
-.hmusic>.con>.right>.iconfont {
-	padding-right:30px;
-	line-height:1.6em
-}
-.hmusic>.con>.left>.iconfont {
-	padding-left:30px;
-	line-height:1.6em
-}
-.hmusic>.con .xunhuan{
-	font-size: 0.9em;
-    position: absolute;
-    bottom: 1px;
-    right: 10px;
-}
-.hmusic>.longarr {
-	overflow-x: hidden;
-    overflow-y: auto;
-	height:260px;
-	background-color:#fafafa
-}
-.hmusic>.longarr>li {
-	white-space: nowrap;
-	padding:3px 0 3px 20px;
-	cursor:pointer
-}
-.hmusic>.longarr>li:hover {
-	padding:3px 0 3px 24px;
-	background-color:hsla(0,0%,69%,.9)
-}
-
-		</style>
 	</head>
 	<body>
 		<h2 style="text-align: center;">音乐播放器  Hmusic.js</h2>
@@ -152,6 +31,14 @@
 				    <i class="iconfont icon-stop" style="display: none;"></i>
 				    <div class="right">
 				      <i class="iconfont icon-x"></i>
+				      <div class="sound">
+				      	<div class="sound-ranger">
+				      		<div class="sound-ranger-a">
+				      			<div class="sound-ranger-b"></div>
+				      		</div>
+				      	</div>
+				      	<i class="iconfont icon-yinliang"></i>
+				      </div>
 				      <i class="iconfont icon-xunhuan xunhuan"></i>
 				      <i class="iconfont icon-ttpodicon xunhuan" style="display: none;"></i>
 				      <div class="alltime">1:00</div></div>
