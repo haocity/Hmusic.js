@@ -73,8 +73,9 @@ gc.ajax = function(options){//options =  {url:'',method:'',data:'',success:'',as
     }
 };
 
-var yl=new Object;
+
 function hyplaylist(ele,id){
+	var yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
 	 var api='https://api.imjad.cn/cloudmusic';
@@ -175,8 +176,8 @@ function hyunmusic(ele,arr,one){
 
 function Hmusic(ele,arr){
 		function $c(c){return ele.querySelector(c)};
-//		var hmele='<div class="hmusic"><audio class="hm-audio"></audio><div class="banner"><div class="banner-zz"><div class="songname"></div><div class="lrc-warp"><div class="lrc"></div></div><div class="ranger"><div class="ranger-n"></div></div></div></div><div class="con"><div class="left"><div class="nowtime">0:00</div><i class="iconfont icon-s"></i></div><i class="iconfont icon-play"></i><i class="iconfont icon-stop" style="display: none;"></i><div class="right"><i class="iconfont icon-x"></i><div class="alltime">1:00</div></div></div><div class="longarr"></div><style type="text/css" class="css"></style></div>';
-//		ele.innerHTML=hmele;
+		var hmele='<div class="hmusic"><audio class="hm-audio"></audio><div class="banner"><div class="banner-zz"><div class="songname"></div><div class="lrc-warp"><div class="lrc"></div></div><div class="ranger"><div class="ranger-n"></div></div></div></div><div class="con"><div class="left"><div class="nowtime">0:00</div><i class="iconfont icon-s"></i></div><i class="iconfont icon-play"></i><i class="iconfont icon-stop" style="display: none;"></i><div class="right"><i class="iconfont icon-x"></i><div class="sound"><div class="sound-ranger"><div class="sound-ranger-a"><div class="sound-ranger-b"></div></div></div><i class="iconfont icon-yinliang"></i></div><i class="iconfont icon-xunhuan xunhuan"></i><i class="iconfont icon-ttpodicon xunhuan" style="display: none;"></i><div class="alltime">1:00</div></div></div><div class="longarr"></div><style type="text/css" class="css"></style></div>';
+		ele.innerHTML=hmele;
 		hm=new Object;
 		hm.e=new Object;
 		hm.nowduan=0;
@@ -325,7 +326,8 @@ function Hmusic(ele,arr){
 							var t3= hm.lrc.a[i].match(reg2);
 							if(t2){
 								var arr= t2[0].substr(1).split(':');
-								hm.lrc.b.push(parseInt(arr[0])*60+parseFloat(arr[1]));
+								var b=parseInt(arr[0])*60+parseFloat(arr[1]);
+								hm.lrc.b.push(b.toFixed(2));
 							}
 							if(t3){
 								hm.lrc.c.push(t3[0].substr(1))
