@@ -404,5 +404,37 @@ function Hmusic(ele,arr){
 			this.style.display='none';
 			hm.e.x1.style.display='block';
 		})
-	
+		hm.e.sounda.addEventListener('click',function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			var bl = show_coords(e,this);
+			hm.e.soundb.style.height=bl.h*bl.ybl+'px';
+			hm.changersound(bl.ybl);
+		})
+		hm.changersound=function(i){
+			hm.e.audio.volume=i;
+			hm.volume=i;
+		}
+		hm.e.msound.addEventListener('mouseover',function(){
+			hm.e.wsound.style.display='block';
+		})
+		hm.e.msound.addEventListener('mouseleave',function(){
+			hm.e.wsound.style.display='none';
+		})
+		hm.e.sounda.addEventListener('click',function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			var bl = show_coords(e,this);
+			hm.e.soundb.style.height=bl.h*bl.ybl+'px';
+			hm.changersound(bl.ybl);
+		})
+		hm.changersound=function(i){
+			hm.e.audio.volume=i;
+			hm.volume=i;
+		}
+		hm.e.msound.addEventListener('mouseover',function(){
+			hm.e.wsound.style.display='block';
+		})
+		hm.e.msound.addEventListener('mouseleave',function(){
+			hm.e.wsound.style.display='none';
+		})
+		
 }
