@@ -72,7 +72,7 @@ gc.ajax = function(options){//options =  {url:'',method:'',data:'',success:'',as
         }
     }
 };
-document.head.appendChild(e2);
+
 var yl=new Object;
 function hyplaylist(ele,id){
 	yl.ele=ele;
@@ -198,6 +198,11 @@ function Hmusic(ele,arr){
 		hm.e.x1=$c('.icon-xunhuan');
 		hm.e.x2=$c('.icon-ttpodicon');
 		hm.e.longarr=$c('.longarr');
+		hm.e.sbtn=$c('.icon-yinliang');
+		hm.e.wsound=$c('.sound-ranger');
+		hm.e.msound=$c('.sound');
+		hm.e.sounda=$c('.sound-ranger-a');
+		hm.e.soundb=$c('.sound-ranger-b');
 		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 		function getalltime(){
 			if(hm.e.audio.duration>1){
