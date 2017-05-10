@@ -379,6 +379,7 @@ function Hmusic(ele,arr){
 	    		hm.huan(0)
 	    	}
 	    	hm.changersound(hm.volume);
+	    	getalltime();
 	    }
 	    hm.longarr='';
 	   	for (var i = 0; i < hm.p.length; i++) {
