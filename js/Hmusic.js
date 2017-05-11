@@ -249,6 +249,7 @@ function Hmusic(ele,arr){
 					break
 				}	
 			}
+			getalltime();
 		}
 		//定时器1s
 		hm.interval1s=function(){
@@ -261,26 +262,6 @@ function Hmusic(ele,arr){
 			var xbl = show_coords(e, this);
 			hm.tiao(xbl.xbl*hm.alltime);
 		});
-		//定时器 100
-		hm.interval=function(){
-			var t=hm.e.audio.currentTime.toFixed(1)*10;
-//			console.log(t);
-//			console.log(hm.lrc.b[hm.nowlrc+1]);
-			if(hm.lrc){
-				if(hm.lrc.b[hm.nowlrc+1]==t){
-					++hm.nowlrc;
-					var t2=50-hm.nowlrc*30;
-					hm.e.lrc.style.transform='translateY('+t2+'px)';
-					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
-					if(hm.e.lrcarr[hm.nowlrc-1]){
-						hm.e.lrcarr[hm.nowlrc-1].className=' ';
-					}
-					
-				}
-			}
-			
-		}
-		setInterval(hm.interval,100);
 		function getvtime(time) {
 	        var tm;
 	        var m = parseInt(time / 60);
@@ -418,7 +399,7 @@ function Hmusic(ele,arr){
 	    		hm.huan(0)
 	    	}
 	    	hm.changersound(hm.volume);
-	    	getalltime();
+	    	setTimeout(getalltime,500);
 	    }
 	    hm.longarr='';
 	   	for (var i = 0; i < hm.p.length; i++) {
@@ -445,6 +426,7 @@ function Hmusic(ele,arr){
 				hm.huan(hm.nowduan+1);
 			}else{
 				hm.e.audio.play();
+				hm.nowlrc=-1;
 			}
 		}
 		hm.e.x1.addEventListener('click',function(){
