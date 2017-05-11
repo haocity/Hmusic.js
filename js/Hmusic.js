@@ -264,6 +264,8 @@ function Hmusic(ele,arr){
 		//定时器 100
 		hm.interval=function(){
 			var t=hm.e.audio.currentTime.toFixed(1)*10;
+//			console.log(t);
+//			console.log(hm.lrc.b[hm.nowlrc+1]);
 			if(hm.lrc){
 				if(hm.lrc.b[hm.nowlrc+1]==t){
 					++hm.nowlrc;
@@ -349,7 +351,11 @@ function Hmusic(ele,arr){
 						for(var i in hm.lrc.a){
 					        if (hm.lrc.a.hasOwnProperty(i)) {
 					            hm.lrc.b.push(i);
-					            hm.lrc.c.push(hm.lrc.a[i]);
+					            if(!hm.lrc.a[i]){
+					            	hm.lrc.c.push('&nbsp;')
+					            }else{
+					            	hm.lrc.c.push(hm.lrc.a[i])
+					            } 
 					        };
 					    }
 						for (var i = 0; i < hm.lrc.c.length; i++) {
