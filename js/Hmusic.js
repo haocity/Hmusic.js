@@ -1,4 +1,4 @@
-var e='.warp{margin:0 auto;width:340px}.hmusic{height:500px;box-shadow:0 0 5px rgba(0,0,0,.8);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif}.hmusic>.banner{height:200px;background-image:url(1.jpg);background-position:center;background-size:cover}.hmusic>.banner>.banner-zz{overflow:hidden;height:100%;background-color:rgba(0,0,0,.4);color:#fff}.hmusic>.banner>.banner-zz>.songname{padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap}.hmusic>.banner>.banner-zz>.lrc-warp{overflow:hidden;height:10pc}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{white-space: nowrap;margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp{font-size:24px;white-space: inherit;}.hmusic>.banner>.banner-zz>.ranger{height:9pt;background-color:rgba(59,65,67,.39)}.hmusic>.banner>.banner-zz>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(3,169,244,.6)}.hmusic>.con{height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:rgba(255,255,255,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:18px;background-color:#6D95E0}.hmusic>.con .iconfont{color:#6d95e0;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#2753af}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;top:3px;font-size:2em}.hmusic>.con>.right{float:right;padding:0 4px;position:relative}.hmusic>.con>.left{float:left;padding:0 4px;position:relative}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{position:relative;top:-1pc;display:inline-block;font-size:.6em}.hmusic>.con>.right>.icon-x{padding-right:30px;line-height:1.6em}.hmusic>.con>.left>.icon-s{padding-left:30px;line-height:1.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{width:100%;overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}';
+var e='.warp{margin:0 auto;width:340px}.hmusic{font-size: 16px;height:500px;box-shadow:0 0 5px rgba(0,0,0,.8);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif}.hmusic>.banner{height:200px;background-image:url(1.jpg);background-position:center;background-size:cover}.hmusic>.banner>.banner-zz{overflow:hidden;height:100%;background-color:rgba(0,0,0,.4);color:#fff}.hmusic>.banner>.banner-zz>.songname{padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap}.hmusic>.banner>.banner-zz>.lrc-warp{overflow:hidden;height:10pc}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{white-space: nowrap;margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp{font-size:24px;white-space: inherit;}.hmusic>.banner>.banner-zz>.ranger{height:9pt;background-color:rgba(59,65,67,.39)}.hmusic>.banner>.banner-zz>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(3,169,244,.6)}.hmusic>.con{height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:rgba(255,255,255,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:18px;background-color:#6D95E0}.hmusic>.con .iconfont{color:#6d95e0;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#2753af}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;font-size:2em;line-height:40px;}.hmusic>.con>.right{float:right;padding:0 4px;position:relative}.hmusic>.con>.left{float:left;padding:0 4px;position:relative}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{position:relative;top:-1pc;display:inline-block;font-size:.6em}.hmusic>.con>.right>.icon-x{padding-right:30px;line-height:1.6em}.hmusic>.con>.left>.icon-s{padding-left:30px;line-height:1.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{width:100%;overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}';
 var e2= document.createElement('style');
 e2.type="text/css";
 e2.innerHTML=e;
@@ -173,10 +173,11 @@ function hyunmusic(ele,arr,one){
 }
 
 function Hmusic(ele,arr){
+		hm=new Object;
 		function $c(c){return ele.querySelector(c)};
 		var hmele='<div class="hmusic"><audio class="hm-audio"></audio><div class="banner"><div class="banner-zz"><div class="songname"></div><div class="lrc-warp"><div class="lrc"></div></div><div class="ranger"><div class="ranger-n"></div></div></div></div><div class="con"><div class="left"><div class="nowtime">0:00</div><i class="iconfont icon-s"></i></div><i class="iconfont icon-play"></i><i class="iconfont icon-stop" style="display: none;"></i><div class="right"><i class="iconfont icon-x"></i><div class="sound"><div class="sound-ranger"><div class="sound-ranger-a"><div class="sound-ranger-b"></div></div></div><i class="iconfont icon-yinliang"></i></div><i class="iconfont icon-xunhuan xunhuan"></i><i class="iconfont icon-ttpodicon xunhuan" style="display: none;"></i><div class="alltime">1:00</div></div></div><div class="longarr"></div><style type="text/css" class="css"></style></div>';
 		ele.innerHTML=hmele;
-		hm=new Object;
+		
 		hm.e=new Object;
 		hm.nowduan=0;
 		hm.volume=1;
@@ -239,11 +240,12 @@ function Hmusic(ele,arr){
 			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
 			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
 			for (var i = 0; i < hm.lrc.b.length; i++) {
-				if(t<=hm.lrc.b[i]){
+				if(t*10<=hm.lrc.b[i]){
 					hm.nowlrc=i;
 					var t2=50-hm.nowlrc*30;
 					hm.e.lrc.style.transform='translateY('+t2+'px)';
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
+					console.log('nowduan切换为:'+i)
 					break
 				}	
 			}
@@ -258,11 +260,10 @@ function Hmusic(ele,arr){
 			var e = event || window.event || arguments.callee.caller.arguments[0];
 			var xbl = show_coords(e, this);
 			hm.tiao(xbl.xbl*hm.alltime);
-			console.log('tiao'+xbl.xbl*hm.alltime);
 		});
 		//定时器 100
 		hm.interval=function(){
-			var t=hm.e.audio.currentTime.toFixed(1);
+			var t=hm.e.audio.currentTime.toFixed(1)*10;
 			if(hm.lrc){
 				if(hm.lrc.b[hm.nowlrc+1]==t){
 					++hm.nowlrc;
@@ -333,36 +334,24 @@ function Hmusic(ele,arr){
 	    	var	xmlhttp=new XMLHttpRequest();
 	    		xmlhttp.onreadystatechange=function(){
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
-						var t=JSON.parse(xmlhttp.responseText);
+						var t;
 						hm.lrc=new Object;
-						hm.lrc.b=[];
-						hm.lrc.c=[];
+						hm.lrc.b=new Array;
+						hm.lrc.c=new Array;
 						hm.lrc.d='';
 						try{
-							hm.lrc.a=t.lrc.lyric.split('\n');
+						  t=JSON.parse(xmlhttp.responseText).lrc.lyric;
 						}catch(e){
-							hm.lrc.a=["[00:00.10]歌词不存在"];
+							t='[00:00.72]歌词不存在'
 						}
-						var reg = /\[[^\]]+/;
-						var reg2=/\].+/;
-						for (var i = 0; i < hm.lrc.a.length; i++) {
-							var t2= hm.lrc.a[i].match(reg);
-							var t3= hm.lrc.a[i].match(reg2);
-							if(t2){
-								var arr= t2[0].substr(1).split(':');
-								var b=parseInt(arr[0])*60+parseFloat(arr[1]);
-								if(b){
-									hm.lrc.b.push(b.toFixed(1));
-									if(t3){
-										hm.lrc.c.push(t3[0].substr(1))
-									}else{
-										hm.lrc.c.push('&nbsp;')
-									}	
-								}
-								
-							}
-							
-						}
+						dddd=hm.parseLyric(t);
+						hm.lrc.a=hm.parseLyric(t);
+						for(var i in hm.lrc.a){
+					        if (hm.lrc.a.hasOwnProperty(i)) {
+					            hm.lrc.b.push(i);
+					            hm.lrc.c.push(hm.lrc.a[i]);
+					        };
+					    }
 						for (var i = 0; i < hm.lrc.c.length; i++) {
 							hm.lrc.d=hm.lrc.d+'<p>'+hm.lrc.c[i]+'</p>';
 						}
@@ -373,6 +362,26 @@ function Hmusic(ele,arr){
 			xmlhttp.open("GET",url,true);
 			xmlhttp.send();
 	    }
+	    hm.parseLyric=function(lrc) {
+	    	console.log(lrc);
+		    var lyrics = lrc.split("\n");
+		    var lrcObj = {};
+		    for(var i=0;i<lyrics.length;i++){
+		        var lyric = decodeURIComponent(lyrics[i]);
+		        var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+		        var timeRegExpArr = lyric.match(timeReg);
+		        if(!timeRegExpArr)continue;
+		        var clause = lyric.replace(timeReg,'');
+		        for(var k = 0,h = timeRegExpArr.length;k < h;k++) {
+		            var t = timeRegExpArr[k];
+		            var min = Number(String(t.match(/\[\d*/i)).slice(1)),
+		            	sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+		            var time = (min * 60 + sec).toFixed(1)*10;
+		            lrcObj[time] = clause;
+		        }
+		    }
+		    return lrcObj;
+		}
 	    hm.huan=function(duan,stop){
 	    	if(hm.p[duan]){
 	    		hm.nowduan=duan;
