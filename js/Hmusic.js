@@ -455,4 +455,20 @@ function Hmusic(ele,arr){
 		})
 		
 		hm.huan(0,true);
+		hm.e.audio.addEventListener('timeupdate',function(c){
+			var t=hm.e.audio.currentTime.toFixed(1)*10;
+			if(hm.lrc){
+				if(hm.lrc.b[hm.nowlrc+1]<=t){
+					++hm.nowlrc;
+					var t2=50-hm.nowlrc*30;
+					hm.e.lrc.style.transform='translateY('+t2+'px)';
+					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
+					if(hm.e.lrcarr[hm.nowlrc-1]){
+						hm.e.lrcarr[hm.nowlrc-1].className=' ';
+					}
+					
+				}
+			}
+			
+		})
 }
