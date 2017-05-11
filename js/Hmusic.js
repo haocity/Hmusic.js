@@ -180,6 +180,7 @@ function Hmusic(ele,arr){
 		hm.e=new Object;
 		hm.nowduan=0;
 		hm.volume=1;
+		hm.nowlrc=-1;
 		hm.p=arr;//[{"title":"ACFUN次元之旅","audio":"1.wav","img":"1.jpg","lrc":"1.json"},{"title":"おちゃめ机能 -Full","audio":"2.mp3","img":"2.jpg","lrc":"2.json"}]
 		hm.e.audio=$c('.hmusic>.hm-audio');
 		hm.e.banner=$c('.banner');
@@ -231,9 +232,21 @@ function Hmusic(ele,arr){
 		}
 		
 		hm.tiao=function(t){
+			if(hm.e.lrcarr[hm.nowlrc]){
+				hm.e.lrcarr[hm.nowlrc].className=' ';
+			}
 			hm.e.audio.currentTime=t;
 			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
 			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
+			for (var i = 0; i < hm.lrc.b.length; i++) {
+				if(t<=hm.lrc.b[i]){
+					hm.nowlrc=i;
+					var t2=50-hm.nowlrc*30;
+					hm.e.lrc.style.transform='translateY('+t2+'px)';
+					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
+					break
+				}	
+			}
 		}
 		//定时器1s
 		hm.interval1s=function(){
@@ -247,24 +260,24 @@ function Hmusic(ele,arr){
 			hm.tiao(xbl.xbl*hm.alltime);
 			console.log('tiao'+xbl.xbl*hm.alltime);
 		});
-		//定时器 10
+		//定时器 100
 		hm.interval=function(){
-			var t=hm.e.audio.currentTime.toFixed(2);
+			var t=hm.e.audio.currentTime.toFixed(1);
 			if(hm.lrc){
-				for(var i=0;i<hm.lrc.b.length;i++){
-					if(hm.lrc.b[i]==t){
-						var t2=70-i*30;
-						hm.e.lrc.style.transform='translateY('+t2+'px)';
-						hm.e.lrc.style.webkitTransform='translateY('+t2+'px)';
-						hm.e.lrc.style.MozTransform='translateY('+t2+'px)';
-						$c('.css').innerHTML='.lrc>p:nth-child('+(1+i)+'){font-size:24px!important;white-space: inherit!important;}';
-						break;
+				if(hm.lrc.b[hm.nowlrc+1]==t){
+					++hm.nowlrc;
+					var t2=50-hm.nowlrc*30;
+					hm.e.lrc.style.transform='translateY('+t2+'px)';
+					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
+					if(hm.e.lrcarr[hm.nowlrc-1]){
+						hm.e.lrcarr[hm.nowlrc-1].className=' ';
 					}
+					
 				}
 			}
-
+			
 		}
-		setInterval(hm.interval,10);
+		setInterval(hm.interval,100);
 		function getvtime(time) {
 	        var tm;
 	        var m = parseInt(time / 60);
@@ -325,27 +338,36 @@ function Hmusic(ele,arr){
 						hm.lrc.b=[];
 						hm.lrc.c=[];
 						hm.lrc.d='';
-						hm.lrc.a=t.lrc.lyric.split('\n');
+						try{
+							hm.lrc.a=t.lrc.lyric.split('\n');
+						}catch(e){
+							hm.lrc.a=["[00:00.10]歌词不存在"];
+						}
 						var reg = /\[[^\]]+/;
 						var reg2=/\].+/;
-						for (var i = 0; i < hm.lrc.a.length-1; i++) {
+						for (var i = 0; i < hm.lrc.a.length; i++) {
 							var t2= hm.lrc.a[i].match(reg);
 							var t3= hm.lrc.a[i].match(reg2);
 							if(t2){
 								var arr= t2[0].substr(1).split(':');
 								var b=parseInt(arr[0])*60+parseFloat(arr[1]);
-								hm.lrc.b.push(b.toFixed(2));
+								if(b){
+									hm.lrc.b.push(b.toFixed(1));
+									if(t3){
+										hm.lrc.c.push(t3[0].substr(1))
+									}else{
+										hm.lrc.c.push('&nbsp;')
+									}	
+								}
+								
 							}
-							if(t3){
-								hm.lrc.c.push(t3[0].substr(1))
-							}else{
-								hm.lrc.c.push('&nbsp;')
-							}
+							
 						}
 						for (var i = 0; i < hm.lrc.c.length; i++) {
 							hm.lrc.d=hm.lrc.d+'<p>'+hm.lrc.c[i]+'</p>';
 						}
 						hm.e.lrc.innerHTML=hm.lrc.d;
+						hm.e.lrcarr=hm.e.lrc.querySelectorAll('p');
 					}
 				}
 			xmlhttp.open("GET",url,true);
@@ -354,6 +376,8 @@ function Hmusic(ele,arr){
 	    hm.huan=function(duan,stop){
 	    	if(hm.p[duan]){
 	    		hm.nowduan=duan;
+	    		hm.nowlrc=-1;
+	    		hm.e.lrc.style.transform='translateY(60px)';
 	    		if(hm.p[hm.nowduan].yunid){
 	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop);
 	    		}else{
