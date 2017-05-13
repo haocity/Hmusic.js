@@ -371,6 +371,11 @@ function Hmusic(ele,arr){
 		}
 	    hm.huan=function(duan,stop){
 	    	if(hm.p[duan]){
+	    		hm.e.audio.currentTime=0;
+	    		if(!hm.e.audio.paused){
+	    			hm.e.audio.pause()
+	    		}
+	    		hm.e.nrange.style.width='0px';
 	    		hm.nowduan=duan;
 	    		hm.nowlrc=-1;
 	    		hm.e.lrc.style.transform='translateY(60px)';
