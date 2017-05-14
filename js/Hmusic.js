@@ -301,13 +301,14 @@ function Hmusic(ele,arr){
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
-	    hm.getcloudurl=function(url,stop){
+	    hm.getcloudurl=function(url,stop,callback){
 	    	var	xmlhttp=new XMLHttpRequest();
 	    		xmlhttp.onreadystatechange=function(){
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
 						var t=JSON.parse(xmlhttp.responseText);
 						hm.e.audio.src=t.data[0].url;
 						if(!stop){hm.e.audio.play();}
+						callback();
 					}
 				}
 	    		xmlhttp.open("GET",url,true);
@@ -379,18 +380,13 @@ function Hmusic(ele,arr){
 	    		hm.nowduan=duan;
 	    		hm.nowlrc=-1;
 	    		hm.e.lrc.style.transform='translateY(60px)';
+	    		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 	    		if(hm.p[hm.nowduan].yunid){
-	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop);
+	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.huan2);
 	    		}else{
 	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
+	    			hm.huan2();
 	    		}
-				hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
-				hm.getlrc(hm.p[hm.nowduan].lrc);
-				hm.e.title.innerHTML=hm.p[hm.nowduan].title;
-				if(!stop){hm.e.audio.play();
-				hm.e.btnplay.style.display='none';
-				hm.e.btnstop.style.display='inline-block';
-				}
 				var li=hm.e.longarr.querySelectorAll('li');
 				for (var i = 0; i < li.length; i++) {
 					li[i].style.backgroundColor='transparent';
@@ -418,6 +414,14 @@ function Hmusic(ele,arr){
 			e.addEventListener('click',function(){
 				hm.huan(this.songid);
 			})
+	   	}
+	   	hm.huan2=function(){
+	   		hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
+			hm.getlrc(hm.p[hm.nowduan].lrc);
+			if(!stop){hm.e.audio.play();
+			hm.e.btnplay.style.display='none';
+			hm.e.btnstop.style.display='inline-block';
+			}
 	   	}
 	   	hm.e.btnx.addEventListener('click',function(){
 	   		hm.huan(hm.nowduan+1);
