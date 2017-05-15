@@ -37,6 +37,64 @@ function hyplaylist(ele,id){
 	            }
 	            console.log('加载歌单成功 正在解析各个音频地址');
 	            Hmusic(yl.ele,yl.arr);
+<<<<<<< HEAD
+=======
+
+		}
+	}
+	xmlhttp.open("GET",api+'/?type=playlist&id='+id+'&br=128000',true);
+	xmlhttp.send();
+}
+
+function hyunmusic(ele,arr,one){
+	var ym=new Object;
+	ym.arr=arr;
+	ym.ele=ele;
+	ym.yuncloud=function(arr){
+	    for (var i = 0; i < arr.length; i++) {
+	       ym.getmusicutl(arr[i].yunid,i,one)
+	    };
+	}
+	ym.getmusicutl=function(id,i,one){
+	    var api='https://api.imjad.cn/cloudmusic';
+	    ym.arr[i].lrc=api+'/?type=lyric&id='+id+'&br=128000';
+	    gc.ajax({
+	    url:api+'/?type=song&id='+id+'&br=128000',
+	    success:function(res){
+	        t=JSON.parse(res).data[0].url;
+	        if(!ym.arr[i].audio){ym.arr[i].audio=t}
+	        ym.checksuccess(ym.arr);
+	    },
+	    error:function(e){
+	    	console.log(e);
+	    }
+	    });
+	    if(!one){
+	    	gc.ajax({
+	        url:api+'/?type=detail&id='+id+'&br=128000',
+	        success:function(res){
+	            t=JSON.parse(res).songs[0];
+	            var au='';
+	            if(t.ar.length>4){
+	               au='群星'
+	            }else{
+	                for (var x = 0; x < t.ar.length; x++) {
+	                    au+=t.ar[x].name
+	                }
+	            }
+	            ym.arr[i].img=t.al.picUrl+'?param=320y320';
+	            ym.arr[i].au=au;
+	            if(!ym.arr[i].title){
+	            	ym.arr[i].title=t.name+'-'+ym.arr[i].au;
+	            }
+	            ym.checksuccess(ym.arr);
+	        },
+	        error:function(e){
+	    	console.log(e);
+	    	}
+		    });
+	    }
+>>>>>>> 43d5f6157cf537d33aebe3090605490c0145425a
 
 		}
 	}
