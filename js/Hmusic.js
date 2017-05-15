@@ -78,12 +78,12 @@ function hyplaylist(ele,id){
 	var yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
-	 var api='https://api.imjad.cn/cloudmusic';
-	 gc.ajax({
-	        url:api+'/?type=playlist&id='+id+'&br=128000',
-	        success:function(res){
-	            t=JSON.parse(res).playlist.tracks;
-	            for (var i = 0; i < t.length; i++) {
+	var api='https://api.imjad.cn/cloudmusic';
+	var	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			var t=JSON.parse(xmlhttp.responseText).playlist.tracks;
+			  for (var i = 0; i < t.length; i++) {
 	            	var c=new Object;
 	            	var au='';
 	            	c.yunid=t[i].id;
@@ -102,9 +102,11 @@ function hyplaylist(ele,id){
 	            }
 	            console.log('加载歌单成功 正在解析各个音频地址');
 	            Hmusic(yl.ele,yl.arr);
-	        }
-	    });
-	
+
+		}
+	}
+	xmlhttp.open("GET",api+'/?type=playlist&id='+id+'&br=128000',true);
+	xmlhttp.send();
 }
 
 function hyunmusic(ele,arr,one){
@@ -182,7 +184,7 @@ function Hmusic(ele,arr){
 		hm.nowduan=0;
 		hm.volume=1;
 		hm.nowlrc=-1;
-		hm.p=arr;//[{"title":"ACFUN次元之旅","audio":"1.wav","img":"1.jpg","lrc":"1.json"},{"title":"おちゃめ机能 -Full","audio":"2.mp3","img":"2.jpg","lrc":"2.json"}]
+		hm.p=arr;
 		hm.e.audio=$c('.hmusic>.hm-audio');
 		hm.e.banner=$c('.banner');
 		hm.e.btnplay=$c('.icon-play');
@@ -216,19 +218,27 @@ function Hmusic(ele,arr){
 			hm.play();
 		});
 		hm.e.btnstop.addEventListener('click',function(){
-			hm.play();
+			hm.pause();
 		});
+
 		hm.play=function(){
+			hm.e.btnplay.style.display='none';
+			hm.e.btnstop.style.display='inline-block';
+			if(hm.e.audio.paused){
+				hm.e.audio.play()
+			}
+		}
+		hm.pause=function(){
+			hm.e.btnplay.style.display='inline-block';
+			hm.e.btnstop.style.display='none';
+			hm.e.audio.pause();
+		}
+
+		hm.playswitch=function(){
 			if(hm.e.btnplay.style.display!=='none'){
-				hm.e.btnplay.style.display='none';
-				hm.e.btnstop.style.display='inline-block';
-				hm.e.audio.play();
-				console.log('play')
+				hm.play()
 			}else{
-				hm.e.btnplay.style.display='inline-block';
-				hm.e.btnstop.style.display='none';
-				hm.e.audio.pause();
-				console.log('pause')
+				hm.pause()
 			}
 		}
 		
@@ -307,8 +317,11 @@ function Hmusic(ele,arr){
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
 						var t=JSON.parse(xmlhttp.responseText);
 						hm.e.audio.src=t.data[0].url;
-						if(!stop){hm.e.audio.play();}
-						callback();
+						if(!stop&&hm.e.audio.paused){hm.e.audio.play();}
+						if (typeof callback === "function"){
+					        callback()
+					    }
+						
 					}
 				}
 	    		xmlhttp.open("GET",url,true);
@@ -418,7 +431,7 @@ function Hmusic(ele,arr){
 	   	hm.huan2=function(stop){
 	   		hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
 			hm.getlrc(hm.p[hm.nowduan].lrc);
-			if(!stop){hm.e.audio.play();
+			if(!stop&&hm.e.audio.paused){hm.e.audio.play();
 			hm.e.btnplay.style.display='none';
 			hm.e.btnstop.style.display='inline-block';
 			}
