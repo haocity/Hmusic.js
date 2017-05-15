@@ -382,10 +382,10 @@ function Hmusic(ele,arr){
 	    		hm.e.lrc.style.transform='translateY(60px)';
 	    		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 	    		if(hm.p[hm.nowduan].yunid){
-	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.huan2);
+	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.huan2(stop));
 	    		}else{
 	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
-	    			hm.huan2();
+	    			hm.huan2(stop);
 	    		}
 				var li=hm.e.longarr.querySelectorAll('li');
 				for (var i = 0; i < li.length; i++) {
@@ -415,7 +415,7 @@ function Hmusic(ele,arr){
 				hm.huan(this.songid);
 			})
 	   	}
-	   	hm.huan2=function(){
+	   	hm.huan2=function(stop){
 	   		hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
 			hm.getlrc(hm.p[hm.nowduan].lrc);
 			if(!stop){hm.e.audio.play();
