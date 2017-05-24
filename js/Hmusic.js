@@ -56,6 +56,7 @@ function Hmusic(ele,arr){
 		hm.volume=1;
 		hm.nowlrc=-1;
 		hm.p=arr;
+		hm.e.audiowarp=$c('.hmusic');
 		hm.e.audio=$c('.hmusic>.hm-audio');
 		hm.e.banner=$c('.banner');
 		hm.e.btnplay=$c('.icon-play');
@@ -260,6 +261,10 @@ function Hmusic(ele,arr){
 	    		if(!hm.e.audio.paused){
 	    			hm.e.audio.pause()
 	    		}
+	    		hm.e.audio.remove();
+	    		hm.e.audio=document.createElement('audio');
+	    		hm.e.audio.className='hm-audio';
+	    		hm.e.audiowarp.appendChild(hm.e.audio);
 	    		hm.e.nrange.style.width='0px';
 	    		hm.nowduan=duan;
 	    		hm.nowlrc=-1;
