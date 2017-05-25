@@ -1,19 +1,28 @@
-<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Hmusic.js </title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<script src="js/Hmusic.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body>
-		<h2 style="text-align: center;">音乐播放器  Hmusic.js</h2>
-		<div class="warp">
-		</div>
+  <head>
+    <title>Hmusic.js demo</title>
+    <style>
+.warp {
+	margin:0 auto;
+	width:340px
+}
+.warp2 {
+	margin:40px auto 0 auto;
+	width:340px
+}
+    </style>
+  </head>
+  <body>
+   <script src="dist/bundle.js"></script>
+   <h2 style="text-align: center;">音乐播放器  Hmusic.js</h2>
+		<div class="warp"></div>
+		<div class="warp2"></div>
 	</body>
 	<script type="text/javascript">
 		hyplaylist(document.querySelector('.warp'),723657080);
-		//hyunmusic(document.querySelector('.warp'),[{"title":"AcFun组曲-次元之旅","yunid":"439665029"},{"yunid":"29999887"},{"yunid":"28923332"},{"yunid":"29755054"},{"yunid":"475207746"},{"yunid":"31877350"},{"yunid":"430026719"},{"yunid":"754498"},{"yunid":"29999887"}])
-		//Hmusic(document.querySelector('.warp'),[{"title":"ACFUN次元之旅","audio":"1.wav","img":"1.jpg","lrc":"1.json"},{"title":"おちゃめ机能 -Full","audio":"2.mp3","img":"2.jpg","lrc":"2.json"}])
+		hyplaylist(document.querySelector('.warp2'),723657080);
 	</script>
+	
+	
+  </body>
 </html>

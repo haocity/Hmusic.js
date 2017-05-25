@@ -1,0 +1,177 @@
+
+@font-face {font-family: "iconfont";
+  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060'); /* IE9*/
+  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.woff?t=1494255783060') format('woff'), /* chrome, firefox */
+  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.ttf?t=1494255783060') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.svg?t=1494255783060#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-play:before { content: "\e633"; }
+
+.icon-yinliang:before { content: "\e60a"; }
+
+.icon-ttpodicon:before { content: "\e6bd"; }
+
+.icon-s:before { content: "\e61e"; }
+
+.icon-x:before { content: "\e620"; }
+
+.icon-xunhuan:before { content: "\e605"; }
+
+.icon-stop:before { content: "\e669"; }
+
+.hmusic {
+	font-size:16px;
+	height:500px;
+	box-shadow:0 0 5px rgba(0,0,0,.8);
+	font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif
+}
+.hmusic>.banner {
+	height:200px;
+	
+	background-position:center;
+	background-size:cover
+}
+.hmusic>.banner>.banner-zz {
+	overflow:hidden;
+	height:100%;
+	background-color:rgba(0,0,0,.4);
+	color:#fff
+}
+.hmusic>.banner>.banner-zz>.songname {
+	padding-top:5px;
+	height:25px;
+	text-align:center;
+	font-size:1.2em;
+	white-space:nowrap
+}
+.hmusic>.banner>.banner-zz>.lrc-warp {
+	overflow:hidden;
+	height:10pc
+}
+.hmusic>.banner>.banner-zz>.lrc-warp>.lrc {
+	text-align:center;
+	transition:all .3s ease-out;
+	transform:translateY(-10px)
+}
+.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p {
+	white-space:nowrap;
+	margin:0;
+	padding:0;
+	line-height:30px;
+	font-size:12px
+}
+.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp {
+	font-size:24px;
+	white-space:inherit;
+}
+.hmusic>.banner>.banner-zz>.ranger {
+	cursor:pointer;
+	height:9pt;
+	background-color:rgba(59,65,67,.39)
+}
+.hmusic>.banner>.banner-zz>.ranger>.ranger-n {
+	width:20%;
+	height:100%;
+	background-color:rgba(3,169,244,.6)
+}
+.hmusic>.con {
+	height:40px;
+	text-align:center;
+	user-select:none
+}
+.hmusic>.con .sound-ranger {
+	height:80px;
+	width:16px;
+	background-color:rgba(255,255,255,.4);
+	cursor:pointer;
+	display:none
+}
+.hmusic>.con .sound-ranger>.sound-ranger-a {
+	height:100%;
+	position:relative
+}
+.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b {
+	height:82px;
+	position:absolute;
+	width:100%;
+	bottom:0;
+	background-color:#6D95E0
+}
+.hmusic>.con .iconfont {
+	color:#6d95e0;
+	font-size:1.6em;
+	cursor:pointer
+}
+.hmusic>.con .iconfont:hover {
+	color:#2753af
+}
+.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {
+	position:relative;
+	font-size:2em;
+	line-height:40px;
+}
+.hmusic>.con>.right {
+	float:right;
+	padding:0 4px;
+	position:relative
+}
+.hmusic>.con>.left {
+	float:left;
+	padding:0 4px;
+	position:relative
+}
+.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {
+	position:relative;
+	top:-1pc;
+	display:inline-block;
+	font-size:.6em
+}
+.hmusic>.con>.right>.icon-x {
+	padding-right:30px;
+	line-height:1.6em
+}
+.hmusic>.con>.left>.icon-s {
+	padding-left:30px;
+	line-height:1.6em
+}
+.hmusic>.con .sound {
+	position:absolute;
+	bottom:2px;
+	right:24px;
+	z-index:10
+}
+.hmusic>.con .sound>.icon-yinliang {
+	font-size:1em
+}
+.hmusic>.con .xunhuan {
+	font-size:.9em;
+	position:absolute;
+	bottom:1px;
+	right:4px
+}
+.hmusic>.longarr {
+	width:100%;
+	overflow-x:hidden;
+	overflow-y:auto;
+	height:260px;
+	background-color:#fafafa
+}
+.hmusic>.longarr>li {
+	white-space:nowrap;
+	padding:3px 0 3px 20px;
+	cursor:pointer
+}
+.hmusic>.longarr>li:hover {
+	padding:3px 0 3px 24px;
+	background-color:hsla(0,0%,69%,.9)
+}

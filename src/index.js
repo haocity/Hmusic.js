@@ -1,15 +1,6 @@
-var e='.warp{margin:0 auto;width:340px}.hmusic{font-size: 16px;height:500px;box-shadow:0 0 5px rgba(0,0,0,.8);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif}.hmusic>.banner{height:200px;background-image:url(1.jpg);background-position:center;background-size:cover}.hmusic>.banner>.banner-zz{overflow:hidden;height:100%;background-color:rgba(0,0,0,.4);color:#fff}.hmusic>.banner>.banner-zz>.songname{padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap}.hmusic>.banner>.banner-zz>.lrc-warp{overflow:hidden;height:10pc}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p{white-space: nowrap;margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp{font-size:24px;white-space: inherit;}.hmusic>.banner>.banner-zz>.ranger{cursor: pointer;height:9pt;background-color:rgba(59,65,67,.39)}.hmusic>.banner>.banner-zz>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(3,169,244,.6)}.hmusic>.con{height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:rgba(255,255,255,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%;position:relative}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:0;background-color:#6D95E0}.hmusic>.con .iconfont{color:#6d95e0;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#2753af}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;font-size:2em;line-height:40px;}.hmusic>.con>.right{float:right;padding:0 4px;position:relative}.hmusic>.con>.left{float:left;padding:0 4px;position:relative}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{position:relative;top:-1pc;display:inline-block;font-size:.6em}.hmusic>.con>.right>.icon-x{padding-right:30px;line-height:1.6em}.hmusic>.con>.left>.icon-s{padding-left:30px;line-height:1.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{width:100%;overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}';
-var e2= document.createElement('style');
-e2.type="text/css";
-e2.innerHTML=e;
-document.head.appendChild(e2);
-var fontcss='https://at.alicdn.com/t/font_dx3vz7ez48udte29.css';
-var e3=document.createElement('link');
-e3.type='text/css';
-e3.rel='stylesheet';
-e3.href=fontcss;
-document.head.appendChild(e3);
-function hyplaylist(ele,id){
+const html = require('./html.js');
+require('./style.css');
+hyplaylist=function(ele,id){
 	var yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
@@ -43,14 +34,11 @@ function hyplaylist(ele,id){
 	xmlhttp.open("GET",api+'/?type=playlist&id='+id+'&br=128000',true);
 	xmlhttp.send();
 }
-
-
-function Hmusic(ele,arr){
-		hm=new Object;
+Hmusic=function (ele,arr){
+		var hm=new Object;
 		function $c(c){return ele.querySelector(c)};
-		var hmele='<div class="hmusic"><audio class="hm-audio"></audio><div class="banner"><div class="banner-zz"><div class="songname"></div><div class="lrc-warp"><div class="lrc"></div></div><div class="ranger"><div class="ranger-n"></div></div></div></div><div class="con"><div class="left"><div class="nowtime">0:00</div><i class="iconfont icon-s"></i></div><i class="iconfont icon-play"></i><i class="iconfont icon-stop" style="display: none;"></i><div class="right"><i class="iconfont icon-x"></i><div class="sound"><div class="sound-ranger"><div class="sound-ranger-a"><div class="sound-ranger-b"></div></div></div><i class="iconfont icon-yinliang"></i></div><i class="iconfont icon-xunhuan xunhuan"></i><i class="iconfont icon-ttpodicon xunhuan" style="display: none;"></i><div class="alltime">1:00</div></div></div><div class="longarr"></div><style type="text/css" class="css"></style></div>';
+		var hmele=html.html();
 		ele.innerHTML=hmele;
-		
 		hm.e=new Object;
 		hm.nowduan=0;
 		hm.volume=1;
