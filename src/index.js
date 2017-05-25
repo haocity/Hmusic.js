@@ -1,6 +1,6 @@
 const html = require('./html.js');
 require('./style.css');
-hyplaylist=function(ele,id){
+window.hyplaylist=(ele,id)=>{
 	var yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
@@ -26,7 +26,7 @@ hyplaylist=function(ele,id){
 		            }
 		            yl.arr.push(c);
 	            }
-	            console.log('加载歌单成功 正在解析各个音频地址');
+	            //console.log('加载歌单成功 正在解析各个音频地址');
 	            Hmusic(yl.ele,yl.arr);
 
 		}
@@ -34,37 +34,39 @@ hyplaylist=function(ele,id){
 	xmlhttp.open("GET",api+'/?type=playlist&id='+id+'&br=128000',true);
 	xmlhttp.send();
 }
-Hmusic=function (ele,arr){
+window.Hmusic=(ele,arr)=>{
 		var hm=new Object;
 		function $c(c){return ele.querySelector(c)};
 		var hmele=html.html();
 		ele.innerHTML=hmele;
-		hm.e=new Object;
 		hm.nowduan=0;
 		hm.volume=1;
 		hm.nowlrc=-1;
 		hm.p=arr;
-		hm.e.audiowarp=$c('.hmusic');
-		hm.e.audio=$c('.hmusic>.hm-audio');
-		hm.e.banner=$c('.banner');
-		hm.e.btnplay=$c('.icon-play');
-		hm.e.btnstop=$c('.icon-stop');
-		hm.e.title=$c('.songname');
-		hm.e.btnx=$c('.icon-x');
-		hm.e.btns=$c('.icon-s');
-		hm.e.wranger=$c('.ranger');
-		hm.e.nrange=$c('.ranger-n');
-		hm.e.nowtime=$c('.nowtime');
-		hm.e.alltime=$c('.alltime');
-		hm.e.lrc=$c('.lrc');
-		hm.e.x1=$c('.icon-xunhuan');
-		hm.e.x2=$c('.icon-ttpodicon');
-		hm.e.longarr=$c('.longarr');
-		hm.e.sbtn=$c('.icon-yinliang');
-		hm.e.wsound=$c('.sound-ranger');
-		hm.e.msound=$c('.sound');
-		hm.e.sounda=$c('.sound-ranger-a');
-		hm.e.soundb=$c('.sound-ranger-b');
+		hm.e=new hmeobj;
+		function hmeobj(){
+			this.audiowarp=$c('.hmusic');
+			this.audio=$c('.hmusic>.hm-audio');
+			this.banner=$c('.banner');
+			this.btnplay=$c('.icon-play');
+			this.btnstop=$c('.icon-stop');
+			this.title=$c('.songname');
+			this.btnx=$c('.icon-x');
+			this.btns=$c('.icon-s');
+			this.wranger=$c('.ranger');
+			this.nrange=$c('.ranger-n');
+			this.nowtime=$c('.nowtime');
+			this.alltime=$c('.alltime');
+			this.lrc=$c('.lrc');
+			this.x1=$c('.icon-xunhuan');
+			this.x2=$c('.icon-ttpodicon');
+			this.longarr=$c('.longarr');
+			this.sbtn=$c('.icon-yinliang');
+			this.wsound=$c('.sound-ranger');
+			this.msound=$c('.sound');
+			this.sounda=$c('.sound-ranger-a');
+			this.soundb=$c('.sound-ranger-b');
+		}
 		function getalltime(){
 			if(hm.e.audio.duration>1){
 				hm.alltime=hm.e.audio.duration;
@@ -115,7 +117,7 @@ Hmusic=function (ele,arr){
 					var t2=50-hm.nowlrc*30;
 					hm.e.lrc.style.transform='translateY('+t2+'px)';
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
-					console.log('nowduan切换为:'+i)
+					//console.log('nowduan切换为:'+i)
 					break
 				}	
 			}
@@ -201,7 +203,7 @@ Hmusic=function (ele,arr){
 						}catch(e){
 							t='[00:00.72]歌词不存在'
 						}
-						dddd=hm.parseLyric(t);
+						hm.parseLyric(t);
 						hm.lrc.a=hm.parseLyric(t);
 						for(var i in hm.lrc.a){
 					        if (hm.lrc.a.hasOwnProperty(i)) {
@@ -224,7 +226,7 @@ Hmusic=function (ele,arr){
 			xmlhttp.send();
 	    }
 	    hm.parseLyric=function(lrc) {
-	    	console.log(lrc);
+	    	//console.log(lrc);
 		    var lyrics = lrc.split("\n");
 		    var lrcObj = {};
 		    for(var i=0;i<lyrics.length;i++){
@@ -307,7 +309,7 @@ Hmusic=function (ele,arr){
 			hm.huan(hm.nowduan-1);
 		})
 		hm.e.audio.onended=function(){
-			console.log('播放完成');
+			//console.log('播放完成');
 			if(hm.e.x2.style.display=='none'){
 				hm.huan(hm.nowduan+1);
 			}else{
