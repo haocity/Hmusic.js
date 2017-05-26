@@ -255,6 +255,14 @@ window.Hmusic=(ele,arr)=>{
 	    		hm.e.audio=document.createElement('audio');
 	    		hm.e.audio.className='hm-audio';
 	    		hm.e.audiowarp.appendChild(hm.e.audio);
+	    		hm.e.audio.onended=function(){
+					if(hm.e.x2.style.display=='none'){
+						hm.huan(hm.nowduan+1);
+					}else{
+						hm.e.audio.play();
+						hm.nowlrc=-1;
+					}
+				};
 	    		hm.e.nrange.style.width='0px';
 	    		hm.nowduan=duan;
 	    		hm.nowlrc=-1;
@@ -308,15 +316,6 @@ window.Hmusic=(ele,arr)=>{
 		hm.e.btns.addEventListener('click',function(){
 			hm.huan(hm.nowduan-1);
 		})
-		hm.e.audio.onended=function(){
-			//console.log('播放完成');
-			if(hm.e.x2.style.display=='none'){
-				hm.huan(hm.nowduan+1);
-			}else{
-				hm.e.audio.play();
-				hm.nowlrc=-1;
-			}
-		}
 		hm.e.x1.addEventListener('click',function(){
 			this.style.display='none';
 			hm.e.x2.style.display='block';
