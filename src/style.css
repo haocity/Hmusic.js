@@ -85,6 +85,8 @@
 	background-color:rgba(3,169,244,.6)
 }
 .hmusic>.con {
+	position: relative;
+	top:0px;
 	height:40px;
 	text-align:center;
 	user-select:none
@@ -115,6 +117,17 @@
 .hmusic>.con .iconfont:hover {
 	color:#2753af
 }
+.hmusic>.con>.icon-s,.hmusic>.con>.icon-x{
+	font-size: 2em;
+    line-height: 40px;
+    position: absolute;
+}
+.hmusic>.con>.icon-s{
+	left: 16%;
+}
+.hmusic>.con>.icon-x{
+	right: 16%;
+}
 .hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {
 	position:relative;
 	font-size:2em;
@@ -122,27 +135,19 @@
 }
 .hmusic>.con>.right {
 	float:right;
+	height: 100%;
 	padding:0 4px;
 	position:relative
 }
 .hmusic>.con>.left {
 	float:left;
 	padding:0 4px;
+	height: 100%;
 	position:relative
 }
 .hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {
-	position:relative;
-	top:-1pc;
 	display:inline-block;
 	font-size:.6em
-}
-.hmusic>.con>.right>.icon-x {
-	padding-right:30px;
-	line-height:1.6em
-}
-.hmusic>.con>.left>.icon-s {
-	padding-left:30px;
-	line-height:1.6em
 }
 .hmusic>.con .sound {
 	position:absolute;

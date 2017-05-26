@@ -16,12 +16,12 @@ module.exports = {
   <div class="con">
     <div class="left">
       <div class="nowtime">0:00</div>
-      <i class="iconfont icon-s"></i>
     </div>
+    <i class="iconfont icon-s"></i>
     <i class="iconfont icon-play"></i>
     <i class="iconfont icon-stop" style="display: none;"></i>
+    <i class="iconfont icon-x"></i>
     <div class="right">
-      <i class="iconfont icon-x"></i>
       <div class="sound">
         <div class="sound-ranger">
           <div class="sound-ranger-a">
