@@ -1,25 +1,25 @@
 const html = require('./html.js');
 require('./style.css');
 window.hyplaylist=(ele,id)=>{
-	var yl=new Object;
+	let yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
-	var api='https://api.imjad.cn/cloudmusic';
-	var	xmlhttp=new XMLHttpRequest();
+	let api='https://api.imjad.cn/cloudmusic';
+	let	xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function(){
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			var t=JSON.parse(xmlhttp.responseText).playlist.tracks;
-			  for (var i = 0; i < t.length; i++) {
-	            	var c=new Object;
-	            	var au='';
+			let t=JSON.parse(xmlhttp.responseText).playlist.tracks;
+			  for (let i = 0; i < t.length; i++) {
+	            	let c=new Object;
+	            	let au='';
 	            	c.yunid=t[i].id;
-	            	c.img=t[i].al.picUrl+'?param=320y320';
+	            	c.img=t[i].al.picUrl;
 	            	c.lrc=api+'/?type=lyric&id='+c.yunid+'&br=128000';
 	            	if(t[i].ar.length>4){
 		               au='群星';
 		               c.title=t[i].al.name;
 		            }else{
-		                for (var x = 0; x < t[i].ar.length; x++) {
+		                for (let x = 0; x < t[i].ar.length; x++) {
 		                    au+=t[i].ar[x].name
 		                }
 		                c.title=t[i].name+'-'+au;
@@ -35,9 +35,9 @@ window.hyplaylist=(ele,id)=>{
 	xmlhttp.send();
 }
 window.Hmusic=(ele,arr)=>{
-		var hm=new Object;
+		let hm=new Object;
 		function $c(c){return ele.querySelector(c)};
-		var hmele=html.html();
+		let hmele=html.html();
 		ele.innerHTML=hmele;
 		hm.nowduan=0;
 		hm.volume=1;
@@ -111,10 +111,10 @@ window.Hmusic=(ele,arr)=>{
 			hm.e.audio.currentTime=t;
 			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
 			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
-			for (var i = 0; i < hm.lrc.b.length; i++) {
+			for (let i = 0; i < hm.lrc.b.length; i++) {
 				if(t*10<=hm.lrc.b[i]){
 					hm.nowlrc=i;
-					var t2=50-hm.nowlrc*30;
+					let t2=50-hm.nowlrc*30;
 					hm.e.lrc.style.transform='translateY('+t2+'px)';
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
 					//console.log('nowduan切换为:'+i)
@@ -130,13 +130,13 @@ window.Hmusic=(ele,arr)=>{
 		}
 		setInterval(hm.interval1s,1000);
 		hm.e.wranger.addEventListener('mousedown',function(event){
-			var e = event || window.event || arguments.callee.caller.arguments[0];
-			var xbl = show_coords(e, this);
+			let e = event || window.event || arguments.callee.caller.arguments[0];
+			let xbl = show_coords(e, this);
 			hm.tiao(xbl.xbl*hm.alltime);
 		});
 		function getvtime(time) {
-	        var tm;
-	        var m = parseInt(time / 60);
+	        let tm;
+	        let m = parseInt(time / 60);
 	        if (parseInt(time % 60) >= 10) {
 	            tm = parseInt(time % 60);
 	        } else {
@@ -148,10 +148,10 @@ window.Hmusic=(ele,arr)=>{
 	        };
 	    }
 		function show_coords(event, elem) {
-	        var x = event.clientX - getLeft(elem)+window.scrollX;
-	        var y = event.clientY - getTop(elem)+window.scrollY;
-	        var xbl = x / elem.offsetWidth;
-	        var ybl =1- y /elem.offsetHeight;
+	        let x = event.clientX - getLeft(elem)+window.scrollX;
+	        let y = event.clientY - getTop(elem)+window.scrollY;
+	        let xbl = x / elem.offsetWidth;
+	        let ybl =1- y /elem.offsetHeight;
 	        return {
 	            x:x,
 	            y:y,
@@ -163,21 +163,21 @@ window.Hmusic=(ele,arr)=>{
 	    }
 		//获取元素的纵坐标（相对于窗口）
 	    function getTop(e) {
-	        var offset = e.offsetTop;
+	        let offset = e.offsetTop;
 	        if (e.offsetParent != null) offset += getTop(e.offsetParent);
 	        return offset;
 	    }
 	    //获取元素的横坐标（相对于窗口）
 	    function getLeft(e) {
-	        var offset = e.offsetLeft;
+	        let offset = e.offsetLeft;
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
 	    hm.getcloudurl=function(url,stop,callback){
-	    	var	xmlhttp=new XMLHttpRequest();
+	    	let	xmlhttp=new XMLHttpRequest();
 	    		xmlhttp.onreadystatechange=function(){
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
-						var t=JSON.parse(xmlhttp.responseText);
+						let t=JSON.parse(xmlhttp.responseText);
 						hm.e.audio.src=t.data[0].url;
 						if(!stop&&hm.e.audio.paused){hm.e.audio.play();}
 						if (typeof callback === "function"){
@@ -190,10 +190,10 @@ window.Hmusic=(ele,arr)=>{
 				xmlhttp.send();
 	    }
 	    hm.getlrc=function(url){
-	    	var	xmlhttp=new XMLHttpRequest();
+	    	let	xmlhttp=new XMLHttpRequest();
 	    		xmlhttp.onreadystatechange=function(){
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
-						var t;
+						let t;
 						hm.lrc=new Object;
 						hm.lrc.b=new Array;
 						hm.lrc.c=new Array;
@@ -205,7 +205,7 @@ window.Hmusic=(ele,arr)=>{
 						}
 						hm.parseLyric(t);
 						hm.lrc.a=hm.parseLyric(t);
-						for(var i in hm.lrc.a){
+						for(let i in hm.lrc.a){
 					        if (hm.lrc.a.hasOwnProperty(i)) {
 					            hm.lrc.b.push(i);
 					            if(!hm.lrc.a[i]){
@@ -215,7 +215,7 @@ window.Hmusic=(ele,arr)=>{
 					            } 
 					        };
 					    }
-						for (var i = 0; i < hm.lrc.c.length; i++) {
+						for (let i = 0; i < hm.lrc.c.length; i++) {
 							hm.lrc.d=hm.lrc.d+'<p>'+hm.lrc.c[i]+'</p>';
 						}
 						hm.e.lrc.innerHTML=hm.lrc.d;
@@ -227,19 +227,19 @@ window.Hmusic=(ele,arr)=>{
 	    }
 	    hm.parseLyric=function(lrc) {
 	    	//console.log(lrc);
-		    var lyrics = lrc.split("\n");
-		    var lrcObj = {};
-		    for(var i=0;i<lyrics.length;i++){
-		        var lyric = decodeURIComponent(lyrics[i]);
-		        var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
-		        var timeRegExpArr = lyric.match(timeReg);
+		    let lyrics = lrc.split("\n");
+		    let lrcObj = {};
+		    for(let i=0;i<lyrics.length;i++){
+		        let lyric = decodeURIComponent(lyrics[i]);
+		        let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+		        let timeRegExpArr = lyric.match(timeReg);
 		        if(!timeRegExpArr)continue;
-		        var clause = lyric.replace(timeReg,'');
-		        for(var k = 0,h = timeRegExpArr.length;k < h;k++) {
-		            var t = timeRegExpArr[k];
-		            var min = Number(String(t.match(/\[\d*/i)).slice(1)),
+		        let clause = lyric.replace(timeReg,'');
+		        for(let k = 0,h = timeRegExpArr.length;k < h;k++) {
+		            let t = timeRegExpArr[k];
+		            let min = Number(String(t.match(/\[\d*/i)).slice(1)),
 		            	sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
-		            var time = (min * 60 + sec).toFixed(1)*10;
+		            let time = (min * 60 + sec).toFixed(1)*10;
 		            lrcObj[time] = clause;
 		        }
 		    }
@@ -266,8 +266,8 @@ window.Hmusic=(ele,arr)=>{
 	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
 	    			hm.huan2(stop);
 	    		}
-				var li=hm.e.longarr.querySelectorAll('li');
-				for (var i = 0; i < li.length; i++) {
+				let li=hm.e.longarr.querySelectorAll('li');
+				for (let i = 0; i < li.length; i++) {
 					li[i].style.backgroundColor='transparent';
 					if(duan==i){
 						li[i].style.backgroundColor='rgba(49, 155, 211, 0.33)';
@@ -282,8 +282,8 @@ window.Hmusic=(ele,arr)=>{
 	    	setTimeout(getalltime,500);
 	    }
 	    hm.longarr='';
-	   	for (var i = 0; i < hm.p.length; i++) {
-	   		var e=document.createElement('li');
+	   	for (let i = 0; i < hm.p.length; i++) {
+	   		let e=document.createElement('li');
 	   		e.innerHTML=hm.p[i].title;
 	   		e.songid=i;
 	   		if(i==0){
@@ -295,7 +295,8 @@ window.Hmusic=(ele,arr)=>{
 			})
 	   	}
 	   	hm.huan2=function(stop){
-	   		hm.e.banner.style.backgroundImage='url('+hm.p[hm.nowduan].img+')';
+	   		let picsize='?param='+hm.e.banner.offsetWidth+'y'+hm.e.banner.offsetHeight
+	   		hm.e.banner.style.backgroundImage=`url(${hm.p[hm.nowduan].img}?param=${picsize})`;
 			hm.getlrc(hm.p[hm.nowduan].lrc);
 			if(!stop&&hm.e.audio.paused){hm.e.audio.play();
 			hm.e.btnplay.style.display='none';
@@ -310,11 +311,11 @@ window.Hmusic=(ele,arr)=>{
 				}
 			};
 			hm.e.audio.addEventListener('timeupdate',function(c){
-			var t=hm.e.audio.currentTime.toFixed(1)*10;
+			let t=hm.e.audio.currentTime.toFixed(1)*10;
 			if(hm.lrc){
 				if(hm.lrc.b[hm.nowlrc+1]<=t){
 					++hm.nowlrc;
-					var t2=50-hm.nowlrc*30;
+					let t2=50-hm.nowlrc*30;
 					hm.e.lrc.style.transform='translateY('+t2+'px)';
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
 					if(hm.e.lrcarr[hm.nowlrc-1]){
@@ -341,8 +342,8 @@ window.Hmusic=(ele,arr)=>{
 			hm.e.x1.style.display='block';
 		})
 		hm.e.wsound.addEventListener('click',function(event){
-			var e = event || window.event || arguments.callee.caller.arguments[0];
-			var bl = show_coords(e,this);
+			let e = event || window.event || arguments.callee.caller.arguments[0];
+			let bl = show_coords(e,this);
 			hm.e.soundb.style.height=bl.h*bl.ybl+'px';
 			hm.changersound(bl.ybl);
 		})
