@@ -1,7 +1,7 @@
 {
-  "name": "webpack",
-  "version": "1.0.0",
-  "description": "test",
+  "name": "Hmusic",
+  "version": "2.1.2",
+  "description": "cloud music player",
   "main": "build webpack",
   "dependencies": {
     "lodash": "^4.17.4",
