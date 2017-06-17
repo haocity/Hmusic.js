@@ -132,7 +132,11 @@ window.hyplaylist = function (ele, id) {
 				var c = new Object();
 				var au = '';
 				c.yunid = t[i].id;
+<<<<<<< HEAD
 				c.img = t[i].al.picUrl + '?param=320y320';
+=======
+				c.img = t[i].al.picUrl;
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 				c.lrc = api + '/?type=lyric&id=' + c.yunid + '&br=128000';
 				if (t[i].ar.length > 4) {
 					au = '群星';
@@ -255,7 +259,11 @@ window.Hmusic = function (ele, arr) {
 		hm.tiao(xbl.xbl * hm.alltime);
 	});
 	function getvtime(time) {
+<<<<<<< HEAD
 		var tm;
+=======
+		var tm = void 0;
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 		var m = parseInt(time / 60);
 		if (parseInt(time % 60) >= 10) {
 			tm = parseInt(time % 60);
@@ -314,7 +322,11 @@ window.Hmusic = function (ele, arr) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.onreadystatechange = function () {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+<<<<<<< HEAD
 				var t;
+=======
+				var t = void 0;
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 				hm.lrc = new Object();
 				hm.lrc.b = new Array();
 				hm.lrc.c = new Array();
@@ -336,8 +348,13 @@ window.Hmusic = function (ele, arr) {
 						}
 					};
 				}
+<<<<<<< HEAD
 				for (var i = 0; i < hm.lrc.c.length; i++) {
 					hm.lrc.d = hm.lrc.d + '<p>' + hm.lrc.c[i] + '</p>';
+=======
+				for (var _i = 0; _i < hm.lrc.c.length; _i++) {
+					hm.lrc.d = hm.lrc.d + '<p>' + hm.lrc.c[_i] + '</p>';
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 				}
 				hm.e.lrc.innerHTML = hm.lrc.d;
 				hm.e.lrcarr = hm.e.lrc.querySelectorAll('p');
@@ -416,7 +433,12 @@ window.Hmusic = function (ele, arr) {
 		});
 	}
 	hm.huan2 = function (stop) {
+<<<<<<< HEAD
 		hm.e.banner.style.backgroundImage = 'url(' + hm.p[hm.nowduan].img + ')';
+=======
+		var picsize = '?param=' + hm.e.banner.offsetWidth + 'y' + hm.e.banner.offsetHeight;
+		hm.e.banner.style.backgroundImage = 'url(' + hm.p[hm.nowduan].img + '?param=' + picsize + ')';
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 		hm.getlrc(hm.p[hm.nowduan].lrc);
 		if (!stop && hm.e.audio.paused) {
 			hm.e.audio.play();
@@ -427,9 +449,13 @@ window.Hmusic = function (ele, arr) {
 			if (hm.e.x2.style.display == 'none') {
 				hm.huan(hm.nowduan + 1);
 			} else {
+<<<<<<< HEAD
 				try {
 					hm.e.audio.play();
 				} catch (e) {}
+=======
+				hm.e.audio.play();
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 				hm.nowlrc = -1;
 			}
 		};
@@ -490,7 +516,11 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
+<<<<<<< HEAD
 exports.push([module.i, "\r\n@font-face {font-family: \"iconfont\";\r\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060'); /* IE9*/\r\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060#iefix') format('embedded-opentype'), /* IE6-IE8 */\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.woff?t=1494255783060') format('woff'), /* chrome, firefox */\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.ttf?t=1494255783060') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.svg?t=1494255783060#iconfont') format('svg'); /* iOS 4.1- */\r\n}\r\n\r\n.iconfont {\r\n  font-family:\"iconfont\" !important;\r\n  font-size:16px;\r\n  font-style:normal;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n.icon-play:before { content: \"\\E633\"; }\r\n\r\n.icon-yinliang:before { content: \"\\E60A\"; }\r\n\r\n.icon-ttpodicon:before { content: \"\\E6BD\"; }\r\n\r\n.icon-s:before { content: \"\\E61E\"; }\r\n\r\n.icon-x:before { content: \"\\E620\"; }\r\n\r\n.icon-xunhuan:before { content: \"\\E605\"; }\r\n\r\n.icon-stop:before { content: \"\\E669\"; }\r\n\r\n.hmusic {\r\n\tfont-size:16px;\r\n\theight:500px;\r\n\tbox-shadow:0 0 5px rgba(0,0,0,.8);\r\n\tfont-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif\r\n}\r\n.hmusic>.banner {\r\n\theight:200px;\r\n\t\r\n\tbackground-position:center;\r\n\tbackground-size:cover\r\n}\r\n.hmusic>.banner>.banner-zz {\r\n\toverflow:hidden;\r\n\theight:100%;\r\n\tbackground-color:rgba(0,0,0,.4);\r\n\tcolor:#fff\r\n}\r\n.hmusic>.banner>.banner-zz>.songname {\r\n\tpadding-top:5px;\r\n\theight:25px;\r\n\ttext-align:center;\r\n\tfont-size:1.2em;\r\n\twhite-space:nowrap\r\n}\r\n.hmusic>.banner>.banner-zz>.lrc-warp {\r\n\toverflow:hidden;\r\n\theight:10pc\r\n}\r\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc {\r\n\ttext-align:center;\r\n\ttransition:all .3s ease-out;\r\n\ttransform:translateY(-10px)\r\n}\r\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p {\r\n\twhite-space:nowrap;\r\n\tmargin:0;\r\n\tpadding:0;\r\n\tline-height:30px;\r\n\tfont-size:12px\r\n}\r\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp {\r\n\tfont-size:24px;\r\n\twhite-space:inherit;\r\n}\r\n.hmusic>.banner>.banner-zz>.ranger {\r\n\tcursor:pointer;\r\n\theight:9pt;\r\n\tbackground-color:rgba(59,65,67,.39)\r\n}\r\n.hmusic>.banner>.banner-zz>.ranger>.ranger-n {\r\n\twidth:20%;\r\n\theight:100%;\r\n\tbackground-color:rgba(3,169,244,.6)\r\n}\r\n.hmusic>.con {\r\n\tposition: relative;\r\n\ttop:0px;\r\n\theight:40px;\r\n\ttext-align:center;\r\n\tuser-select:none\r\n}\r\n.hmusic>.con .sound-ranger {\r\n\theight:80px;\r\n\twidth:16px;\r\n\tbackground-color:rgba(255,255,255,.4);\r\n\tcursor:pointer;\r\n\tdisplay:none\r\n}\r\n.hmusic>.con .sound-ranger>.sound-ranger-a {\r\n\theight:100%;\r\n\tposition:relative\r\n}\r\n.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b {\r\n\theight:82px;\r\n\tposition:absolute;\r\n\twidth:100%;\r\n\tbottom:0;\r\n\tbackground-color:#6D95E0\r\n}\r\n.hmusic>.con .iconfont {\r\n\tcolor:#6d95e0;\r\n\tfont-size:1.6em;\r\n\tcursor:pointer\r\n}\r\n.hmusic>.con .iconfont:hover {\r\n\tcolor:#2753af\r\n}\r\n.hmusic>.con>.icon-s,.hmusic>.con>.icon-x{\r\n\tfont-size: 2em;\r\n    line-height: 40px;\r\n    position: absolute;\r\n}\r\n.hmusic>.con>.icon-s{\r\n\tleft: 16%;\r\n}\r\n.hmusic>.con>.icon-x{\r\n\tright: 16%;\r\n}\r\n.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {\r\n\tposition:relative;\r\n\tfont-size:2em;\r\n\tline-height:40px;\r\n}\r\n.hmusic>.con>.right {\r\n\tfloat:right;\r\n\theight: 100%;\r\n\tpadding:0 4px;\r\n\tposition:relative\r\n}\r\n.hmusic>.con>.left {\r\n\tfloat:left;\r\n\tpadding:0 4px;\r\n\theight: 100%;\r\n\tposition:relative\r\n}\r\n.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {\r\n\tdisplay:inline-block;\r\n\tfont-size:.6em\r\n}\r\n.hmusic>.con .sound {\r\n\tposition:absolute;\r\n\tbottom:2px;\r\n\tright:24px;\r\n\tz-index:10\r\n}\r\n.hmusic>.con .sound>.icon-yinliang {\r\n\tfont-size:1em\r\n}\r\n.hmusic>.con .xunhuan {\r\n\tfont-size:.9em;\r\n\tposition:absolute;\r\n\tbottom:1px;\r\n\tright:4px\r\n}\r\n.hmusic>.longarr {\r\n\twidth:100%;\r\n\toverflow-x:hidden;\r\n\toverflow-y:auto;\r\n\theight:260px;\r\n\tbackground-color:#fafafa\r\n}\r\n.hmusic>.longarr>li {\r\n\twhite-space:nowrap;\r\n\tpadding:3px 0 3px 20px;\r\n\tcursor:pointer;\r\n\tcolor: #434343;\r\n}\r\n.hmusic>.longarr>li:hover {\r\n\tpadding:3px 0 3px 24px;\r\n\tbackground-color:hsla(0,0%,69%,.9)\r\n}\r\n", ""]);
+=======
+exports.push([module.i, "\n@font-face {font-family: \"iconfont\";\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060'); /* IE9*/\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.woff?t=1494255783060') format('woff'), /* chrome, firefox */\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.ttf?t=1494255783060') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.svg?t=1494255783060#iconfont') format('svg'); /* iOS 4.1- */\n}\n\n.iconfont {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.icon-play:before { content: \"\\E633\"; }\n\n.icon-yinliang:before { content: \"\\E60A\"; }\n\n.icon-ttpodicon:before { content: \"\\E6BD\"; }\n\n.icon-s:before { content: \"\\E61E\"; }\n\n.icon-x:before { content: \"\\E620\"; }\n\n.icon-xunhuan:before { content: \"\\E605\"; }\n\n.icon-stop:before { content: \"\\E669\"; }\n\n.hmusic {\n\tfont-size:16px;\n\theight:500px;\n\tbox-shadow:0 0 5px rgba(0,0,0,.8);\n\tfont-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif\n}\n.hmusic>.banner {\n\theight:200px;\n\t\n\tbackground-position:center;\n\tbackground-size:cover\n}\n.hmusic>.banner>.banner-zz {\n\toverflow:hidden;\n\theight:100%;\n\tbackground-color:rgba(0,0,0,.4);\n\tcolor:#fff\n}\n.hmusic>.banner>.banner-zz>.songname {\n\tpadding-top:5px;\n\theight:25px;\n\ttext-align:center;\n\tfont-size:1.2em;\n\twhite-space:nowrap\n}\n.hmusic>.banner>.banner-zz>.lrc-warp {\n\toverflow:hidden;\n\theight:10pc\n}\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc {\n\ttext-align:center;\n\ttransition:all .3s ease-out;\n\ttransform:translateY(-10px)\n}\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p {\n\twhite-space:nowrap;\n\tmargin:0;\n\tpadding:0;\n\tline-height:30px;\n\tfont-size:12px\n}\n.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp {\n\tfont-size:24px;\n\twhite-space:inherit;\n}\n.hmusic>.banner>.banner-zz>.ranger {\n\tcursor:pointer;\n\theight:9pt;\n\tbackground-color:rgba(59,65,67,.39)\n}\n.hmusic>.banner>.banner-zz>.ranger>.ranger-n {\n\twidth:20%;\n\theight:100%;\n\tbackground-color:rgba(3,169,244,.6)\n}\n.hmusic>.con {\n\tposition: relative;\n\ttop:0px;\n\theight:40px;\n\ttext-align:center;\n\tuser-select:none\n}\n.hmusic>.con .sound-ranger {\n\theight:80px;\n\twidth:16px;\n\tbackground-color:rgba(255,255,255,.4);\n\tcursor:pointer;\n\tdisplay:none\n}\n.hmusic>.con .sound-ranger>.sound-ranger-a {\n\theight:100%;\n\tposition:relative\n}\n.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b {\n\theight:82px;\n\tposition:absolute;\n\twidth:100%;\n\tbottom:0;\n\tbackground-color:#6D95E0\n}\n.hmusic>.con .iconfont {\n\tcolor:#6d95e0;\n\tfont-size:1.6em;\n\tcursor:pointer\n}\n.hmusic>.con .iconfont:hover {\n\tcolor:#2753af\n}\n.hmusic>.con>.icon-s,.hmusic>.con>.icon-x{\n\tfont-size: 2em;\n    line-height: 40px;\n    position: absolute;\n}\n.hmusic>.con>.icon-s{\n\tleft: 16%;\n}\n.hmusic>.con>.icon-x{\n\tright: 16%;\n}\n.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {\n\tposition:relative;\n\tfont-size:2em;\n\tline-height:40px;\n}\n.hmusic>.con>.right {\n\tfloat:right;\n\theight: 100%;\n\tpadding:0 4px;\n\tposition:relative\n}\n.hmusic>.con>.left {\n\tfloat:left;\n\tpadding:0 4px;\n\theight: 100%;\n\tposition:relative\n}\n.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {\n\tdisplay:inline-block;\n\tfont-size:.6em\n}\n.hmusic>.con .sound {\n\tposition:absolute;\n\tbottom:2px;\n\tright:24px;\n\tz-index:10\n}\n.hmusic>.con .sound>.icon-yinliang {\n\tfont-size:1em\n}\n.hmusic>.con .xunhuan {\n\tfont-size:.9em;\n\tposition:absolute;\n\tbottom:1px;\n\tright:4px\n}\n.hmusic>.longarr {\n\twidth:100%;\n\toverflow-x:hidden;\n\toverflow-y:auto;\n\theight:260px;\n\tbackground-color:#fafafa\n}\n.hmusic>.longarr>li {\n\twhite-space:nowrap;\n\tpadding:3px 0 3px 20px;\n\tcursor:pointer\n}\n.hmusic>.longarr>li:hover {\n\tpadding:3px 0 3px 24px;\n\tbackground-color:hsla(0,0%,69%,.9)\n}\n", ""]);
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 
 // exports
 
@@ -749,10 +779,17 @@ function insertStyleElement (options, style) {
 }
 
 function removeStyleElement (style) {
+<<<<<<< HEAD
 	if (style.parentNode === null) return false;
 	style.parentNode.removeChild(style);
 
 	var idx = stylesInsertedAtTop.indexOf(style);
+=======
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+
+>>>>>>> a5fb1ab048d6b96962b67b9ce7257cdc8a783e71
 	if(idx >= 0) {
 		stylesInsertedAtTop.splice(idx, 1);
 	}
