@@ -305,7 +305,10 @@ window.Hmusic=(ele,arr)=>{
 				if(hm.e.x2.style.display=='none'){
 					hm.huan(hm.nowduan+1);
 				}else{
-					hm.e.audio.play();
+					try{
+						hm.e.audio.play();
+					}
+					catch(e){}
 					hm.nowlrc=-1;
 				}
 			};
