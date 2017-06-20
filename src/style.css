@@ -32,19 +32,20 @@
 .hmusic {
 	font-size:16px;
 	height:500px;
-	box-shadow:0 0 5px rgba(0,0,0,.8);
-	font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif
+	box-shadow:0 3px 8px rgba(0, 0, 0, .25);
+	font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif;
+	border-radius: 6px;
+    overflow: hidden;
 }
 .hmusic>.banner {
 	height:200px;
-	
-	background-position:center;
-	background-size:cover
+	position: relative;
 }
 .hmusic>.banner>.banner-zz {
+	position: relative;
 	overflow:hidden;
 	height:100%;
-	background-color:rgba(0,0,0,.4);
+	background-color:rgba(0,0,0,.3);
 	color:#fff
 }
 .hmusic>.banner>.banner-zz>.songname {
@@ -74,6 +75,20 @@
 	font-size:24px;
 	white-space:inherit;
 }
+.hmusic>.banner>.banner-zz>.banner-img {
+	position: absolute;
+	height: auto;
+    width: 100%;
+    top: 0;
+    left: 0;
+	background-position:center;
+	background-size:cover;
+	background-image: url(https://ooo.0o0.ooo/2017/06/20/59488f02d6903.jpg);
+	-webkit-filter:saturate(1.4);
+	-moz-filter:saturate(1.4);
+	filter:saturate(1.4);
+	z-index: -1;
+}
 .hmusic>.banner>.banner-zz>.ranger {
 	cursor:pointer;
 	height:9pt;
@@ -82,7 +97,7 @@
 .hmusic>.banner>.banner-zz>.ranger>.ranger-n {
 	width:20%;
 	height:100%;
-	background-color:rgba(3,169,244,.6)
+	background-color:rgba(249, 73, 73, 0.6)
 }
 .hmusic>.con {
 	position: relative;
@@ -107,15 +122,15 @@
 	position:absolute;
 	width:100%;
 	bottom:0;
-	background-color:#6D95E0
+	background-color:rgba(228, 99, 99, 0.92)
 }
 .hmusic>.con .iconfont {
-	color:#6d95e0;
+	color:#E05865;
 	font-size:1.6em;
 	cursor:pointer
 }
 .hmusic>.con .iconfont:hover {
-	color:#2753af
+	color:#F33838
 }
 .hmusic>.con>.icon-s,.hmusic>.con>.icon-x{
 	font-size: 2em;

@@ -17,7 +17,8 @@
     "url-loader": "^0.5.8"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "buid": "webpack -p",
+    "dev":"webpack"
   },
   "author": "",
   "license": "ISC"
