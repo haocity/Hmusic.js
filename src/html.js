@@ -1,3 +1,7 @@
+ /* Hmusic.
+  @author   HaoDong <ureygt@gmail.com> <http://www.haotown.cn>
+  @license  The Star And Thank Author License (SATA)
+  */
 module.exports = {
     html: () => {
         return `<div class="hmusic">
@@ -11,6 +15,7 @@ module.exports = {
       <div class="ranger">
         <div class="ranger-n"></div>
       </div>
+      <img class="banner-img"></img>
     </div>
   </div>
   <div class="con">
