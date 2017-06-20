@@ -7,7 +7,6 @@ module.exports = {
         return `<div class="hmusic">
   <audio class="hm-audio"></audio>
   <div class="banner">
-    <div class="banner-zz">
       <div class="songname"></div>
       <div class="lrc-warp">
         <div class="lrc"></div>
@@ -15,8 +14,8 @@ module.exports = {
       <div class="ranger">
         <div class="ranger-n"></div>
       </div>
-      <img class="banner-img"></img>
-    </div>
+      <img class="banner-img">
+      <div class="banner-color"></div>
   </div>
   <div class="con">
     <div class="left">
