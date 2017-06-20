@@ -37,45 +37,46 @@
 	border-radius: 6px;
     overflow: hidden;
 }
+
 .hmusic>.banner {
+	position: relative;
 	height:200px;
-	position: relative;
-}
-.hmusic>.banner>.banner-zz {
-	position: relative;
 	overflow:hidden;
-	height:100%;
 	background-color:rgba(0,0,0,.3);
 	color:#fff
 }
-.hmusic>.banner>.banner-zz>.songname {
+.hmusic>.banner>.songname {
+	position: relative;
 	padding-top:5px;
 	height:25px;
 	text-align:center;
 	font-size:1.2em;
-	white-space:nowrap
+	white-space:nowrap;
+	z-index: 4
 }
-.hmusic>.banner>.banner-zz>.lrc-warp {
+.hmusic>.banner>.lrc-warp {
+	position: relative;
 	overflow:hidden;
-	height:10pc
+	height:10pc;
+	z-index: 4
 }
-.hmusic>.banner>.banner-zz>.lrc-warp>.lrc {
+.hmusic>.banner>.lrc-warp>.lrc {
 	text-align:center;
 	transition:all .3s ease-out;
 	transform:translateY(-10px)
 }
-.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>p {
+.hmusic>.banner>.lrc-warp>.lrc>p {
 	white-space:nowrap;
 	margin:0;
 	padding:0;
 	line-height:30px;
 	font-size:12px
 }
-.hmusic>.banner>.banner-zz>.lrc-warp>.lrc>.nowlrcp {
+.hmusic>.banner>.lrc-warp>.lrc>.nowlrcp {
 	font-size:24px;
 	white-space:inherit;
 }
-.hmusic>.banner>.banner-zz>.banner-img {
+.hmusic>.banner>.banner-img {
 	position: absolute;
 	height: auto;
     width: 100%;
@@ -87,14 +88,25 @@
 	-webkit-filter:saturate(1.4);
 	-moz-filter:saturate(1.4);
 	filter:saturate(1.4);
-	z-index: -1;
+	z-index: 2;
 }
-.hmusic>.banner>.banner-zz>.ranger {
+.hmusic>.banner>.banner-color{
+	position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.19);
+    z-index: 3;
+}
+.hmusic>.banner>.ranger {
+	position: relative;
 	cursor:pointer;
 	height:9pt;
-	background-color:rgba(59,65,67,.39)
+	background-color:rgba(59,65,67,.39);
+	z-index: 4;
 }
-.hmusic>.banner>.banner-zz>.ranger>.ranger-n {
+.hmusic>.banner>.ranger>.ranger-n {
 	width:20%;
 	height:100%;
 	background-color:rgba(249, 73, 73, 0.6)
