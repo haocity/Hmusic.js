@@ -1,28 +1,31 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8" />
     <title>Hmusic.js demo</title>
-    <style>
-.warp {
-	margin:0 auto;
-	width:340px
-}
-.warp2 {
-	margin:40px auto 0 auto;
-	width:340px
-}
+    <style type="text/css">
+    .warp {
+        margin:0 auto;
+        width:340px
+    }
+    .warp2{
+        margin:40px auto 0 auto;
+        width:340px
+    }
     </style>
+</head>
+<body>
   </head>
   <body>
    <script src="dist/hmusic.js"></script>
    <h2 style="text-align: center;">音乐播放器  Hmusic.js</h2>
-		<div class="warp"></div>
-		<div class="warp2"></div>
-	</body>
-	<script type="text/javascript">
-		hyplaylist(document.querySelector('.warp'),723657080);
-		hyplaylist(document.querySelector('.warp2'),150301862);
-	</script>
-	
-	
-  </body>
+        <div class="warp"></div>
+        <div class="warp2"></div>
+    </body>
+    <script type="text/javascript">
+       var m1= hyplaylist(document.querySelector('.warp'),723657080);
+       var m2= hyplaylist(document.querySelector('.warp2'),150301862);
+    </script>
+    
+</body>
 </html>
