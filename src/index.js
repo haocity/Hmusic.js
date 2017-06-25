@@ -4,7 +4,7 @@ window.hyplaylist=(ele,id)=>{
 	let yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
-	let api='https://api.imjad.cn/cloudmusic';
+	let api='https://t5.haotown.cn/yunmusic/';
 	let	xmlhttp=new XMLHttpRequest();
 	var obj=new Object;
 	xmlhttp.onreadystatechange=function(){
@@ -262,7 +262,7 @@ window.Hmusic=(ele,list,obj)=>{
 	    		hm.e.lrc.style.transform='translateY(60px)';
 	    		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 	    		if(hm.p[hm.nowduan].yunid){
-	    			hm.getcloudurl('https://api.imjad.cn/cloudmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.huan2(stop));
+	    			hm.getcloudurl('https://t5.haotown.cn/yunmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.huan2(stop));
 	    		}else{
 	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
 	    			hm.huan2(stop);
