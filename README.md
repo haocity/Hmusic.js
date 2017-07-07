@@ -19,6 +19,12 @@ Element:播放器所要放入的元素
 
 Yunid：网易云歌单ID
 
+### APIs
+hm.play() 播放
+hm.pause() 暂停
+hm.playswitch() 切换播放状态 播放/暂停
+hm.settime()  跳转当前歌曲到指定时间
+hm.to()       跳转到指定歌曲 0为第一首
 ## 开源协议
 > 如果你喜欢的话
 The Star And Thank Author License（SATA）
