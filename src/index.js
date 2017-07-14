@@ -1,13 +1,14 @@
-const html = require('./html.js');
+import html from './html.js';
 require('./style.css');
+//播放网易云歌单
 window.hyplaylist=(ele,id)=>{
 	let yl=new Object;
 	yl.ele=ele;
 	yl.arr=new Array;
 	let api='https://t5.haotown.cn/yunmusic/';
 	let	xmlhttp=new XMLHttpRequest();
-	var obj=new Object;
-	xmlhttp.onreadystatechange=function(){
+	let obj=new Object;
+	xmlhttp.onreadystatechange=() => {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			let t=JSON.parse(xmlhttp.responseText).playlist.tracks;
 			  for (let i = 0; i < t.length; i++) {
@@ -15,7 +16,7 @@ window.hyplaylist=(ele,id)=>{
 	            	let au='';
 	            	c.yunid=t[i].id;
 	            	c.img=t[i].al.picUrl;
-	            	c.lrc=api+'/?type=lyric&id='+c.yunid+'&br=128000';
+	            	c.lrc=`${api}/?type=lyric&id=${c.yunid}&br=128000`;
 	            	if(t[i].ar.length>4){
 		               au='群星';
 		               c.title=t[i].al.name;
@@ -23,14 +24,14 @@ window.hyplaylist=(ele,id)=>{
 		                for (let x = 0; x < t[i].ar.length; x++) {
 		                    au+=t[i].ar[x].name
 		                }
-		                c.title=t[i].name+'-'+au;
+		                c.title=`${t[i].name}-${au}`;
 		            }
 		            yl.arr.push(c);
 	            }
 	            obj=Hmusic(yl.ele,yl.arr,obj);  
 		}
 	}
-	xmlhttp.open("GET",api+'/?type=playlist&id='+id+'&br=128000',true);
+	xmlhttp.open("GET",`${api}/?type=playlist&id=${id}&br=128000`,true);
 	xmlhttp.send();
 	return obj
 }
@@ -71,33 +72,33 @@ window.Hmusic=(ele,list,obj)=>{
 		function getalltime(){
 			if(hm.e.audio.duration>1){
 				hm.alltime=hm.e.audio.duration;
-				hm.e.alltime.innerHTML=getvtime(hm.alltime).m+':'+getvtime(hm.alltime).s;
+				hm.e.alltime.innerHTML=`${getvtime(hm.alltime).m}:${getvtime(hm.alltime).s}`;
 			}else{
 				setTimeout(getalltime,500)
 			}
 		}
 		setTimeout(getalltime,500);
-		hm.e.btnplay.addEventListener('click',function(){
+		hm.e.btnplay.addEventListener('click',() => {
 			hm.play();
 		});
-		hm.e.btnstop.addEventListener('click',function(){
+		hm.e.btnstop.addEventListener('click',() => {
 			hm.pause();
 		});
 
-		hm.play=function(){
+		hm.play=() => {
 			hm.e.btnplay.style.display='none';
 			hm.e.btnstop.style.display='inline-block';
 			if(hm.e.audio.paused){
 				hm.e.audio.play()
 			}
 		}
-		hm.pause=function(){
+		hm.pause=() => {
 			hm.e.btnplay.style.display='inline-block';
 			hm.e.btnstop.style.display='none';
 			hm.e.audio.pause();
 		}
 
-		hm.playswitch=function(){
+		hm.playswitch=() => {
 			if(hm.e.btnplay.style.display!=='none'){
 				hm.play()
 			}else{
@@ -105,18 +106,18 @@ window.Hmusic=(ele,list,obj)=>{
 			}
 		}
 		
-		hm.settime=function(t){
+		hm.settime=t => {
 			if(hm.e.lrcarr[hm.nowlrc]){
 				hm.e.lrcarr[hm.nowlrc].className=' ';
 			}
 			hm.e.audio.currentTime=t;
-			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
-			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
+			hm.e.nrange.style.width=`${hm.e.audio.currentTime/hm.alltime*100}%`;
+			hm.e.nowtime.innerHTML=`${getvtime(hm.e.audio.currentTime).m}:${getvtime(hm.e.audio.currentTime).s}`;
 			for (let i = 0; i < hm.lrc.b.length; i++) {
 				if(t*10<=hm.lrc.b[i]){
 					hm.nowlrc=i;
 					let t2=50-hm.nowlrc*30;
-					hm.e.lrc.style.transform='translateY('+t2+'px)';
+					hm.e.lrc.style.transform=`translateY(${t2}px)`;
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
 					//console.log('nowduan切换为:'+i)
 					break
@@ -125,9 +126,9 @@ window.Hmusic=(ele,list,obj)=>{
 			getalltime();
 		}
 		//定时器1s
-		hm.interval1s=function(){
-			hm.e.nrange.style.width=hm.e.audio.currentTime/hm.alltime*100+'%';
-			hm.e.nowtime.innerHTML=getvtime(hm.e.audio.currentTime).m+':'+getvtime(hm.e.audio.currentTime).s;
+		hm.interval1s=() => {
+			hm.e.nrange.style.width=`${hm.e.audio.currentTime/hm.alltime*100}%`;
+			hm.e.nowtime.innerHTML=`${getvtime(hm.e.audio.currentTime).m}:${getvtime(hm.e.audio.currentTime).s}`;
 		}
 		setInterval(hm.interval1s,1000);
 		hm.e.wranger.addEventListener('mousedown',function(event){
@@ -141,10 +142,10 @@ window.Hmusic=(ele,list,obj)=>{
 	        if (parseInt(time % 60) >= 10) {
 	            tm = parseInt(time % 60);
 	        } else {
-	            tm = "0" + parseInt(time % 60);
+	            tm = `0${parseInt(time % 60)}`;
 	        }
 	        return {
-	            m:m,
+	            m,
 	            s:tm
 	        };
 	    }
@@ -154,12 +155,12 @@ window.Hmusic=(ele,list,obj)=>{
 	        let xbl = x / elem.offsetWidth;
 	        let ybl =1- y /elem.offsetHeight;
 	        return {
-	            x:x,
-	            y:y,
+	            x,
+	            y,
 	            w:elem.offsetWidth,
 	            h:elem.offsetHeight,
-	            xbl:xbl,
-	            ybl:ybl
+	            xbl,
+	            ybl
 	        };
 	    }
 		//获取元素的纵坐标（相对于窗口）
@@ -174,9 +175,9 @@ window.Hmusic=(ele,list,obj)=>{
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
-	    hm.getcloudurl=function(url,stop,callback){
+	    hm.getcloudurl=(url, stop, callback) => {
 	    	let	xmlhttp=new XMLHttpRequest();
-	    		xmlhttp.onreadystatechange=function(){
+	    		xmlhttp.onreadystatechange=() => {
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
 						let t=JSON.parse(xmlhttp.responseText);
 						hm.e.audio.src=t.data[0].url;
@@ -190,9 +191,9 @@ window.Hmusic=(ele,list,obj)=>{
 	    		xmlhttp.open("GET",url,true);
 				xmlhttp.send();
 	    }
-	    let getlrc=function(url){
+	    let getlrc=url => {
 	    	let	xmlhttp=new XMLHttpRequest();
-	    		xmlhttp.onreadystatechange=function(){
+	    		xmlhttp.onreadystatechange=() => {
 					if (xmlhttp.readyState==4 && xmlhttp.status==200){
 						let t;
 						hm.lrc=new Object;
@@ -217,7 +218,7 @@ window.Hmusic=(ele,list,obj)=>{
 					        };
 					    }
 						for (let i = 0; i < hm.lrc.c.length; i++) {
-							hm.lrc.d=hm.lrc.d+'<p>'+hm.lrc.c[i]+'</p>';
+							hm.lrc.d=`${hm.lrc.d}<p>${hm.lrc.c[i]}</p>`;
 						}
 						hm.e.lrc.innerHTML=hm.lrc.d;
 						hm.e.lrcarr=hm.e.lrc.querySelectorAll('p');
@@ -226,7 +227,7 @@ window.Hmusic=(ele,list,obj)=>{
 			xmlhttp.open("GET",url,true);
 			xmlhttp.send();
 	    }
-	    hm.parseLyric=function(lrc) {
+	    hm.parseLyric=lrc => {
 	    	//console.log(lrc);
 		    let lyrics = lrc.split("\n");
 		    let lrcObj = {};
@@ -237,16 +238,16 @@ window.Hmusic=(ele,list,obj)=>{
 		        if(!timeRegExpArr)continue;
 		        let clause = lyric.replace(timeReg,'');
 		        for(let k = 0,h = timeRegExpArr.length;k < h;k++) {
-		            let t = timeRegExpArr[k];
-		            let min = Number(String(t.match(/\[\d*/i)).slice(1)),
-		            	sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
-		            let time = (min * 60 + sec).toFixed(1)*10;
-		            lrcObj[time] = clause;
-		        }
+                    let t = timeRegExpArr[k];
+                    let min = Number(String(t.match(/\[\d*/i)).slice(1));
+                    let sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+                    let time = (min * 60 + sec).toFixed(1)*10;
+                    lrcObj[time] = clause;
+                }
 		    }
 		    return lrcObj;
 		}
-	    hm.to=function(duan,stop){
+	    hm.to=(duan, stop) => {
 	    	if(hm.p[duan]){
 	    		hm.e.audio.currentTime=0;
 	    		if(!hm.e.audio.paused){
@@ -262,7 +263,7 @@ window.Hmusic=(ele,list,obj)=>{
 	    		hm.e.lrc.style.transform='translateY(60px)';
 	    		hm.e.title.innerHTML=hm.p[hm.nowduan].title;
 	    		if(hm.p[hm.nowduan].yunid){
-	    			hm.getcloudurl('https://t5.haotown.cn/yunmusic/?type=song&id='+hm.p[hm.nowduan].yunid+'&br=128000',stop,hm.loadmusic(stop));
+	    			hm.getcloudurl(`https://t5.haotown.cn/yunmusic/?type=song&id=${hm.p[hm.nowduan].yunid}&br=128000`,stop,hm.loadmusic(stop));
 	    		}else{
 	    			hm.e.audio.src=hm.p[hm.nowduan].audio;
 	    			hm.loadmusic(stop);
@@ -296,8 +297,8 @@ window.Hmusic=(ele,list,obj)=>{
 			})
 	   	}
 
-	   	hm.loadmusic=function(stop){
-	   		let picsize='?param='+hm.e.banner.offsetWidth+'y'+hm.e.banner.offsetHeight
+	   	hm.loadmusic=stop => {
+	   		let picsize=`?param=${hm.e.banner.offsetWidth}y${hm.e.banner.offsetHeight}`
 	   	   	hm.e.bannerimg.src=`${hm.p[hm.nowduan].img}?param=${picsize}`;
 			getlrc(hm.p[hm.nowduan].lrc);
 			if(!stop&&hm.e.audio.paused){
@@ -305,7 +306,7 @@ window.Hmusic=(ele,list,obj)=>{
 				hm.e.btnplay.style.display='none';
 				hm.e.btnstop.style.display='inline-block';
 			}
-			hm.e.audio.onended=function(){
+			hm.e.audio.onended=() => {
 				if(hm.e.x2.style.display=='none'){
 					hm.to(hm.nowduan+1);
 				}else{
@@ -314,13 +315,13 @@ window.Hmusic=(ele,list,obj)=>{
 					hm.nowlrc=-1;
 				}
 			};
-			hm.e.audio.addEventListener('timeupdate',function(c){
+			hm.e.audio.addEventListener('timeupdate',c => {
 			let t=hm.e.audio.currentTime.toFixed(1)*10;
 			if(hm.lrc){
 				if(hm.lrc.b[hm.nowlrc+1]<=t){
 					++hm.nowlrc;
 					let t2=50-hm.nowlrc*30;
-					hm.e.lrc.style.transform='translateY('+t2+'px)';
+					hm.e.lrc.style.transform=`translateY(${t2}px)`;
 					hm.e.lrcarr[hm.nowlrc].className='nowlrcp';
 					if(hm.e.lrcarr[hm.nowlrc-1]){
 						hm.e.lrcarr[hm.nowlrc-1].className=' ';
@@ -331,7 +332,7 @@ window.Hmusic=(ele,list,obj)=>{
 			
 		})
 	   	}
-	   	hm.addmusic=function(obj){
+	   	hm.addmusic=obj => {
 	   		hm.p.push(obj);
 	   		let e=document.createElement('li');
 	   		e.innerHTML=obj.title;
@@ -345,10 +346,10 @@ window.Hmusic=(ele,list,obj)=>{
 	   	hm.e.bannerimg.onerror=function(){
 	   		this.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
 	   	};
-	   	hm.e.btnx.addEventListener('click',function(){
+	   	hm.e.btnx.addEventListener('click',() => {
 	   		hm.to(hm.nowduan+1);
 	   	})
-		hm.e.btns.addEventListener('click',function(){
+		hm.e.btns.addEventListener('click',() => {
 			hm.to(hm.nowduan-1);
 		})
 		hm.e.x1.addEventListener('click',function(){
@@ -362,17 +363,17 @@ window.Hmusic=(ele,list,obj)=>{
 		hm.e.wsound.addEventListener('click',function(event){
 			let e = event || window.event || arguments.callee.caller.arguments[0];
 			let bl = show_coords(e,this);
-			hm.e.soundb.style.height=bl.h*bl.ybl+'px';
+			hm.e.soundb.style.height=`${bl.h*bl.ybl}px`;
 			hm.changersound(bl.ybl);
 		})
-		hm.changersound=function(i){
+		hm.changersound=i => {
 			hm.e.audio.volume=i;
 			hm.volume=i;
 		}
-		hm.e.msound.addEventListener('mouseover',function(){
+		hm.e.msound.addEventListener('mouseover',() => {
 			hm.e.wsound.style.display='block';
 		})
-		hm.e.msound.addEventListener('mouseleave',function(){
+		hm.e.msound.addEventListener('mouseleave',() => {
 			hm.e.wsound.style.display='none';
 		})
 		hm.to(0,true);
