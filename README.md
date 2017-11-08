@@ -17,7 +17,23 @@ var hm= new Hmusic(document.querySelector('.warp2'),{playlist:150301862});
 ```
 Element:播放器所要放入的元素
 
-Yunid：网易云歌单ID
+playlist：网易云歌单ID
+
+
+播放云音乐(多曲)
+```
+var hm= new Hmusic(document.querySelector('.warp2'),[{yunid: 4879869, img: "https://p1.music.126.net/tciqmgtNlLSgmAA--w4iLw==/1664660604466892.jpg", lrc: "https://t5.haotown.cn/yunmusic//?type=lyric&id=4879869&br=128000", title: "チルノのパーフェクトさんすう教室-歌ってみた"},{yunid: 29717270, img: "https://p1.music.126.net/oOGKq1fBwikj9IKsTM2TgQ==/3239161255894106.jpg", lrc: "https://t5.haotown.cn/yunmusic//?type=lyric&id=29717270&br=128000", title: "with“you”－絆－"}])
+```
+Element:播放器所要放入的元素
+
+Yunid：网易单曲ID
+
+img：封面
+
+title：标题
+
+Yunid可用audio替换 将直接作为地址
+
 
 ### APIs
 
