@@ -13,7 +13,7 @@
 ```
 播放云歌单
 ```
-hyplaylist(Element,Yunid);
+var hm= new Hmusic(document.querySelector('.warp2'),{playlist:150301862});
 ```
 Element:播放器所要放入的元素
 
