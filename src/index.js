@@ -47,6 +47,8 @@ class Hmusic{
 		this.p=list;
 		this.e=new hmeobj;
 		let _this=this;
+		this.longarr='';
+		
 		function hmeobj(){
 			this.audiowarp=$c('.hmusic');
 			this.audio=$c('.hmusic>.hm-audio');
@@ -71,10 +73,7 @@ class Hmusic{
 			this.sounda=$c('.sound-ranger-a');
 			this.soundb=$c('.sound-ranger-b');
 		}
-		
-		
-		setTimeout(this.getalltime.bind(this),500);
-		setInterval(this.interval1s.bind(this),1000);
+
 		this.e.btnplay.addEventListener('click',() => {
 			_this.play();
 		});
@@ -83,8 +82,6 @@ class Hmusic{
 			_this.pause();
 		});
 
-		
-		
 		
 		this.e.wranger.addEventListener('mousedown',function(event){
 			let e = event || window.event || arguments.callee.caller.arguments[0];
@@ -118,63 +115,7 @@ class Hmusic{
 	        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 	        return offset;
 	    }
-	    Hmusic.prototype.getcloudurl=(url, stop, callback) => {
-	    	let	xmlhttp=new XMLHttpRequest();
-	    		xmlhttp.onreadystatechange=() => {
-					if (xmlhttp.readyState==4 && xmlhttp.status==200){
-						let t=JSON.parse(xmlhttp.responseText);
-						this.e.audio.src=t.data[0].url;
-						if(!stop&&this.e.audio.paused){this.e.audio.play();}
-						if (typeof callback === "function"){
-					        callback()
-					    }
-						
-					}
-				}
-	    		xmlhttp.open("GET",url,true);
-				xmlhttp.send();
-	    }
 
-	    Hmusic.prototype.parseLyric=lrc => {
-	    	//console.log(lrc);
-		    let lyrics = lrc.split("\n");
-		    let lrcObj = {};
-		    for(let i=0;i<lyrics.length;i++){
-		        let lyric = decodeURIComponent(lyrics[i]);
-		        let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
-		        let timeRegExpArr = lyric.match(timeReg);
-		        if(!timeRegExpArr)continue;
-		        let clause = lyric.replace(timeReg,'');
-		        for(let k = 0,h = timeRegExpArr.length;k < h;k++) {
-                    let t = timeRegExpArr[k];
-                    let min = Number(String(t.match(/\[\d*/i)).slice(1));
-                    let sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
-                    let time = (min * 60 + sec).toFixed(1)*10;
-                    lrcObj[time] = clause;
-                }
-		    }
-		    return lrcObj;
-		}
-
-	    this.longarr='';
-	   	for (let i = 0; i < this.p.length; i++) {
-	   		let e=document.createElement('li');
-	   		e.innerHTML=this.p[i].title;
-	   		e.songid=i;
-	   		if(i==0){
-	  			e.style.backgroundColor='rgba(49, 155, 211, 0.33)';
-	  		}
-	  		this.e.longarr.appendChild(e);
-			e.addEventListener('click',function(){
-				this.to(this.songid);
-			})
-	   	}
-
-
-	   	
-	   	
-	   	
-	   	
 	   	this.e.bannerimg.onerror=function(){
 	   		this.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
 	   	};
@@ -206,6 +147,22 @@ class Hmusic{
 			_this.e.wsound.style.display='none';
 		})
 		this.to(0,true);
+		
+		setTimeout(this.getalltime.bind(this),500);
+		setInterval(this.interval1s.bind(this),1000);
+		
+		for (let i = 0; i < this.p.length; i++) {
+	   		let e=document.createElement('li');
+	   		e.innerHTML=this.p[i].title;
+	   		e.songid=i;
+	   		if(i==0){
+	  			e.style.backgroundColor='rgba(49, 155, 211, 0.33)';
+	  		}
+	  		this.e.longarr.appendChild(e);
+			e.addEventListener('click',function(){
+				this.to(this.songid);
+			})
+	   	}
   }
   		
   		
@@ -236,8 +193,6 @@ class Hmusic{
 			if(this.e.lrcarr[this.nowlrc]){
 				this.e.lrcarr[this.nowlrc].className=' ';
 			}
-			console.log(this.e.audio.currentTime);
-			console.log(t)
 			this.e.audio.currentTime=t;
 			getvtime=this.getvtime;
 			this.e.nrange.style.width=`${this.e.audio.currentTime/this.alltime*100}%`;
@@ -252,7 +207,6 @@ class Hmusic{
 					break
 				}	
 			}
-			console.log("1111111")
 			getalltime()
 		}
 		addmusic(obj) {
@@ -380,7 +334,6 @@ class Hmusic{
 	    }
 		
 		getalltime(){
-			console.log(this);
 			let getvtime=this.getvtime;
 			if(this.e.audio.duration>1){
 				this.alltime=this.e.audio.duration;
@@ -408,4 +361,40 @@ class Hmusic{
 			this.e.nowtime.innerHTML=`${this.getvtime(this.e.audio.currentTime).m}:${this.getvtime(this.e.audio.currentTime).s}`;
 		}
 		
+		parseLyric(lrc){
+	    	//console.log(lrc);
+		    let lyrics = lrc.split("\n");
+		    let lrcObj = {};
+		    for(let i=0;i<lyrics.length;i++){
+		        let lyric = decodeURIComponent(lyrics[i]);
+		        let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+		        let timeRegExpArr = lyric.match(timeReg);
+		        if(!timeRegExpArr)continue;
+		        let clause = lyric.replace(timeReg,'');
+		        for(let k = 0,h = timeRegExpArr.length;k < h;k++) {
+                    let t = timeRegExpArr[k];
+                    let min = Number(String(t.match(/\[\d*/i)).slice(1));
+                    let sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+                    let time = (min * 60 + sec).toFixed(1)*10;
+                    lrcObj[time] = clause;
+                }
+		    }
+		    return lrcObj;
+		}
+		getcloudurl(url, stop, callback){
+	    	let	xmlhttp=new XMLHttpRequest();
+	    		xmlhttp.onreadystatechange=() => {
+					if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						let t=JSON.parse(xmlhttp.responseText);
+						this.e.audio.src=t.data[0].url;
+						if(!stop&&this.e.audio.paused){this.e.audio.play();}
+						if (typeof callback === "function"){
+					        callback()
+					    }
+						
+					}
+				}
+	    		xmlhttp.open("GET",url,true);
+				xmlhttp.send();
+	    }
 }

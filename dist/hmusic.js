@@ -119,8 +119,6 @@ window.hyplaylist = function (ele, id) {
 
 var Hmusic = function () {
 	function Hmusic(ele, list) {
-		var _this2 = this;
-
 		_classCallCheck(this, Hmusic);
 
 		function $c(c) {
@@ -134,6 +132,8 @@ var Hmusic = function () {
 		this.p = list;
 		this.e = new hmeobj();
 		var _this = this;
+		this.longarr = '';
+
 		function hmeobj() {
 			this.audiowarp = $c('.hmusic');
 			this.audio = $c('.hmusic>.hm-audio');
@@ -159,8 +159,6 @@ var Hmusic = function () {
 			this.soundb = $c('.sound-ranger-b');
 		}
 
-		setTimeout(this.getalltime.bind(this), 500);
-		setInterval(this.interval1s.bind(this), 1000);
 		this.e.btnplay.addEventListener('click', function () {
 			_this.play();
 		});
@@ -201,58 +199,6 @@ var Hmusic = function () {
 			if (e.offsetParent != null) offset += getLeft(e.offsetParent);
 			return offset;
 		}
-		Hmusic.prototype.getcloudurl = function (url, stop, callback) {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function () {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					var t = JSON.parse(xmlhttp.responseText);
-					_this2.e.audio.src = t.data[0].url;
-					if (!stop && _this2.e.audio.paused) {
-						_this2.e.audio.play();
-					}
-					if (typeof callback === "function") {
-						callback();
-					}
-				}
-			};
-			xmlhttp.open("GET", url, true);
-			xmlhttp.send();
-		};
-
-		Hmusic.prototype.parseLyric = function (lrc) {
-			//console.log(lrc);
-			var lyrics = lrc.split("\n");
-			var lrcObj = {};
-			for (var i = 0; i < lyrics.length; i++) {
-				var lyric = decodeURIComponent(lyrics[i]);
-				var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
-				var timeRegExpArr = lyric.match(timeReg);
-				if (!timeRegExpArr) continue;
-				var clause = lyric.replace(timeReg, '');
-				for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
-					var t = timeRegExpArr[k];
-					var min = Number(String(t.match(/\[\d*/i)).slice(1));
-					var sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
-					var time = (min * 60 + sec).toFixed(1) * 10;
-					lrcObj[time] = clause;
-				}
-			}
-			return lrcObj;
-		};
-
-		this.longarr = '';
-		for (var i = 0; i < this.p.length; i++) {
-			var e = document.createElement('li');
-			e.innerHTML = this.p[i].title;
-			e.songid = i;
-			if (i == 0) {
-				e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
-			}
-			this.e.longarr.appendChild(e);
-			e.addEventListener('click', function () {
-				this.to(this.songid);
-			});
-		}
 
 		this.e.bannerimg.onerror = function () {
 			this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
@@ -285,6 +231,22 @@ var Hmusic = function () {
 			_this.e.wsound.style.display = 'none';
 		});
 		this.to(0, true);
+
+		setTimeout(this.getalltime.bind(this), 500);
+		setInterval(this.interval1s.bind(this), 1000);
+
+		for (var i = 0; i < this.p.length; i++) {
+			var e = document.createElement('li');
+			e.innerHTML = this.p[i].title;
+			e.songid = i;
+			if (i == 0) {
+				e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+			}
+			this.e.longarr.appendChild(e);
+			e.addEventListener('click', function () {
+				this.to(this.songid);
+			});
+		}
 	}
 
 	_createClass(Hmusic, [{
@@ -324,8 +286,6 @@ var Hmusic = function () {
 			if (this.e.lrcarr[this.nowlrc]) {
 				this.e.lrcarr[this.nowlrc].className = ' ';
 			}
-			console.log(this.e.audio.currentTime);
-			console.log(t);
 			this.e.audio.currentTime = t;
 			getvtime = this.getvtime;
 			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
@@ -340,7 +300,6 @@ var Hmusic = function () {
 					break;
 				}
 			}
-			console.log("1111111");
 			getalltime();
 		}
 	}, {
@@ -364,38 +323,38 @@ var Hmusic = function () {
 	}, {
 		key: 'getlrc',
 		value: function getlrc(url) {
-			var _this3 = this;
+			var _this2 = this;
 
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					var t = void 0;
-					_this3.lrc = new Object();
-					_this3.lrc.b = new Array();
-					_this3.lrc.c = new Array();
-					_this3.lrc.d = '';
+					_this2.lrc = new Object();
+					_this2.lrc.b = new Array();
+					_this2.lrc.c = new Array();
+					_this2.lrc.d = '';
 					try {
 						t = JSON.parse(xmlhttp.responseText).lrc.lyric;
 					} catch (e) {
 						t = '[00:00.72]歌词不存在';
 					}
-					_this3.parseLyric(t);
-					_this3.lrc.a = _this3.parseLyric(t);
-					for (var i in _this3.lrc.a) {
-						if (_this3.lrc.a.hasOwnProperty(i)) {
-							_this3.lrc.b.push(i);
-							if (!_this3.lrc.a[i]) {
-								_this3.lrc.c.push('&nbsp;');
+					_this2.parseLyric(t);
+					_this2.lrc.a = _this2.parseLyric(t);
+					for (var i in _this2.lrc.a) {
+						if (_this2.lrc.a.hasOwnProperty(i)) {
+							_this2.lrc.b.push(i);
+							if (!_this2.lrc.a[i]) {
+								_this2.lrc.c.push('&nbsp;');
 							} else {
-								_this3.lrc.c.push(_this3.lrc.a[i]);
+								_this2.lrc.c.push(_this2.lrc.a[i]);
 							}
 						};
 					}
-					for (var _i = 0; _i < _this3.lrc.c.length; _i++) {
-						_this3.lrc.d = _this3.lrc.d + '<p>' + _this3.lrc.c[_i] + '</p>';
+					for (var _i = 0; _i < _this2.lrc.c.length; _i++) {
+						_this2.lrc.d = _this2.lrc.d + '<p>' + _this2.lrc.c[_i] + '</p>';
 					}
-					_this3.e.lrc.innerHTML = _this3.lrc.d;
-					_this3.e.lrcarr = _this3.e.lrc.querySelectorAll('p');
+					_this2.e.lrc.innerHTML = _this2.lrc.d;
+					_this2.e.lrcarr = _this2.e.lrc.querySelectorAll('p');
 				}
 			};
 			xmlhttp.open("GET", url, true);
@@ -404,7 +363,7 @@ var Hmusic = function () {
 	}, {
 		key: 'loadmusic',
 		value: function loadmusic(stop) {
-			var _this4 = this;
+			var _this3 = this;
 
 			var picsize = '?param=' + this.e.banner.offsetWidth + 'y' + this.e.banner.offsetHeight;
 			this.e.bannerimg.src = this.p[this.nowduan].img + '?param=' + picsize;
@@ -415,13 +374,13 @@ var Hmusic = function () {
 				this.e.btnstop.style.display = 'inline-block';
 			}
 			this.e.audio.onended = function () {
-				if (_this4.e.x2.style.display == 'none') {
-					_this4.to(_this4.nowduan + 1);
+				if (_this3.e.x2.style.display == 'none') {
+					_this3.to(_this3.nowduan + 1);
 				} else {
 					try {
-						_this4.e.audio.play();
+						_this3.e.audio.play();
 					} catch (e) {}
-					_this4.nowlrc = -1;
+					_this3.nowlrc = -1;
 				}
 			};
 			var _this = this;
@@ -481,7 +440,6 @@ var Hmusic = function () {
 	}, {
 		key: 'getalltime',
 		value: function getalltime() {
-			console.log(this);
 			var getvtime = this.getvtime;
 			if (this.e.audio.duration > 1) {
 				this.alltime = this.e.audio.duration;
@@ -512,6 +470,49 @@ var Hmusic = function () {
 		value: function interval1s() {
 			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
 			this.e.nowtime.innerHTML = this.getvtime(this.e.audio.currentTime).m + ':' + this.getvtime(this.e.audio.currentTime).s;
+		}
+	}, {
+		key: 'parseLyric',
+		value: function parseLyric(lrc) {
+			//console.log(lrc);
+			var lyrics = lrc.split("\n");
+			var lrcObj = {};
+			for (var i = 0; i < lyrics.length; i++) {
+				var lyric = decodeURIComponent(lyrics[i]);
+				var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+				var timeRegExpArr = lyric.match(timeReg);
+				if (!timeRegExpArr) continue;
+				var clause = lyric.replace(timeReg, '');
+				for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+					var t = timeRegExpArr[k];
+					var min = Number(String(t.match(/\[\d*/i)).slice(1));
+					var sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+					var time = (min * 60 + sec).toFixed(1) * 10;
+					lrcObj[time] = clause;
+				}
+			}
+			return lrcObj;
+		}
+	}, {
+		key: 'getcloudurl',
+		value: function getcloudurl(url, stop, callback) {
+			var _this4 = this;
+
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var t = JSON.parse(xmlhttp.responseText);
+					_this4.e.audio.src = t.data[0].url;
+					if (!stop && _this4.e.audio.paused) {
+						_this4.e.audio.play();
+					}
+					if (typeof callback === "function") {
+						callback();
+					}
+				}
+			};
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
 		}
 	}]);
 
