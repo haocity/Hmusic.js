@@ -70,11 +70,15 @@
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _html = __webpack_require__(1);
 
 var _html2 = _interopRequireDefault(_html);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 __webpack_require__(2);
 //播放网易云歌单
@@ -112,364 +116,407 @@ window.hyplaylist = function (ele, id) {
 	xmlhttp.send();
 	return obj;
 };
-window.Hmusic = function (ele, list) {
-	var _this2 = this;
 
-	function $c(c) {
-		return ele.querySelector(c);
-	};
-	var hmele = _html2.default.html();
-	ele.innerHTML = hmele;
-	this.nowduan = 0;
-	this.volume = 1;
-	this.nowlrc = -1;
-	this.p = list;
-	this.e = new hmeobj();
-	var _this = this;
-	function hmeobj() {
-		this.audiowarp = $c('.hmusic');
-		this.audio = $c('.hmusic>.hm-audio');
-		this.banner = $c('.banner');
-		this.bannerimg = $c('.banner-img');
-		this.btnplay = $c('.icon-play');
-		this.btnstop = $c('.icon-stop');
-		this.title = $c('.songname');
-		this.btnx = $c('.icon-x');
-		this.btns = $c('.icon-s');
-		this.wranger = $c('.ranger');
-		this.nrange = $c('.ranger-n');
-		this.nowtime = $c('.nowtime');
-		this.alltime = $c('.alltime');
-		this.lrc = $c('.lrc');
-		this.x1 = $c('.icon-xunhuan');
-		this.x2 = $c('.icon-ttpodicon');
-		this.longarr = $c('.longarr');
-		this.sbtn = $c('.icon-yinliang');
-		this.wsound = $c('.sound-ranger');
-		this.msound = $c('.sound');
-		this.sounda = $c('.sound-ranger-a');
-		this.soundb = $c('.sound-ranger-b');
-	}
-	function getalltime() {
-		if (_this.e.audio.duration > 1) {
-			_this.alltime = _this.e.audio.duration;
-			_this.e.alltime.innerHTML = getvtime(_this.alltime).m + ':' + getvtime(_this.alltime).s;
-		} else {
-			setTimeout(getalltime, 500);
-		}
-	}
+var Hmusic = function () {
+	function Hmusic(ele, list) {
+		var _this2 = this;
 
-	setTimeout(getalltime, 500);
+		_classCallCheck(this, Hmusic);
 
-	this.e.btnplay.addEventListener('click', function () {
-		_this.play();
-	});
-
-	this.e.btnstop.addEventListener('click', function () {
-		_this.pause();
-	});
-
-	Hmusic.prototype.play = function () {
-
-		_this2.e.btnplay.style.display = 'none';
-		_this2.e.btnstop.style.display = 'inline-block';
-		if (_this2.e.audio.paused) {
-			_this2.e.audio.play();
-		}
-	};
-	Hmusic.prototype.pause = function () {
-		_this2.e.btnplay.style.display = 'inline-block';
-		_this2.e.btnstop.style.display = 'none';
-		_this2.e.audio.pause();
-	};
-
-	Hmusic.prototype.playswitch = function () {
-		if (_this2.e.btnplay.style.display !== 'none') {
-			_this2.play();
-		} else {
-			_this2.pause();
-		}
-	};
-
-	Hmusic.prototype.settime = function (t) {
-		if (_this2.e.lrcarr[_this.nowlrc]) {
-			_this2.e.lrcarr[_this.nowlrc].className = ' ';
-		}
-		console.log(_this2.e.audio.currentTime);
-		console.log(t);
-		_this2.e.audio.currentTime = t;
-		_this2.e.nrange.style.width = _this.e.audio.currentTime / _this.alltime * 100 + '%';
-		_this2.e.nowtime.innerHTML = getvtime(_this.e.audio.currentTime).m + ':' + getvtime(_this.e.audio.currentTime).s;
-		for (var i = 0; i < _this.lrc.b.length; i++) {
-			if (t * 10 <= _this.lrc.b[i]) {
-				_this2.nowlrc = i;
-				var t2 = 50 - _this.nowlrc * 30;
-				_this2.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
-				_this2.e.lrcarr[_this.nowlrc].className = 'nowlrcp';
-				//console.log('nowduan切换为:'+i)
-				break;
-			}
-		}
-		getalltime();
-	};
-	//定时器1s
-	Hmusic.prototype.interval1s = function () {
-		_this2.e.nrange.style.width = _this2.e.audio.currentTime / _this2.alltime * 100 + '%';
-		_this2.e.nowtime.innerHTML = getvtime(_this2.e.audio.currentTime).m + ':' + getvtime(_this2.e.audio.currentTime).s;
-	};
-	setInterval(this.interval1s, 1000);
-
-	this.e.wranger.addEventListener('mousedown', function (event) {
-		var e = event || window.event || arguments.callee.caller.arguments[0];
-		var xbl = show_coords(e, this);
-		_this.settime(xbl.xbl * _this.alltime);
-	});
-	function getvtime(time) {
-		var tm = void 0;
-		var m = parseInt(time / 60);
-		if (parseInt(time % 60) >= 10) {
-			tm = parseInt(time % 60);
-		} else {
-			tm = '0' + parseInt(time % 60);
-		}
-		return {
-			m: m,
-			s: tm
+		function $c(c) {
+			return ele.querySelector(c);
 		};
-	}
-	function show_coords(event, elem) {
-		var x = event.clientX - getLeft(elem) + window.scrollX;
-		var y = event.clientY - getTop(elem) + window.scrollY;
-		var xbl = x / elem.offsetWidth;
-		var ybl = 1 - y / elem.offsetHeight;
-		return {
-			x: x,
-			y: y,
-			w: elem.offsetWidth,
-			h: elem.offsetHeight,
-			xbl: xbl,
-			ybl: ybl
-		};
-	}
-	//获取元素的纵坐标（相对于窗口）
-	function getTop(e) {
-		var offset = e.offsetTop;
-		if (e.offsetParent != null) offset += getTop(e.offsetParent);
-		return offset;
-	}
-	//获取元素的横坐标（相对于窗口）
-	function getLeft(e) {
-		var offset = e.offsetLeft;
-		if (e.offsetParent != null) offset += getLeft(e.offsetParent);
-		return offset;
-	}
-	Hmusic.prototype.getcloudurl = function (url, stop, callback) {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var t = JSON.parse(xmlhttp.responseText);
-				_this2.e.audio.src = t.data[0].url;
-				if (!stop && _this2.e.audio.paused) {
-					_this2.e.audio.play();
-				}
-				if (typeof callback === "function") {
-					callback();
-				}
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-	};
-	var getlrc = function getlrc(url) {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var t = void 0;
-				_this2.lrc = new Object();
-				_this2.lrc.b = new Array();
-				_this2.lrc.c = new Array();
-				_this2.lrc.d = '';
-				try {
-					t = JSON.parse(xmlhttp.responseText).lrc.lyric;
-				} catch (e) {
-					t = '[00:00.72]歌词不存在';
-				}
-				_this2.parseLyric(t);
-				_this2.lrc.a = _this2.parseLyric(t);
-				for (var i in _this2.lrc.a) {
-					if (_this2.lrc.a.hasOwnProperty(i)) {
-						_this2.lrc.b.push(i);
-						if (!_this2.lrc.a[i]) {
-							_this2.lrc.c.push('&nbsp;');
-						} else {
-							_this2.lrc.c.push(_this2.lrc.a[i]);
-						}
-					};
-				}
-				for (var _i = 0; _i < _this2.lrc.c.length; _i++) {
-					_this2.lrc.d = _this2.lrc.d + '<p>' + _this2.lrc.c[_i] + '</p>';
-				}
-				_this2.e.lrc.innerHTML = _this2.lrc.d;
-				_this2.e.lrcarr = _this2.e.lrc.querySelectorAll('p');
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-	};
-	Hmusic.prototype.parseLyric = function (lrc) {
-		//console.log(lrc);
-		var lyrics = lrc.split("\n");
-		var lrcObj = {};
-		for (var i = 0; i < lyrics.length; i++) {
-			var lyric = decodeURIComponent(lyrics[i]);
-			var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
-			var timeRegExpArr = lyric.match(timeReg);
-			if (!timeRegExpArr) continue;
-			var clause = lyric.replace(timeReg, '');
-			for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
-				var t = timeRegExpArr[k];
-				var min = Number(String(t.match(/\[\d*/i)).slice(1));
-				var sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
-				var time = (min * 60 + sec).toFixed(1) * 10;
-				lrcObj[time] = clause;
-			}
+		var hmele = _html2.default.html();
+		ele.innerHTML = hmele;
+		this.nowduan = 0;
+		this.volume = 1;
+		this.nowlrc = -1;
+		this.p = list;
+		this.e = new hmeobj();
+		var _this = this;
+		function hmeobj() {
+			this.audiowarp = $c('.hmusic');
+			this.audio = $c('.hmusic>.hm-audio');
+			this.banner = $c('.banner');
+			this.bannerimg = $c('.banner-img');
+			this.btnplay = $c('.icon-play');
+			this.btnstop = $c('.icon-stop');
+			this.title = $c('.songname');
+			this.btnx = $c('.icon-x');
+			this.btns = $c('.icon-s');
+			this.wranger = $c('.ranger');
+			this.nrange = $c('.ranger-n');
+			this.nowtime = $c('.nowtime');
+			this.alltime = $c('.alltime');
+			this.lrc = $c('.lrc');
+			this.x1 = $c('.icon-xunhuan');
+			this.x2 = $c('.icon-ttpodicon');
+			this.longarr = $c('.longarr');
+			this.sbtn = $c('.icon-yinliang');
+			this.wsound = $c('.sound-ranger');
+			this.msound = $c('.sound');
+			this.sounda = $c('.sound-ranger-a');
+			this.soundb = $c('.sound-ranger-b');
 		}
-		return lrcObj;
-	};
-	Hmusic.prototype.to = function (duan, stop) {
-		if (_this2.p[duan]) {
-			_this2.e.audio.currentTime = 0;
-			if (!_this2.e.audio.paused) {
-				_this2.e.audio.pause();
-			}
-			_this2.e.audio.remove();
-			_this2.e.audio = document.createElement('audio');
-			_this2.e.audio.className = 'hm-audio';
-			_this2.e.audiowarp.appendChild(_this2.e.audio);
-			_this2.e.nrange.style.width = '0px';
-			_this2.nowduan = duan;
-			_this2.nowlrc = -1;
-			_this2.e.lrc.style.transform = 'translateY(60px)';
-			_this2.e.title.innerHTML = _this2.p[_this2.nowduan].title;
-			if (_this2.p[_this2.nowduan].yunid) {
-				_this2.getcloudurl('https://t5.haotown.cn/yunmusic/?type=song&id=' + _this2.p[_this2.nowduan].yunid + '&br=128000', stop, _this2.loadmusic(stop));
-			} else {
-				_this2.e.audio.src = _this2.p[_this2.nowduan].audio;
-				_this2.loadmusic(stop);
-			}
-			var li = _this2.e.longarr.querySelectorAll('li');
-			for (var i = 0; i < li.length; i++) {
-				li[i].style.backgroundColor = 'transparent';
-				if (duan == i) {
-					li[i].style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
-				}
-			}
-		} else if (duan < 0) {
-			_this2.to(_this2.p.length - 1);
-		} else {
-			_this2.to(0);
-		}
-		_this2.changersound(_this2.volume);
-		setTimeout(getalltime, 500);
-	};
-	this.longarr = '';
-	for (var i = 0; i < this.p.length; i++) {
-		var e = document.createElement('li');
-		e.innerHTML = this.p[i].title;
-		e.songid = i;
-		if (i == 0) {
-			e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
-		}
-		this.e.longarr.appendChild(e);
-		e.addEventListener('click', function () {
-			this.to(this.songid);
+
+		setTimeout(this.getalltime.bind(this), 500);
+		setInterval(this.interval1s.bind(this), 1000);
+		this.e.btnplay.addEventListener('click', function () {
+			_this.play();
 		});
-	}
 
-	Hmusic.prototype.loadmusic = function (stop) {
-		var picsize = '?param=' + _this2.e.banner.offsetWidth + 'y' + _this2.e.banner.offsetHeight;
-		_this2.e.bannerimg.src = _this2.p[_this2.nowduan].img + '?param=' + picsize;
-		getlrc(_this2.p[_this2.nowduan].lrc);
-		if (!stop && _this2.e.audio.paused) {
-			_this2.e.audio.play();
-			_this2.e.btnplay.style.display = 'none';
-			_this2.e.btnstop.style.display = 'inline-block';
+		this.e.btnstop.addEventListener('click', function () {
+			_this.pause();
+		});
+
+		this.e.wranger.addEventListener('mousedown', function (event) {
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			var xbl = show_coords(e, this);
+			_this.settime(xbl.xbl * _this.alltime);
+		});
+
+		function show_coords(event, elem) {
+			var x = event.clientX - getLeft(elem) + window.scrollX;
+			var y = event.clientY - getTop(elem) + window.scrollY;
+			var xbl = x / elem.offsetWidth;
+			var ybl = 1 - y / elem.offsetHeight;
+			return {
+				x: x,
+				y: y,
+				w: elem.offsetWidth,
+				h: elem.offsetHeight,
+				xbl: xbl,
+				ybl: ybl
+			};
 		}
-		_this2.e.audio.onended = function () {
-			if (_this2.e.x2.style.display == 'none') {
-				_this2.to(_this2.nowduan + 1);
-			} else {
-				try {
-					_this2.e.audio.play();
-				} catch (e) {}
-				_this2.nowlrc = -1;
-			}
-		};
-		_this2.e.audio.addEventListener('timeupdate', function (c) {
-			var t = _this.e.audio.currentTime.toFixed(1) * 10;
-			if (_this.lrc) {
-				if (_this.lrc.b[_this.nowlrc + 1] <= t) {
-					++_this.nowlrc;
-					var t2 = 50 - _this.nowlrc * 30;
-					_this.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
-					_this.e.lrcarr[_this.nowlrc].className = 'nowlrcp';
-					if (_this.e.lrcarr[_this.nowlrc - 1]) {
-						_this.e.lrcarr[_this.nowlrc - 1].className = ' ';
+		//获取元素的纵坐标（相对于窗口）
+		function getTop(e) {
+			var offset = e.offsetTop;
+			if (e.offsetParent != null) offset += getTop(e.offsetParent);
+			return offset;
+		}
+		//获取元素的横坐标（相对于窗口）
+		function getLeft(e) {
+			var offset = e.offsetLeft;
+			if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+			return offset;
+		}
+		Hmusic.prototype.getcloudurl = function (url, stop, callback) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var t = JSON.parse(xmlhttp.responseText);
+					_this2.e.audio.src = t.data[0].url;
+					if (!stop && _this2.e.audio.paused) {
+						_this2.e.audio.play();
+					}
+					if (typeof callback === "function") {
+						callback();
 					}
 				}
+			};
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+		};
+
+		Hmusic.prototype.parseLyric = function (lrc) {
+			//console.log(lrc);
+			var lyrics = lrc.split("\n");
+			var lrcObj = {};
+			for (var i = 0; i < lyrics.length; i++) {
+				var lyric = decodeURIComponent(lyrics[i]);
+				var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+				var timeRegExpArr = lyric.match(timeReg);
+				if (!timeRegExpArr) continue;
+				var clause = lyric.replace(timeReg, '');
+				for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+					var t = timeRegExpArr[k];
+					var min = Number(String(t.match(/\[\d*/i)).slice(1));
+					var sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+					var time = (min * 60 + sec).toFixed(1) * 10;
+					lrcObj[time] = clause;
+				}
 			}
-		});
-	};
-	Hmusic.prototype.addmusic = function (obj) {
-		_this2.p.push(obj);
-		var e = document.createElement('li');
-		e.innerHTML = obj.title;
-		e.songid = _this2.p.length - 1;
-		_this2.e.longarr.appendChild(e);
-		e.addEventListener('click', function () {
-			this.to(this.songid);
-		});
-	};
+			return lrcObj;
+		};
 
-	Hmusic.prototype.changersound = function (i) {
-		_this.e.audio.volume = i;
-		_this.volume = i;
-	};
-	Hmusic.prototype.getnowmusic = function () {
-		return _this2.p[_this2.nowduan];
-	};
-	this.e.bannerimg.onerror = function () {
-		this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
-	};
-	this.e.btnx.addEventListener('click', function () {
-		_this.to(_this.nowduan + 1);
-	});
-	this.e.btns.addEventListener('click', function () {
-		_this.to(_this.nowduan - 1);
-	});
-	this.e.x1.addEventListener('click', function () {
-		this.style.display = 'none';
-		_this.e.x2.style.display = 'block';
-	});
-	this.e.x2.addEventListener('click', function () {
-		this.style.display = 'none';
-		_this.e.x1.style.display = 'block';
-	});
-	this.e.wsound.addEventListener('click', function (event) {
-		var e = event || window.event || arguments.callee.caller.arguments[0];
-		var bl = show_coords(e, this);
-		_this.e.soundb.style.height = bl.h * bl.ybl + 'px';
-		_this.changersound(bl.ybl);
-	});
+		this.longarr = '';
+		for (var i = 0; i < this.p.length; i++) {
+			var e = document.createElement('li');
+			e.innerHTML = this.p[i].title;
+			e.songid = i;
+			if (i == 0) {
+				e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+			}
+			this.e.longarr.appendChild(e);
+			e.addEventListener('click', function () {
+				this.to(this.songid);
+			});
+		}
 
-	this.e.msound.addEventListener('mouseover', function () {
-		_this.e.wsound.style.display = 'block';
-	});
-	this.e.msound.addEventListener('mouseleave', function () {
-		_this.e.wsound.style.display = 'none';
-	});
-	this.to(0, true);
-};
+		this.e.bannerimg.onerror = function () {
+			this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
+		};
+		this.e.btnx.addEventListener('click', function () {
+			_this.to(_this.nowduan + 1);
+		});
+		this.e.btns.addEventListener('click', function () {
+			_this.to(_this.nowduan - 1);
+		});
+		this.e.x1.addEventListener('click', function () {
+			this.style.display = 'none';
+			_this.e.x2.style.display = 'block';
+		});
+		this.e.x2.addEventListener('click', function () {
+			this.style.display = 'none';
+			_this.e.x1.style.display = 'block';
+		});
+		this.e.wsound.addEventListener('click', function (event) {
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			var bl = show_coords(e, this);
+			_this.e.soundb.style.height = bl.h * bl.ybl + 'px';
+			_this.changersound(bl.ybl);
+		});
+
+		this.e.msound.addEventListener('mouseover', function () {
+			_this.e.wsound.style.display = 'block';
+		});
+		this.e.msound.addEventListener('mouseleave', function () {
+			_this.e.wsound.style.display = 'none';
+		});
+		this.to(0, true);
+	}
+
+	_createClass(Hmusic, [{
+		key: 'play',
+		value: function play() {
+
+			this.e.btnplay.style.display = 'none';
+			this.e.btnstop.style.display = 'inline-block';
+			if (this.e.audio.paused) {
+				this.e.audio.play();
+			}
+		}
+	}, {
+		key: 'getnowmusic',
+		value: function getnowmusic() {
+			this.p[this.nowduan];
+		}
+	}, {
+		key: 'pause',
+		value: function pause() {
+			this.e.btnplay.style.display = 'inline-block';
+			this.e.btnstop.style.display = 'none';
+			this.e.audio.pause();
+		}
+	}, {
+		key: 'playswitch',
+		value: function playswitch() {
+			if (this.e.btnplay.style.display !== 'none') {
+				this.play();
+			} else {
+				this.pause();
+			}
+		}
+	}, {
+		key: 'settime',
+		value: function settime(t) {
+			if (this.e.lrcarr[this.nowlrc]) {
+				this.e.lrcarr[this.nowlrc].className = ' ';
+			}
+			console.log(this.e.audio.currentTime);
+			console.log(t);
+			this.e.audio.currentTime = t;
+			getvtime = this.getvtime;
+			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
+			this.e.nowtime.innerHTML = getvtime(this.e.audio.currentTime).m + ':' + getvtime(this.e.audio.currentTime).s;
+			for (var i = 0; i < this.lrc.b.length; i++) {
+				if (t * 10 <= this.lrc.b[i]) {
+					this.nowlrc = i;
+					var t2 = 50 - this.nowlrc * 30;
+					this.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
+					this.e.lrcarr[this.nowlrc].className = 'nowlrcp';
+					//console.log('nowduan切换为:'+i)
+					break;
+				}
+			}
+			console.log("1111111");
+			getalltime();
+		}
+	}, {
+		key: 'addmusic',
+		value: function addmusic(obj) {
+			this.p.push(obj);
+			var e = document.createElement('li');
+			e.innerHTML = obj.title;
+			e.songid = this.p.length - 1;
+			this.e.longarr.appendChild(e);
+			e.addEventListener('click', function () {
+				this.to(this.songid);
+			});
+		}
+	}, {
+		key: 'changersound',
+		value: function changersound(i) {
+			this.e.audio.volume = i;
+			this.volume = i;
+		}
+	}, {
+		key: 'getlrc',
+		value: function getlrc(url) {
+			var _this3 = this;
+
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var t = void 0;
+					_this3.lrc = new Object();
+					_this3.lrc.b = new Array();
+					_this3.lrc.c = new Array();
+					_this3.lrc.d = '';
+					try {
+						t = JSON.parse(xmlhttp.responseText).lrc.lyric;
+					} catch (e) {
+						t = '[00:00.72]歌词不存在';
+					}
+					_this3.parseLyric(t);
+					_this3.lrc.a = _this3.parseLyric(t);
+					for (var i in _this3.lrc.a) {
+						if (_this3.lrc.a.hasOwnProperty(i)) {
+							_this3.lrc.b.push(i);
+							if (!_this3.lrc.a[i]) {
+								_this3.lrc.c.push('&nbsp;');
+							} else {
+								_this3.lrc.c.push(_this3.lrc.a[i]);
+							}
+						};
+					}
+					for (var _i = 0; _i < _this3.lrc.c.length; _i++) {
+						_this3.lrc.d = _this3.lrc.d + '<p>' + _this3.lrc.c[_i] + '</p>';
+					}
+					_this3.e.lrc.innerHTML = _this3.lrc.d;
+					_this3.e.lrcarr = _this3.e.lrc.querySelectorAll('p');
+				}
+			};
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+		}
+	}, {
+		key: 'loadmusic',
+		value: function loadmusic(stop) {
+			var _this4 = this;
+
+			var picsize = '?param=' + this.e.banner.offsetWidth + 'y' + this.e.banner.offsetHeight;
+			this.e.bannerimg.src = this.p[this.nowduan].img + '?param=' + picsize;
+			this.getlrc(this.p[this.nowduan].lrc);
+			if (!stop && this.e.audio.paused) {
+				this.e.audio.play();
+				this.e.btnplay.style.display = 'none';
+				this.e.btnstop.style.display = 'inline-block';
+			}
+			this.e.audio.onended = function () {
+				if (_this4.e.x2.style.display == 'none') {
+					_this4.to(_this4.nowduan + 1);
+				} else {
+					try {
+						_this4.e.audio.play();
+					} catch (e) {}
+					_this4.nowlrc = -1;
+				}
+			};
+			var _this = this;
+			this.e.audio.addEventListener('timeupdate', function (c) {
+				var t = _this.e.audio.currentTime.toFixed(1) * 10;
+				if (_this.lrc) {
+					if (_this.lrc.b[_this.nowlrc + 1] <= t) {
+						++_this.nowlrc;
+						var t2 = 50 - _this.nowlrc * 30;
+						_this.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
+						_this.e.lrcarr[_this.nowlrc].className = 'nowlrcp';
+						if (_this.e.lrcarr[_this.nowlrc - 1]) {
+							_this.e.lrcarr[_this.nowlrc - 1].className = ' ';
+						}
+					}
+				}
+			});
+		}
+	}, {
+		key: 'to',
+		value: function to(duan, stop) {
+			if (this.p[duan]) {
+				this.e.audio.currentTime = 0;
+				if (!this.e.audio.paused) {
+					this.e.audio.pause();
+				}
+				this.e.audio.remove();
+				this.e.audio = document.createElement('audio');
+				this.e.audio.className = 'hm-audio';
+				this.e.audiowarp.appendChild(this.e.audio);
+				this.e.nrange.style.width = '0px';
+				this.nowduan = duan;
+				this.nowlrc = -1;
+				this.e.lrc.style.transform = 'translateY(60px)';
+				this.e.title.innerHTML = this.p[this.nowduan].title;
+				if (this.p[this.nowduan].yunid) {
+					this.getcloudurl('https://t5.haotown.cn/yunmusic/?type=song&id=' + this.p[this.nowduan].yunid + '&br=128000', stop, this.loadmusic(stop));
+				} else {
+					this.e.audio.src = this.p[this.nowduan].audio;
+					this.loadmusic(stop);
+				}
+				var li = this.e.longarr.querySelectorAll('li');
+				for (var i = 0; i < li.length; i++) {
+					li[i].style.backgroundColor = 'transparent';
+					if (duan == i) {
+						li[i].style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+					}
+				}
+			} else if (duan < 0) {
+				this.to(this.p.length - 1);
+			} else {
+				this.to(0);
+			}
+			this.changersound(this.volume);
+			setTimeout(this.getalltime.bind(this), 500);
+		}
+	}, {
+		key: 'getalltime',
+		value: function getalltime() {
+			console.log(this);
+			var getvtime = this.getvtime;
+			if (this.e.audio.duration > 1) {
+				this.alltime = this.e.audio.duration;
+				this.e.alltime.innerHTML = getvtime(this.alltime).m + ':' + getvtime(this.alltime).s;
+			} else {
+				setTimeout(this.getalltime.bind(this), 500);
+			}
+		}
+	}, {
+		key: 'getvtime',
+		value: function getvtime(time) {
+			var tm = void 0;
+			var m = parseInt(time / 60);
+			if (parseInt(time % 60) >= 10) {
+				tm = parseInt(time % 60);
+			} else {
+				tm = '0' + parseInt(time % 60);
+			}
+			return {
+				m: m,
+				s: tm
+			};
+		}
+		//定时器1s
+
+	}, {
+		key: 'interval1s',
+		value: function interval1s() {
+			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
+			this.e.nowtime.innerHTML = this.getvtime(this.e.audio.currentTime).m + ':' + this.getvtime(this.e.audio.currentTime).s;
+		}
+	}]);
+
+	return Hmusic;
+}();
 
 /***/ }),
 /* 1 */
