@@ -82,174 +82,180 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 __webpack_require__(2);
 //播放网易云歌单
-window.hyplaylist = function (ele, id) {
-	var yl = new Object();
-	yl.ele = ele;
-	yl.arr = new Array();
-	var api = 'https://t5.haotown.cn/yunmusic/';
-	var xmlhttp = new XMLHttpRequest();
-	var obj = new Object();
-	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			var t = JSON.parse(xmlhttp.responseText).playlist.tracks;
-			for (var i = 0; i < t.length; i++) {
-				var c = new Object();
-				var au = '';
-				c.yunid = t[i].id;
-				c.img = t[i].al.picUrl;
-				c.lrc = api + '/?type=lyric&id=' + c.yunid + '&br=128000';
-				if (t[i].ar.length > 4) {
-					au = '群星';
-					c.title = t[i].al.name;
-				} else {
-					for (var x = 0; x < t[i].ar.length; x++) {
-						au += t[i].ar[x].name;
-					}
-					c.title = t[i].name + '-' + au;
-				}
-				yl.arr.push(c);
-			}
-			obj = new Hmusic(yl.ele, yl.arr);
-		}
-	};
-	xmlhttp.open("GET", api + '/?type=playlist&id=' + id + '&br=128000', true);
-	xmlhttp.send();
-	return obj;
-};
 
 var Hmusic = function () {
-	function Hmusic(ele, list) {
+	function Hmusic(warp, list) {
+		var _this2 = this;
+
 		_classCallCheck(this, Hmusic);
 
-		function $c(c) {
-			return ele.querySelector(c);
-		};
 		var hmele = _html2.default.html();
-		ele.innerHTML = hmele;
+		warp.innerHTML = hmele;
+		this.warp = warp;
 		this.nowduan = 0;
 		this.volume = 1;
 		this.nowlrc = -1;
-		this.p = list;
-		this.e = new hmeobj();
-		var _this = this;
 		this.longarr = '';
 
-		function hmeobj() {
-			this.audiowarp = $c('.hmusic');
-			this.audio = $c('.hmusic>.hm-audio');
-			this.banner = $c('.banner');
-			this.bannerimg = $c('.banner-img');
-			this.btnplay = $c('.icon-play');
-			this.btnstop = $c('.icon-stop');
-			this.title = $c('.songname');
-			this.btnx = $c('.icon-x');
-			this.btns = $c('.icon-s');
-			this.wranger = $c('.ranger');
-			this.nrange = $c('.ranger-n');
-			this.nowtime = $c('.nowtime');
-			this.alltime = $c('.alltime');
-			this.lrc = $c('.lrc');
-			this.x1 = $c('.icon-xunhuan');
-			this.x2 = $c('.icon-ttpodicon');
-			this.longarr = $c('.longarr');
-			this.sbtn = $c('.icon-yinliang');
-			this.wsound = $c('.sound-ranger');
-			this.msound = $c('.sound');
-			this.sounda = $c('.sound-ranger-a');
-			this.soundb = $c('.sound-ranger-b');
-		}
-
-		this.e.btnplay.addEventListener('click', function () {
-			_this.play();
-		});
-
-		this.e.btnstop.addEventListener('click', function () {
-			_this.pause();
-		});
-
-		this.e.wranger.addEventListener('mousedown', function (event) {
-			var e = event || window.event || arguments.callee.caller.arguments[0];
-			var xbl = show_coords(e, this);
-			_this.settime(xbl.xbl * _this.alltime);
-		});
-
-		function show_coords(event, elem) {
-			var x = event.clientX - getLeft(elem) + window.scrollX;
-			var y = event.clientY - getTop(elem) + window.scrollY;
-			var xbl = x / elem.offsetWidth;
-			var ybl = 1 - y / elem.offsetHeight;
-			return {
-				x: x,
-				y: y,
-				w: elem.offsetWidth,
-				h: elem.offsetHeight,
-				xbl: xbl,
-				ybl: ybl
+		//歌单播放
+		if (list.playlist) {
+			var arr = new Array();
+			var api = 'https://t5.haotown.cn/yunmusic/';
+			var xmlhttp = new XMLHttpRequest();
+			var obj = new Object();
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var t = JSON.parse(xmlhttp.responseText).playlist.tracks;
+					for (var i = 0; i < t.length; i++) {
+						var c = new Object();
+						var au = '';
+						c.yunid = t[i].id;
+						c.img = t[i].al.picUrl;
+						c.lrc = api + '/?type=lyric&id=' + c.yunid + '&br=128000';
+						if (t[i].ar.length > 4) {
+							au = '群星';
+							c.title = t[i].al.name;
+						} else {
+							for (var x = 0; x < t[i].ar.length; x++) {
+								au += t[i].ar[x].name;
+							}
+							c.title = t[i].name + '-' + au;
+						}
+						arr.push(c);
+					}
+					_this2.p = arr;
+					_this2.init();
+				}
 			};
-		}
-		//获取元素的纵坐标（相对于窗口）
-		function getTop(e) {
-			var offset = e.offsetTop;
-			if (e.offsetParent != null) offset += getTop(e.offsetParent);
-			return offset;
-		}
-		//获取元素的横坐标（相对于窗口）
-		function getLeft(e) {
-			var offset = e.offsetLeft;
-			if (e.offsetParent != null) offset += getLeft(e.offsetParent);
-			return offset;
-		}
-
-		this.e.bannerimg.onerror = function () {
-			this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
-		};
-		this.e.btnx.addEventListener('click', function () {
-			_this.to(_this.nowduan + 1);
-		});
-		this.e.btns.addEventListener('click', function () {
-			_this.to(_this.nowduan - 1);
-		});
-		this.e.x1.addEventListener('click', function () {
-			this.style.display = 'none';
-			_this.e.x2.style.display = 'block';
-		});
-		this.e.x2.addEventListener('click', function () {
-			this.style.display = 'none';
-			_this.e.x1.style.display = 'block';
-		});
-		this.e.wsound.addEventListener('click', function (event) {
-			var e = event || window.event || arguments.callee.caller.arguments[0];
-			var bl = show_coords(e, this);
-			_this.e.soundb.style.height = bl.h * bl.ybl + 'px';
-			_this.changersound(bl.ybl);
-		});
-
-		this.e.msound.addEventListener('mouseover', function () {
-			_this.e.wsound.style.display = 'block';
-		});
-		this.e.msound.addEventListener('mouseleave', function () {
-			_this.e.wsound.style.display = 'none';
-		});
-		this.to(0, true);
-
-		setTimeout(this.getalltime.bind(this), 500);
-		setInterval(this.interval1s.bind(this), 1000);
-
-		for (var i = 0; i < this.p.length; i++) {
-			var e = document.createElement('li');
-			e.innerHTML = this.p[i].title;
-			e.songid = i;
-			if (i == 0) {
-				e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
-			}
-			this.e.longarr.appendChild(e);
-			e.addEventListener('click', function () {
-				this.to(this.songid);
-			});
+			xmlhttp.open("GET", api + '/?type=playlist&id=' + list.playlist + '&br=128000', true);
+			xmlhttp.send();
+		} else {
+			this.p = list;
+			this.init();
 		}
 	}
 
 	_createClass(Hmusic, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+			var warp = this.warp;
+			function $c(c) {
+				return warp.querySelector(c);
+			};
+			this.e = { "audiowarp": $c('.hmusic'),
+				"audio": $c('.hmusic>.hm-audio'),
+				"banner": $c('.banner'),
+				"bannerimg": $c('.banner-img'),
+				"btnplay": $c('.icon-play'),
+				"btnstop": $c('.icon-stop'),
+				"title": $c('.songname'),
+				"btnx": $c('.icon-x'),
+				"btns": $c('.icon-s'),
+				"wranger": $c('.ranger'),
+				"nrange": $c('.ranger-n'),
+				"nowtime": $c('.nowtime'),
+				"alltime": $c('.alltime'),
+				"lrc": $c('.lrc'),
+				"x1": $c('.icon-xunhuan'),
+				"x2": $c('.icon-ttpodicon'),
+				"longarr": $c('.longarr'),
+				"sbtn": $c('.icon-yinliang'),
+				"wsound": $c('.sound-ranger'),
+				"msound": $c('.sound'),
+				"sounda": $c('.sound-ranger-a'),
+				"soundb": $c('.sound-ranger-b')
+			};
+			this.e.btnplay.addEventListener('click', function () {
+				_this.play();
+			});
+
+			this.e.btnstop.addEventListener('click', function () {
+				_this.pause();
+			});
+
+			this.e.wranger.addEventListener('mousedown', function (event) {
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				var xbl = show_coords(e, this);
+				_this.settime(xbl.xbl * _this.alltime);
+			});
+
+			function show_coords(event, elem) {
+				var x = event.clientX - getLeft(elem) + window.scrollX;
+				var y = event.clientY - getTop(elem) + window.scrollY;
+				var xbl = x / elem.offsetWidth;
+				var ybl = 1 - y / elem.offsetHeight;
+				return {
+					x: x,
+					y: y,
+					w: elem.offsetWidth,
+					h: elem.offsetHeight,
+					xbl: xbl,
+					ybl: ybl
+				};
+			}
+			//获取元素的纵坐标（相对于窗口）
+			function getTop(e) {
+				var offset = e.offsetTop;
+				if (e.offsetParent != null) offset += getTop(e.offsetParent);
+				return offset;
+			}
+			//获取元素的横坐标（相对于窗口）
+			function getLeft(e) {
+				var offset = e.offsetLeft;
+				if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+				return offset;
+			}
+
+			this.e.bannerimg.onerror = function () {
+				this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
+			};
+			this.e.btnx.addEventListener('click', function () {
+				_this.to(_this.nowduan + 1);
+			});
+			this.e.btns.addEventListener('click', function () {
+				_this.to(_this.nowduan - 1);
+			});
+			this.e.x1.addEventListener('click', function () {
+				this.style.display = 'none';
+				_this.e.x2.style.display = 'block';
+			});
+			this.e.x2.addEventListener('click', function () {
+				this.style.display = 'none';
+				_this.e.x1.style.display = 'block';
+			});
+			this.e.wsound.addEventListener('click', function (event) {
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				var bl = show_coords(e, this);
+				_this.e.soundb.style.height = bl.h * bl.ybl + 'px';
+				_this.changersound(bl.ybl);
+			});
+
+			this.e.msound.addEventListener('mouseover', function () {
+				_this.e.wsound.style.display = 'block';
+			});
+			this.e.msound.addEventListener('mouseleave', function () {
+				_this.e.wsound.style.display = 'none';
+			});
+			this.to(0, true);
+
+			setTimeout(this.getalltime.bind(this), 500);
+			setInterval(this.interval1s.bind(this), 1000);
+
+			for (var i = 0; i < this.p.length; i++) {
+				var e = document.createElement('li');
+				e.innerHTML = this.p[i].title;
+				e.songid = i;
+				if (i == 0) {
+					e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+				}
+				this.e.longarr.appendChild(e);
+				e.addEventListener('click', function () {
+					_this.to(this.songid);
+				});
+			}
+		}
+	}, {
 		key: 'play',
 		value: function play() {
 
@@ -287,7 +293,7 @@ var Hmusic = function () {
 				this.e.lrcarr[this.nowlrc].className = ' ';
 			}
 			this.e.audio.currentTime = t;
-			getvtime = this.getvtime;
+			var getvtime = this.getvtime;
 			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
 			this.e.nowtime.innerHTML = getvtime(this.e.audio.currentTime).m + ':' + getvtime(this.e.audio.currentTime).s;
 			for (var i = 0; i < this.lrc.b.length; i++) {
@@ -300,7 +306,7 @@ var Hmusic = function () {
 					break;
 				}
 			}
-			getalltime();
+			this.getalltime();
 		}
 	}, {
 		key: 'addmusic',
@@ -323,38 +329,38 @@ var Hmusic = function () {
 	}, {
 		key: 'getlrc',
 		value: function getlrc(url) {
-			var _this2 = this;
+			var _this3 = this;
 
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					var t = void 0;
-					_this2.lrc = new Object();
-					_this2.lrc.b = new Array();
-					_this2.lrc.c = new Array();
-					_this2.lrc.d = '';
+					_this3.lrc = new Object();
+					_this3.lrc.b = new Array();
+					_this3.lrc.c = new Array();
+					_this3.lrc.d = '';
 					try {
 						t = JSON.parse(xmlhttp.responseText).lrc.lyric;
 					} catch (e) {
 						t = '[00:00.72]歌词不存在';
 					}
-					_this2.parseLyric(t);
-					_this2.lrc.a = _this2.parseLyric(t);
-					for (var i in _this2.lrc.a) {
-						if (_this2.lrc.a.hasOwnProperty(i)) {
-							_this2.lrc.b.push(i);
-							if (!_this2.lrc.a[i]) {
-								_this2.lrc.c.push('&nbsp;');
+					_this3.parseLyric(t);
+					_this3.lrc.a = _this3.parseLyric(t);
+					for (var i in _this3.lrc.a) {
+						if (_this3.lrc.a.hasOwnProperty(i)) {
+							_this3.lrc.b.push(i);
+							if (!_this3.lrc.a[i]) {
+								_this3.lrc.c.push('&nbsp;');
 							} else {
-								_this2.lrc.c.push(_this2.lrc.a[i]);
+								_this3.lrc.c.push(_this3.lrc.a[i]);
 							}
 						};
 					}
-					for (var _i = 0; _i < _this2.lrc.c.length; _i++) {
-						_this2.lrc.d = _this2.lrc.d + '<p>' + _this2.lrc.c[_i] + '</p>';
+					for (var _i = 0; _i < _this3.lrc.c.length; _i++) {
+						_this3.lrc.d = _this3.lrc.d + '<p>' + _this3.lrc.c[_i] + '</p>';
 					}
-					_this2.e.lrc.innerHTML = _this2.lrc.d;
-					_this2.e.lrcarr = _this2.e.lrc.querySelectorAll('p');
+					_this3.e.lrc.innerHTML = _this3.lrc.d;
+					_this3.e.lrcarr = _this3.e.lrc.querySelectorAll('p');
 				}
 			};
 			xmlhttp.open("GET", url, true);
@@ -363,7 +369,7 @@ var Hmusic = function () {
 	}, {
 		key: 'loadmusic',
 		value: function loadmusic(stop) {
-			var _this3 = this;
+			var _this4 = this;
 
 			var picsize = '?param=' + this.e.banner.offsetWidth + 'y' + this.e.banner.offsetHeight;
 			this.e.bannerimg.src = this.p[this.nowduan].img + '?param=' + picsize;
@@ -374,13 +380,13 @@ var Hmusic = function () {
 				this.e.btnstop.style.display = 'inline-block';
 			}
 			this.e.audio.onended = function () {
-				if (_this3.e.x2.style.display == 'none') {
-					_this3.to(_this3.nowduan + 1);
+				if (_this4.e.x2.style.display == 'none') {
+					_this4.to(_this4.nowduan + 1);
 				} else {
 					try {
-						_this3.e.audio.play();
+						_this4.e.audio.play();
 					} catch (e) {}
-					_this3.nowlrc = -1;
+					_this4.nowlrc = -1;
 				}
 			};
 			var _this = this;
@@ -496,15 +502,15 @@ var Hmusic = function () {
 	}, {
 		key: 'getcloudurl',
 		value: function getcloudurl(url, stop, callback) {
-			var _this4 = this;
+			var _this5 = this;
 
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					var t = JSON.parse(xmlhttp.responseText);
-					_this4.e.audio.src = t.data[0].url;
-					if (!stop && _this4.e.audio.paused) {
-						_this4.e.audio.play();
+					_this5.e.audio.src = t.data[0].url;
+					if (!stop && _this5.e.audio.paused) {
+						_this5.e.audio.play();
 					}
 					if (typeof callback === "function") {
 						callback();
@@ -518,6 +524,8 @@ var Hmusic = function () {
 
 	return Hmusic;
 }();
+
+window.Hmusic = Hmusic;
 
 /***/ }),
 /* 1 */

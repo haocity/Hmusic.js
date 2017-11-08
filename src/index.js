@@ -1,80 +1,86 @@
 import html from './html.js';
 require('./style.css');
 //播放网易云歌单
-window.hyplaylist=(ele,id)=>{
-	let yl=new Object;
-	yl.ele=ele;
-	yl.arr=new Array;
-	let api='https://t5.haotown.cn/yunmusic/';
-	let	xmlhttp=new XMLHttpRequest();
-	let obj=new Object;
-	xmlhttp.onreadystatechange=() => {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			let t=JSON.parse(xmlhttp.responseText).playlist.tracks;
-			  for (let i = 0; i < t.length; i++) {
-	            	let c=new Object;
-	            	let au='';
-	            	c.yunid=t[i].id;
-	            	c.img=t[i].al.picUrl;
-	            	c.lrc=`${api}/?type=lyric&id=${c.yunid}&br=128000`;
-	            	if(t[i].ar.length>4){
-		               au='群星';
-		               c.title=t[i].al.name;
-		            }else{
-		                for (let x = 0; x < t[i].ar.length; x++) {
-		                    au+=t[i].ar[x].name
-		                }
-		                c.title=`${t[i].name}-${au}`;
-		            }
-		            yl.arr.push(c);
-	            }
-	            obj=new Hmusic(yl.ele,yl.arr);  
-		}
-	}
-	xmlhttp.open("GET",`${api}/?type=playlist&id=${id}&br=128000`,true);
-	xmlhttp.send();
-	return obj
-}
 
 class Hmusic{
-  constructor(ele, list){
-    function $c(c){return ele.querySelector(c)};
+  constructor(warp, list){
 		let hmele=html.html();
-		ele.innerHTML=hmele;
+		warp.innerHTML=hmele;
+		this.warp=warp;
 		this.nowduan=0;
 		this.volume=1;
 		this.nowlrc=-1;
-		this.p=list;
-		this.e=new hmeobj;
-		let _this=this;
 		this.longarr='';
 		
-		function hmeobj(){
-			this.audiowarp=$c('.hmusic');
-			this.audio=$c('.hmusic>.hm-audio');
-			this.banner=$c('.banner');
-            this.bannerimg=$c('.banner-img');
-			this.btnplay=$c('.icon-play');
-			this.btnstop=$c('.icon-stop');
-			this.title=$c('.songname');
-			this.btnx=$c('.icon-x');
-			this.btns=$c('.icon-s');
-			this.wranger=$c('.ranger');
-			this.nrange=$c('.ranger-n');
-			this.nowtime=$c('.nowtime');
-			this.alltime=$c('.alltime');
-			this.lrc=$c('.lrc');
-			this.x1=$c('.icon-xunhuan');
-			this.x2=$c('.icon-ttpodicon');
-			this.longarr=$c('.longarr');
-			this.sbtn=$c('.icon-yinliang');
-			this.wsound=$c('.sound-ranger');
-			this.msound=$c('.sound');
-			this.sounda=$c('.sound-ranger-a');
-			this.soundb=$c('.sound-ranger-b');
+		//歌单播放
+		if(list.playlist){
+			let arr=new Array;
+			let api='https://t5.haotown.cn/yunmusic/';
+			let	xmlhttp=new XMLHttpRequest();
+			let obj=new Object;
+			xmlhttp.onreadystatechange=() => {
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					let t=JSON.parse(xmlhttp.responseText).playlist.tracks;
+					  for (let i = 0; i < t.length; i++) {
+			            	let c=new Object;
+			            	let au='';
+			            	c.yunid=t[i].id;
+			            	c.img=t[i].al.picUrl;
+			            	c.lrc=`${api}/?type=lyric&id=${c.yunid}&br=128000`;
+			            	if(t[i].ar.length>4){
+				               au='群星';
+				               c.title=t[i].al.name;
+				            }else{
+				                for (let x = 0; x < t[i].ar.length; x++) {
+				                    au+=t[i].ar[x].name
+				                }
+				                c.title=`${t[i].name}-${au}`;
+				            }
+				            arr.push(c);
+			            }
+					 this.p=arr;
+					 this.init()
+				}
+			}
+			xmlhttp.open("GET",`${api}/?type=playlist&id=${list.playlist}&br=128000`,true);
+			xmlhttp.send();
+		}else{
+			this.p=list;
+			this.init()
 		}
+		
+	
 
-		this.e.btnplay.addEventListener('click',() => {
+  }
+  
+   init() {
+   		let _this=this;
+   		let warp=this.warp;
+   		function $c(c){return warp.querySelector(c)};
+   		this.e={"audiowarp":$c('.hmusic'),
+			"audio":$c('.hmusic>.hm-audio'),
+			"banner":$c('.banner'),
+            "bannerimg":$c('.banner-img'),
+			"btnplay":$c('.icon-play'),
+			"btnstop":$c('.icon-stop'),
+			"title":$c('.songname'),
+			"btnx":$c('.icon-x'),
+			"btns":$c('.icon-s'),
+			"wranger":$c('.ranger'),
+			"nrange":$c('.ranger-n'),
+			"nowtime":$c('.nowtime'),
+			"alltime":$c('.alltime'),
+			"lrc":$c('.lrc'),
+			"x1":$c('.icon-xunhuan'),
+			"x2":$c('.icon-ttpodicon'),
+			"longarr":$c('.longarr'),
+			"sbtn":$c('.icon-yinliang'),
+			"wsound":$c('.sound-ranger'),
+			"msound":$c('.sound'),
+			"sounda":$c('.sound-ranger-a'),
+			"soundb":$c('.sound-ranger-b')
+			}
+   		this.e.btnplay.addEventListener('click',() => {
 			_this.play();
 		});
 		
@@ -160,10 +166,11 @@ class Hmusic{
 	  		}
 	  		this.e.longarr.appendChild(e);
 			e.addEventListener('click',function(){
-				this.to(this.songid);
+				_this.to(this.songid);
 			})
 	   	}
-  }
+   	
+   }
   		
   		
   		play(){
@@ -194,7 +201,7 @@ class Hmusic{
 				this.e.lrcarr[this.nowlrc].className=' ';
 			}
 			this.e.audio.currentTime=t;
-			getvtime=this.getvtime;
+			let getvtime=this.getvtime;
 			this.e.nrange.style.width=`${this.e.audio.currentTime/this.alltime*100}%`;
 			this.e.nowtime.innerHTML=`${getvtime(this.e.audio.currentTime).m}:${getvtime(this.e.audio.currentTime).s}`;
 			for (let i = 0; i < this.lrc.b.length; i++) {
@@ -207,7 +214,7 @@ class Hmusic{
 					break
 				}	
 			}
-			getalltime()
+			this.getalltime()
 		}
 		addmusic(obj) {
 	   		this.p.push(obj);
@@ -397,4 +404,8 @@ class Hmusic{
 	    		xmlhttp.open("GET",url,true);
 				xmlhttp.send();
 	    }
+		
+		
 }
+window.Hmusic = Hmusic;
+
