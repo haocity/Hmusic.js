@@ -1,5 +1,1073 @@
-!function(n){function e(o){if(t[o])return t[o].exports;var i=t[o]={i:o,l:!1,exports:{}};return n[o].call(i.exports,i,i.exports,e),i.l=!0,i.exports}var t={};e.m=n,e.c=t,e.i=function(n){return n},e.d=function(n,t,o){e.o(n,t)||Object.defineProperty(n,t,{configurable:!1,enumerable:!0,get:o})},e.n=function(n){var t=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(t,"a",t),t},e.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},e.p="",e(e.s=2)}([function(n,e,t){"use strict";/* Hmusic.
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _html = __webpack_require__(1);
+
+var _html2 = _interopRequireDefault(_html);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+__webpack_require__(2);
+//播放网易云歌单
+window.hyplaylist = function (ele, id) {
+	var yl = new Object();
+	yl.ele = ele;
+	yl.arr = new Array();
+	var api = 'https://t5.haotown.cn/yunmusic/';
+	var xmlhttp = new XMLHttpRequest();
+	var obj = new Object();
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var t = JSON.parse(xmlhttp.responseText).playlist.tracks;
+			for (var i = 0; i < t.length; i++) {
+				var c = new Object();
+				var au = '';
+				c.yunid = t[i].id;
+				c.img = t[i].al.picUrl;
+				c.lrc = api + '/?type=lyric&id=' + c.yunid + '&br=128000';
+				if (t[i].ar.length > 4) {
+					au = '群星';
+					c.title = t[i].al.name;
+				} else {
+					for (var x = 0; x < t[i].ar.length; x++) {
+						au += t[i].ar[x].name;
+					}
+					c.title = t[i].name + '-' + au;
+				}
+				yl.arr.push(c);
+			}
+			obj = new Hmusic(yl.ele, yl.arr);
+		}
+	};
+	xmlhttp.open("GET", api + '/?type=playlist&id=' + id + '&br=128000', true);
+	xmlhttp.send();
+	return obj;
+};
+window.Hmusic = function (ele, list) {
+	var _this2 = this;
+
+	function $c(c) {
+		return ele.querySelector(c);
+	};
+	var hmele = _html2.default.html();
+	ele.innerHTML = hmele;
+	this.nowduan = 0;
+	this.volume = 1;
+	this.nowlrc = -1;
+	this.p = list;
+	this.e = new hmeobj();
+	var _this = this;
+	function hmeobj() {
+		this.audiowarp = $c('.hmusic');
+		this.audio = $c('.hmusic>.hm-audio');
+		this.banner = $c('.banner');
+		this.bannerimg = $c('.banner-img');
+		this.btnplay = $c('.icon-play');
+		this.btnstop = $c('.icon-stop');
+		this.title = $c('.songname');
+		this.btnx = $c('.icon-x');
+		this.btns = $c('.icon-s');
+		this.wranger = $c('.ranger');
+		this.nrange = $c('.ranger-n');
+		this.nowtime = $c('.nowtime');
+		this.alltime = $c('.alltime');
+		this.lrc = $c('.lrc');
+		this.x1 = $c('.icon-xunhuan');
+		this.x2 = $c('.icon-ttpodicon');
+		this.longarr = $c('.longarr');
+		this.sbtn = $c('.icon-yinliang');
+		this.wsound = $c('.sound-ranger');
+		this.msound = $c('.sound');
+		this.sounda = $c('.sound-ranger-a');
+		this.soundb = $c('.sound-ranger-b');
+	}
+	function getalltime() {
+		if (_this.e.audio.duration > 1) {
+			_this.alltime = _this.e.audio.duration;
+			_this.e.alltime.innerHTML = getvtime(_this.alltime).m + ':' + getvtime(_this.alltime).s;
+		} else {
+			setTimeout(getalltime, 500);
+		}
+	}
+
+	setTimeout(getalltime, 500);
+
+	this.e.btnplay.addEventListener('click', function () {
+		_this.play();
+	});
+
+	this.e.btnstop.addEventListener('click', function () {
+		_this.pause();
+	});
+
+	Hmusic.prototype.play = function () {
+
+		_this2.e.btnplay.style.display = 'none';
+		_this2.e.btnstop.style.display = 'inline-block';
+		if (_this2.e.audio.paused) {
+			_this2.e.audio.play();
+		}
+	};
+	Hmusic.prototype.pause = function () {
+		_this2.e.btnplay.style.display = 'inline-block';
+		_this2.e.btnstop.style.display = 'none';
+		_this2.e.audio.pause();
+	};
+
+	Hmusic.prototype.playswitch = function () {
+		if (_this2.e.btnplay.style.display !== 'none') {
+			_this2.play();
+		} else {
+			_this2.pause();
+		}
+	};
+
+	Hmusic.prototype.settime = function (t) {
+		if (_this2.e.lrcarr[_this.nowlrc]) {
+			_this2.e.lrcarr[_this.nowlrc].className = ' ';
+		}
+		console.log(_this2.e.audio.currentTime);
+		console.log(t);
+		_this2.e.audio.currentTime = t;
+		_this2.e.nrange.style.width = _this.e.audio.currentTime / _this.alltime * 100 + '%';
+		_this2.e.nowtime.innerHTML = getvtime(_this.e.audio.currentTime).m + ':' + getvtime(_this.e.audio.currentTime).s;
+		for (var i = 0; i < _this.lrc.b.length; i++) {
+			if (t * 10 <= _this.lrc.b[i]) {
+				_this2.nowlrc = i;
+				var t2 = 50 - _this.nowlrc * 30;
+				_this2.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
+				_this2.e.lrcarr[_this.nowlrc].className = 'nowlrcp';
+				//console.log('nowduan切换为:'+i)
+				break;
+			}
+		}
+		getalltime();
+	};
+	//定时器1s
+	Hmusic.prototype.interval1s = function () {
+		_this2.e.nrange.style.width = _this2.e.audio.currentTime / _this2.alltime * 100 + '%';
+		_this2.e.nowtime.innerHTML = getvtime(_this2.e.audio.currentTime).m + ':' + getvtime(_this2.e.audio.currentTime).s;
+	};
+	setInterval(this.interval1s, 1000);
+
+	this.e.wranger.addEventListener('mousedown', function (event) {
+		var e = event || window.event || arguments.callee.caller.arguments[0];
+		var xbl = show_coords(e, this);
+		_this.settime(xbl.xbl * _this.alltime);
+	});
+	function getvtime(time) {
+		var tm = void 0;
+		var m = parseInt(time / 60);
+		if (parseInt(time % 60) >= 10) {
+			tm = parseInt(time % 60);
+		} else {
+			tm = '0' + parseInt(time % 60);
+		}
+		return {
+			m: m,
+			s: tm
+		};
+	}
+	function show_coords(event, elem) {
+		var x = event.clientX - getLeft(elem) + window.scrollX;
+		var y = event.clientY - getTop(elem) + window.scrollY;
+		var xbl = x / elem.offsetWidth;
+		var ybl = 1 - y / elem.offsetHeight;
+		return {
+			x: x,
+			y: y,
+			w: elem.offsetWidth,
+			h: elem.offsetHeight,
+			xbl: xbl,
+			ybl: ybl
+		};
+	}
+	//获取元素的纵坐标（相对于窗口）
+	function getTop(e) {
+		var offset = e.offsetTop;
+		if (e.offsetParent != null) offset += getTop(e.offsetParent);
+		return offset;
+	}
+	//获取元素的横坐标（相对于窗口）
+	function getLeft(e) {
+		var offset = e.offsetLeft;
+		if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+		return offset;
+	}
+	Hmusic.prototype.getcloudurl = function (url, stop, callback) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var t = JSON.parse(xmlhttp.responseText);
+				_this2.e.audio.src = t.data[0].url;
+				if (!stop && _this2.e.audio.paused) {
+					_this2.e.audio.play();
+				}
+				if (typeof callback === "function") {
+					callback();
+				}
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	};
+	var getlrc = function getlrc(url) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var t = void 0;
+				_this2.lrc = new Object();
+				_this2.lrc.b = new Array();
+				_this2.lrc.c = new Array();
+				_this2.lrc.d = '';
+				try {
+					t = JSON.parse(xmlhttp.responseText).lrc.lyric;
+				} catch (e) {
+					t = '[00:00.72]歌词不存在';
+				}
+				_this2.parseLyric(t);
+				_this2.lrc.a = _this2.parseLyric(t);
+				for (var i in _this2.lrc.a) {
+					if (_this2.lrc.a.hasOwnProperty(i)) {
+						_this2.lrc.b.push(i);
+						if (!_this2.lrc.a[i]) {
+							_this2.lrc.c.push('&nbsp;');
+						} else {
+							_this2.lrc.c.push(_this2.lrc.a[i]);
+						}
+					};
+				}
+				for (var _i = 0; _i < _this2.lrc.c.length; _i++) {
+					_this2.lrc.d = _this2.lrc.d + '<p>' + _this2.lrc.c[_i] + '</p>';
+				}
+				_this2.e.lrc.innerHTML = _this2.lrc.d;
+				_this2.e.lrcarr = _this2.e.lrc.querySelectorAll('p');
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	};
+	Hmusic.prototype.parseLyric = function (lrc) {
+		//console.log(lrc);
+		var lyrics = lrc.split("\n");
+		var lrcObj = {};
+		for (var i = 0; i < lyrics.length; i++) {
+			var lyric = decodeURIComponent(lyrics[i]);
+			var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
+			var timeRegExpArr = lyric.match(timeReg);
+			if (!timeRegExpArr) continue;
+			var clause = lyric.replace(timeReg, '');
+			for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+				var t = timeRegExpArr[k];
+				var min = Number(String(t.match(/\[\d*/i)).slice(1));
+				var sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
+				var time = (min * 60 + sec).toFixed(1) * 10;
+				lrcObj[time] = clause;
+			}
+		}
+		return lrcObj;
+	};
+	Hmusic.prototype.to = function (duan, stop) {
+		if (_this2.p[duan]) {
+			_this2.e.audio.currentTime = 0;
+			if (!_this2.e.audio.paused) {
+				_this2.e.audio.pause();
+			}
+			_this2.e.audio.remove();
+			_this2.e.audio = document.createElement('audio');
+			_this2.e.audio.className = 'hm-audio';
+			_this2.e.audiowarp.appendChild(_this2.e.audio);
+			_this2.e.nrange.style.width = '0px';
+			_this2.nowduan = duan;
+			_this2.nowlrc = -1;
+			_this2.e.lrc.style.transform = 'translateY(60px)';
+			_this2.e.title.innerHTML = _this2.p[_this2.nowduan].title;
+			if (_this2.p[_this2.nowduan].yunid) {
+				_this2.getcloudurl('https://t5.haotown.cn/yunmusic/?type=song&id=' + _this2.p[_this2.nowduan].yunid + '&br=128000', stop, _this2.loadmusic(stop));
+			} else {
+				_this2.e.audio.src = _this2.p[_this2.nowduan].audio;
+				_this2.loadmusic(stop);
+			}
+			var li = _this2.e.longarr.querySelectorAll('li');
+			for (var i = 0; i < li.length; i++) {
+				li[i].style.backgroundColor = 'transparent';
+				if (duan == i) {
+					li[i].style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+				}
+			}
+		} else if (duan < 0) {
+			_this2.to(_this2.p.length - 1);
+		} else {
+			_this2.to(0);
+		}
+		_this2.changersound(_this2.volume);
+		setTimeout(getalltime, 500);
+	};
+	this.longarr = '';
+	for (var i = 0; i < this.p.length; i++) {
+		var e = document.createElement('li');
+		e.innerHTML = this.p[i].title;
+		e.songid = i;
+		if (i == 0) {
+			e.style.backgroundColor = 'rgba(49, 155, 211, 0.33)';
+		}
+		this.e.longarr.appendChild(e);
+		e.addEventListener('click', function () {
+			this.to(this.songid);
+		});
+	}
+
+	Hmusic.prototype.loadmusic = function (stop) {
+		var picsize = '?param=' + _this2.e.banner.offsetWidth + 'y' + _this2.e.banner.offsetHeight;
+		_this2.e.bannerimg.src = _this2.p[_this2.nowduan].img + '?param=' + picsize;
+		getlrc(_this2.p[_this2.nowduan].lrc);
+		if (!stop && _this2.e.audio.paused) {
+			_this2.e.audio.play();
+			_this2.e.btnplay.style.display = 'none';
+			_this2.e.btnstop.style.display = 'inline-block';
+		}
+		_this2.e.audio.onended = function () {
+			if (_this2.e.x2.style.display == 'none') {
+				_this2.to(_this2.nowduan + 1);
+			} else {
+				try {
+					_this2.e.audio.play();
+				} catch (e) {}
+				_this2.nowlrc = -1;
+			}
+		};
+		_this2.e.audio.addEventListener('timeupdate', function (c) {
+			var t = _this.e.audio.currentTime.toFixed(1) * 10;
+			if (_this.lrc) {
+				if (_this.lrc.b[_this.nowlrc + 1] <= t) {
+					++_this.nowlrc;
+					var t2 = 50 - _this.nowlrc * 30;
+					_this.e.lrc.style.transform = 'translateY(' + t2 + 'px)';
+					_this.e.lrcarr[_this.nowlrc].className = 'nowlrcp';
+					if (_this.e.lrcarr[_this.nowlrc - 1]) {
+						_this.e.lrcarr[_this.nowlrc - 1].className = ' ';
+					}
+				}
+			}
+		});
+	};
+	Hmusic.prototype.addmusic = function (obj) {
+		_this2.p.push(obj);
+		var e = document.createElement('li');
+		e.innerHTML = obj.title;
+		e.songid = _this2.p.length - 1;
+		_this2.e.longarr.appendChild(e);
+		e.addEventListener('click', function () {
+			this.to(this.songid);
+		});
+	};
+
+	Hmusic.prototype.changersound = function (i) {
+		_this.e.audio.volume = i;
+		_this.volume = i;
+	};
+	Hmusic.prototype.getnowmusic = function () {
+		return _this2.p[_this2.nowduan];
+	};
+	this.e.bannerimg.onerror = function () {
+		this.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC";
+	};
+	this.e.btnx.addEventListener('click', function () {
+		_this.to(_this.nowduan + 1);
+	});
+	this.e.btns.addEventListener('click', function () {
+		_this.to(_this.nowduan - 1);
+	});
+	this.e.x1.addEventListener('click', function () {
+		this.style.display = 'none';
+		_this.e.x2.style.display = 'block';
+	});
+	this.e.x2.addEventListener('click', function () {
+		this.style.display = 'none';
+		_this.e.x1.style.display = 'block';
+	});
+	this.e.wsound.addEventListener('click', function (event) {
+		var e = event || window.event || arguments.callee.caller.arguments[0];
+		var bl = show_coords(e, this);
+		_this.e.soundb.style.height = bl.h * bl.ybl + 'px';
+		_this.changersound(bl.ybl);
+	});
+
+	this.e.msound.addEventListener('mouseover', function () {
+		_this.e.wsound.style.display = 'block';
+	});
+	this.e.msound.addEventListener('mouseleave', function () {
+		_this.e.wsound.style.display = 'none';
+	});
+	this.to(0, true);
+};
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* Hmusic.
  @author   HaoDong <ureygt@gmail.com> <http://www.haotown.cn>
  @license  The Star And Thank Author License (SATA)
  */
-n.exports={html:function(){return'<div class="hmusic">\n  <audio class="hm-audio"></audio>\n  <div class="banner">\n      <div class="songname"></div>\n      <div class="lrc-warp">\n        <div class="lrc"></div>\n      </div>\n      <div class="ranger">\n        <div class="ranger-n"></div>\n      </div>\n      <img class="banner-img">\n      <div class="banner-color"></div>\n  </div>\n  <div class="con">\n    <div class="left">\n      <div class="nowtime">0:00</div>\n    </div>\n    <i class="iconfont icon-s"></i>\n    <i class="iconfont icon-play"></i>\n    <i class="iconfont icon-stop" style="display: none;"></i>\n    <i class="iconfont icon-x"></i>\n    <div class="right">\n      <div class="sound">\n        <div class="sound-ranger">\n          <div class="sound-ranger-a">\n            <div class="sound-ranger-b"></div>\n          </div>\n        </div>\n        <i class="iconfont icon-yinliang"></i>\n      </div>\n      <i class="iconfont icon-xunhuan xunhuan"></i>\n      <i class="iconfont icon-ttpodicon xunhuan" style="display: none;"></i>\n      <div class="alltime">1:00</div></div>\n  </div>\n  <div class="longarr"></div>\n  <style type="text/css" class="css"></style>\n</div>'}}},function(n,e,t){var o=t(3);"string"==typeof o&&(o=[[n.i,o,""]]);var i={};i.transform=void 0;t(5)(o,i);o.locals&&(n.exports=o.locals)},function(n,e,t){"use strict";var o=t(0),i=function(n){return n&&n.__esModule?n:{default:n}}(o);t(1),window.hyplaylist=function(n,e){var t=new Object;t.ele=n,t.arr=new Array;var o="https://t5.haotown.cn/yunmusic/",i=new XMLHttpRequest,r=new Object;return i.onreadystatechange=function(){if(4==i.readyState&&200==i.status){for(var n=JSON.parse(i.responseText).playlist.tracks,e=0;e<n.length;e++){var a=new Object,s="";if(a.yunid=n[e].id,a.img=n[e].al.picUrl,a.lrc=o+"/?type=lyric&id="+a.yunid+"&br=128000",n[e].ar.length>4)s="群星",a.title=n[e].al.name;else{for(var c=0;c<n[e].ar.length;c++)s+=n[e].ar[c].name;a.title=n[e].name+"-"+s}t.arr.push(a)}r=Hmusic(t.ele,t.arr,r)}},i.open("GET",o+"/?type=playlist&id="+e+"&br=128000",!0),i.send(),r},window.Hmusic=function(n,e,t){function o(e){return n.querySelector(e)}function r(){this.audiowarp=o(".hmusic"),this.audio=o(".hmusic>.hm-audio"),this.banner=o(".banner"),this.bannerimg=o(".banner-img"),this.btnplay=o(".icon-play"),this.btnstop=o(".icon-stop"),this.title=o(".songname"),this.btnx=o(".icon-x"),this.btns=o(".icon-s"),this.wranger=o(".ranger"),this.nrange=o(".ranger-n"),this.nowtime=o(".nowtime"),this.alltime=o(".alltime"),this.lrc=o(".lrc"),this.x1=o(".icon-xunhuan"),this.x2=o(".icon-ttpodicon"),this.longarr=o(".longarr"),this.sbtn=o(".icon-yinliang"),this.wsound=o(".sound-ranger"),this.msound=o(".sound"),this.sounda=o(".sound-ranger-a"),this.soundb=o(".sound-ranger-b")}function a(){d.e.audio.duration>1?(d.alltime=d.e.audio.duration,d.e.alltime.innerHTML=s(d.alltime).m+":"+s(d.alltime).s):setTimeout(a,500)}function s(n){var e=void 0,t=parseInt(n/60);return e=parseInt(n%60)>=10?parseInt(n%60):"0"+parseInt(n%60),{m:t,s:e}}function c(n,e){var t=n.clientX-u(e)+window.scrollX,o=n.clientY-l(e)+window.scrollY,i=t/e.offsetWidth,r=1-o/e.offsetHeight;return{x:t,y:o,w:e.offsetWidth,h:e.offsetHeight,xbl:i,ybl:r}}function l(n){var e=n.offsetTop;return null!=n.offsetParent&&(e+=l(n.offsetParent)),e}function u(n){var e=n.offsetLeft;return null!=n.offsetParent&&(e+=u(n.offsetParent)),e}var d=t||new Object,p=i.default.html();n.innerHTML=p,d.nowduan=0,d.volume=1,d.nowlrc=-1,d.p=e,d.e=new r,setTimeout(a,500),d.e.btnplay.addEventListener("click",function(){d.play()}),d.e.btnstop.addEventListener("click",function(){d.pause()}),d.play=function(){d.e.btnplay.style.display="none",d.e.btnstop.style.display="inline-block",d.e.audio.paused&&d.e.audio.play()},d.pause=function(){d.e.btnplay.style.display="inline-block",d.e.btnstop.style.display="none",d.e.audio.pause()},d.playswitch=function(){"none"!==d.e.btnplay.style.display?d.play():d.pause()},d.settime=function(n){d.e.lrcarr[d.nowlrc]&&(d.e.lrcarr[d.nowlrc].className=" "),d.e.audio.currentTime=n,d.e.nrange.style.width=d.e.audio.currentTime/d.alltime*100+"%",d.e.nowtime.innerHTML=s(d.e.audio.currentTime).m+":"+s(d.e.audio.currentTime).s;for(var e=0;e<d.lrc.b.length;e++)if(10*n<=d.lrc.b[e]){d.nowlrc=e;var t=50-30*d.nowlrc;d.e.lrc.style.transform="translateY("+t+"px)",d.e.lrcarr[d.nowlrc].className="nowlrcp";break}a()},d.interval1s=function(){d.e.nrange.style.width=d.e.audio.currentTime/d.alltime*100+"%",d.e.nowtime.innerHTML=s(d.e.audio.currentTime).m+":"+s(d.e.audio.currentTime).s},setInterval(d.interval1s,1e3),d.e.wranger.addEventListener("mousedown",function(n){var e=n||window.event||arguments.callee.caller.arguments[0],t=c(e,this);d.settime(t.xbl*d.alltime)}),d.getcloudurl=function(n,e,t){var o=new XMLHttpRequest;o.onreadystatechange=function(){if(4==o.readyState&&200==o.status){var n=JSON.parse(o.responseText);d.e.audio.src=n.data[0].url,!e&&d.e.audio.paused&&d.e.audio.play(),"function"==typeof t&&t()}},o.open("GET",n,!0),o.send()};var f=function(n){var e=new XMLHttpRequest;e.onreadystatechange=function(){if(4==e.readyState&&200==e.status){var n=void 0;d.lrc=new Object,d.lrc.b=new Array,d.lrc.c=new Array,d.lrc.d="";try{n=JSON.parse(e.responseText).lrc.lyric}catch(e){n="[00:00.72]歌词不存在"}d.parseLyric(n),d.lrc.a=d.parseLyric(n);for(var t in d.lrc.a)d.lrc.a.hasOwnProperty(t)&&(d.lrc.b.push(t),d.lrc.a[t]?d.lrc.c.push(d.lrc.a[t]):d.lrc.c.push("&nbsp;"));for(var o=0;o<d.lrc.c.length;o++)d.lrc.d=d.lrc.d+"<p>"+d.lrc.c[o]+"</p>";d.e.lrc.innerHTML=d.lrc.d,d.e.lrcarr=d.e.lrc.querySelectorAll("p")}},e.open("GET",n,!0),e.send()};d.parseLyric=function(n){for(var e=n.split("\n"),t={},o=0;o<e.length;o++){var i=decodeURIComponent(e[o]),r=/\[\d*:\d*((\.|\:)\d*)*\]/g,a=i.match(r);if(a)for(var s=i.replace(r,""),c=0,l=a.length;c<l;c++){var u=a[c],d=Number(String(u.match(/\[\d*/i)).slice(1)),p=Number(String(u.match(/\:\d*\.*\d*/i)).slice(1)),f=10*(60*d+p).toFixed(1);t[f]=s}}return t},d.to=function(n,e){if(d.p[n]){d.e.audio.currentTime=0,d.e.audio.paused||d.e.audio.pause(),d.e.audio.remove(),d.e.audio=document.createElement("audio"),d.e.audio.className="hm-audio",d.e.audiowarp.appendChild(d.e.audio),d.e.nrange.style.width="0px",d.nowduan=n,d.nowlrc=-1,d.e.lrc.style.transform="translateY(60px)",d.e.title.innerHTML=d.p[d.nowduan].title,d.p[d.nowduan].yunid?d.getcloudurl("https://t5.haotown.cn/yunmusic/?type=song&id="+d.p[d.nowduan].yunid+"&br=128000",e,d.loadmusic(e)):(d.e.audio.src=d.p[d.nowduan].audio,d.loadmusic(e));for(var t=d.e.longarr.querySelectorAll("li"),o=0;o<t.length;o++)t[o].style.backgroundColor="transparent",n==o&&(t[o].style.backgroundColor="rgba(49, 155, 211, 0.33)")}else n<0?d.to(d.p.length-1):d.to(0);d.changersound(d.volume),setTimeout(a,500)},d.longarr="";for(var h=0;h<d.p.length;h++){var m=document.createElement("li");m.innerHTML=d.p[h].title,m.songid=h,0==h&&(m.style.backgroundColor="rgba(49, 155, 211, 0.33)"),d.e.longarr.appendChild(m),m.addEventListener("click",function(){d.to(this.songid)})}return d.loadmusic=function(n){var e="?param="+d.e.banner.offsetWidth+"y"+d.e.banner.offsetHeight;d.e.bannerimg.src=d.p[d.nowduan].img+"?param="+e,f(d.p[d.nowduan].lrc),!n&&d.e.audio.paused&&(d.e.audio.play(),d.e.btnplay.style.display="none",d.e.btnstop.style.display="inline-block"),d.e.audio.onended=function(){if("none"==d.e.x2.style.display)d.to(d.nowduan+1);else{try{d.e.audio.play()}catch(n){}d.nowlrc=-1}},d.e.audio.addEventListener("timeupdate",function(n){var e=10*d.e.audio.currentTime.toFixed(1);if(d.lrc&&d.lrc.b[d.nowlrc+1]<=e){++d.nowlrc;var t=50-30*d.nowlrc;d.e.lrc.style.transform="translateY("+t+"px)",d.e.lrcarr[d.nowlrc].className="nowlrcp",d.e.lrcarr[d.nowlrc-1]&&(d.e.lrcarr[d.nowlrc-1].className=" ")}})},d.addmusic=function(n){d.p.push(n);var e=document.createElement("li");e.innerHTML=n.title,e.songid=d.p.length-1,d.e.longarr.appendChild(e),e.addEventListener("click",function(){d.to(this.songid)})},d.getnowmusic=function(){return d.p[d.nowduan]},d.e.bannerimg.onerror=function(){this.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NERBQjhBNjc1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NERBQjhBNjg1NTY2MTFFN0FFOTRDOUEyOTY1QTcwNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0REFCOEE2NTU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0REFCOEE2NjU1NjYxMUU3QUU5NEM5QTI5NjVBNzA2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Poji3VcAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADElEQVR42mJgAAgwAAACAAFPbVnhAAAAAElFTkSuQmCC"},d.e.btnx.addEventListener("click",function(){d.to(d.nowduan+1)}),d.e.btns.addEventListener("click",function(){d.to(d.nowduan-1)}),d.e.x1.addEventListener("click",function(){this.style.display="none",d.e.x2.style.display="block"}),d.e.x2.addEventListener("click",function(){this.style.display="none",d.e.x1.style.display="block"}),d.e.wsound.addEventListener("click",function(n){var e=n||window.event||arguments.callee.caller.arguments[0],t=c(e,this);d.e.soundb.style.height=t.h*t.ybl+"px",d.changersound(t.ybl)}),d.changersound=function(n){d.e.audio.volume=n,d.volume=n},d.e.msound.addEventListener("mouseover",function(){d.e.wsound.style.display="block"}),d.e.msound.addEventListener("mouseleave",function(){d.e.wsound.style.display="none"}),d.to(0,!0),d}},function(n,e,t){e=n.exports=t(4)(void 0),e.push([n.i,'@font-face{font-family:iconfont;src:url("https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060");src:url("https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060#iefix") format("embedded-opentype"),url("https://at.alicdn.com/t/font_dx3vz7ez48udte29.woff?t=1494255783060") format("woff"),url("https://at.alicdn.com/t/font_dx3vz7ez48udte29.ttf?t=1494255783060") format("truetype"),url("https://at.alicdn.com/t/font_dx3vz7ez48udte29.svg?t=1494255783060#iconfont") format("svg")}.iconfont{font-family:iconfont!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-play:before{content:"\\E633"}.icon-yinliang:before{content:"\\E60A"}.icon-ttpodicon:before{content:"\\E6BD"}.icon-s:before{content:"\\E61E"}.icon-x:before{content:"\\E620"}.icon-xunhuan:before{content:"\\E605"}.icon-stop:before{content:"\\E669"}.hmusic{font-size:16px;height:500px;box-shadow:0 3px 8px rgba(0,0,0,.25);font-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif;border-radius:6px;overflow:hidden}.hmusic>.banner{position:relative;height:200px;overflow:hidden;background-color:rgba(0,0,0,.3);color:#fff}.hmusic>.banner>.songname{position:relative;padding-top:5px;height:25px;text-align:center;font-size:1.2em;white-space:nowrap;z-index:4}.hmusic>.banner>.lrc-warp{position:relative;overflow:hidden;height:10pc;z-index:4}.hmusic>.banner>.lrc-warp>.lrc{text-align:center;transition:all .3s ease-out;transform:translateY(-10px)}.hmusic>.banner>.lrc-warp>.lrc>p{white-space:nowrap;margin:0;padding:0;line-height:30px;font-size:12px}.hmusic>.banner>.lrc-warp>.lrc>.nowlrcp{font-size:24px;white-space:inherit}.hmusic>.banner>.banner-img{position:absolute;height:auto;width:100%;top:0;left:0;background-position:50%;background-size:cover;background-image:url(https://ooo.0o0.ooo/2017/06/20/59488f02d6903.jpg);-webkit-filter:saturate(1.4);-moz-filter:saturate(1.4);filter:saturate(1.4);z-index:2}.hmusic>.banner>.banner-color{position:absolute;width:100%;height:100%;top:0;left:0;background-color:rgba(0,0,0,.19);z-index:3}.hmusic>.banner>.ranger{position:relative;cursor:pointer;height:9pt;background-color:rgba(59,65,67,.39);z-index:4}.hmusic>.banner>.ranger>.ranger-n{width:20%;height:100%;background-color:rgba(249,73,73,.6)}.hmusic>.con{position:relative;top:0;height:40px;text-align:center;user-select:none}.hmusic>.con .sound-ranger{height:80px;width:16px;background-color:hsla(0,0%,100%,.4);cursor:pointer;display:none}.hmusic>.con .sound-ranger>.sound-ranger-a{height:100%;position:relative}.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b{height:82px;position:absolute;width:100%;bottom:0;background-color:rgba(228,99,99,.92)}.hmusic>.con .iconfont{color:#e05865;font-size:1.6em;cursor:pointer}.hmusic>.con .iconfont:hover{color:#f33838}.hmusic>.con>.icon-s,.hmusic>.con>.icon-x{font-size:2em;line-height:40px;position:absolute}.hmusic>.con>.icon-s{left:16%}.hmusic>.con>.icon-x{right:16%}.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop{position:relative;font-size:2em;line-height:40px}.hmusic>.con>.right{float:right}.hmusic>.con>.left,.hmusic>.con>.right{height:100%;padding:0 4px;position:relative}.hmusic>.con>.left{float:left}.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime{display:inline-block;font-size:.6em}.hmusic>.con .sound{position:absolute;bottom:2px;right:24px;z-index:10}.hmusic>.con .sound>.icon-yinliang{font-size:1em}.hmusic>.con .xunhuan{font-size:.9em;position:absolute;bottom:1px;right:4px}.hmusic>.longarr{width:100%;overflow-x:hidden;overflow-y:auto;height:260px;background-color:#fafafa}.hmusic>.longarr>li{white-space:nowrap;padding:3px 0 3px 20px;cursor:pointer;color:#434343}.hmusic>.longarr>li:hover{padding:3px 0 3px 24px;background-color:hsla(0,0%,69%,.9)}.longarr::-webkit-scrollbar-track{border-radius:10px;background-color:hsla(0,0%,7%,.04)}.longarr::-webkit-scrollbar{width:6px;background-color:#f5f5f5}.longarr::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);background-color:rgba(245,50,50,.67)}',""])},function(n,e){function t(n,e){var t=n[1]||"",i=n[3];if(!i)return t;if(e&&"function"==typeof btoa){var r=o(i);return[t].concat(i.sources.map(function(n){return"/*# sourceURL="+i.sourceRoot+n+" */"})).concat([r]).join("\n")}return[t].join("\n")}function o(n){return"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(n))))+" */"}n.exports=function(n){var e=[];return e.toString=function(){return this.map(function(e){var o=t(e,n);return e[2]?"@media "+e[2]+"{"+o+"}":o}).join("")},e.i=function(n,t){"string"==typeof n&&(n=[[null,n,""]]);for(var o={},i=0;i<this.length;i++){var r=this[i][0];"number"==typeof r&&(o[r]=!0)}for(i=0;i<n.length;i++){var a=n[i];"number"==typeof a[0]&&o[a[0]]||(t&&!a[2]?a[2]=t:t&&(a[2]="("+a[2]+") and ("+t+")"),e.push(a))}},e}},function(n,e,t){function o(n,e){for(var t=0;t<n.length;t++){var o=n[t],i=h[o.id];if(i){i.refs++;for(var r=0;r<i.parts.length;r++)i.parts[r](o.parts[r]);for(;r<o.parts.length;r++)i.parts.push(u(o.parts[r],e))}else{for(var a=[],r=0;r<o.parts.length;r++)a.push(u(o.parts[r],e));h[o.id]={id:o.id,refs:1,parts:a}}}}function i(n,e){for(var t=[],o={},i=0;i<n.length;i++){var r=n[i],a=e.base?r[0]+e.base:r[0],s=r[1],c=r[2],l=r[3],u={css:s,media:c,sourceMap:l};o[a]?o[a].parts.push(u):t.push(o[a]={id:a,parts:[u]})}return t}function r(n,e){var t=g(n.insertInto);if(!t)throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");var o=y[y.length-1];if("top"===n.insertAt)o?o.nextSibling?t.insertBefore(e,o.nextSibling):t.appendChild(e):t.insertBefore(e,t.firstChild),y.push(e);else{if("bottom"!==n.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");t.appendChild(e)}}function a(n){if(null===n.parentNode)return!1;n.parentNode.removeChild(n);var e=y.indexOf(n);e>=0&&y.splice(e,1)}function s(n){var e=document.createElement("style");return n.attrs.type="text/css",l(e,n.attrs),r(n,e),e}function c(n){var e=document.createElement("link");return n.attrs.type="text/css",n.attrs.rel="stylesheet",l(e,n.attrs),r(n,e),e}function l(n,e){Object.keys(e).forEach(function(t){n.setAttribute(t,e[t])})}function u(n,e){var t,o,i,r;if(e.transform&&n.css){if(!(r=e.transform(n.css)))return function(){};n.css=r}if(e.singleton){var l=v++;t=b||(b=s(e)),o=d.bind(null,t,l,!1),i=d.bind(null,t,l,!0)}else n.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(t=c(e),o=f.bind(null,t,e),i=function(){a(t),t.href&&URL.revokeObjectURL(t.href)}):(t=s(e),o=p.bind(null,t),i=function(){a(t)});return o(n),function(e){if(e){if(e.css===n.css&&e.media===n.media&&e.sourceMap===n.sourceMap)return;o(n=e)}else i()}}function d(n,e,t,o){var i=t?"":o.css;if(n.styleSheet)n.styleSheet.cssText=x(e,i);else{var r=document.createTextNode(i),a=n.childNodes;a[e]&&n.removeChild(a[e]),a.length?n.insertBefore(r,a[e]):n.appendChild(r)}}function p(n,e){var t=e.css,o=e.media;if(o&&n.setAttribute("media",o),n.styleSheet)n.styleSheet.cssText=t;else{for(;n.firstChild;)n.removeChild(n.firstChild);n.appendChild(document.createTextNode(t))}}function f(n,e,t){var o=t.css,i=t.sourceMap,r=void 0===e.convertToAbsoluteUrls&&i;(e.convertToAbsoluteUrls||r)&&(o=w(o)),i&&(o+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(i))))+" */");var a=new Blob([o],{type:"text/css"}),s=n.href;n.href=URL.createObjectURL(a),s&&URL.revokeObjectURL(s)}var h={},m=function(n){var e;return function(){return void 0===e&&(e=n.apply(this,arguments)),e}}(function(){return window&&document&&document.all&&!window.atob}),g=function(n){var e={};return function(t){return void 0===e[t]&&(e[t]=n.call(this,t)),e[t]}}(function(n){return document.querySelector(n)}),b=null,v=0,y=[],w=t(6);n.exports=function(n,e){if("undefined"!=typeof DEBUG&&DEBUG&&"object"!=typeof document)throw new Error("The style-loader cannot be used in a non-browser environment");e=e||{},e.attrs="object"==typeof e.attrs?e.attrs:{},e.singleton||(e.singleton=m()),e.insertInto||(e.insertInto="head"),e.insertAt||(e.insertAt="bottom");var t=i(n,e);return o(t,e),function(n){for(var r=[],a=0;a<t.length;a++){var s=t[a],c=h[s.id];c.refs--,r.push(c)}if(n){o(i(n,e),e)}for(var a=0;a<r.length;a++){var c=r[a];if(0===c.refs){for(var l=0;l<c.parts.length;l++)c.parts[l]();delete h[c.id]}}}};var x=function(){var n=[];return function(e,t){return n[e]=t,n.filter(Boolean).join("\n")}}()},function(n,e){n.exports=function(n){var e="undefined"!=typeof window&&window.location;if(!e)throw new Error("fixUrls requires window.location");if(!n||"string"!=typeof n)return n;var t=e.protocol+"//"+e.host,o=t+e.pathname.replace(/\/[^\/]*$/,"/");return n.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi,function(n,e){var i=e.trim().replace(/^"(.*)"$/,function(n,e){return e}).replace(/^'(.*)'$/,function(n,e){return e});if(/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(i))return n;var r;return r=0===i.indexOf("//")?i:0===i.indexOf("/")?t+i:o+i.replace(/^\.\//,""),"url("+JSON.stringify(r)+")"})}}]);
+module.exports = {
+  html: function html() {
+    return "<div class=\"hmusic\">\n  <audio class=\"hm-audio\"></audio>\n  <div class=\"banner\">\n      <div class=\"songname\"></div>\n      <div class=\"lrc-warp\">\n        <div class=\"lrc\"></div>\n      </div>\n      <div class=\"ranger\">\n        <div class=\"ranger-n\"></div>\n      </div>\n      <img class=\"banner-img\">\n      <div class=\"banner-color\"></div>\n  </div>\n  <div class=\"con\">\n    <div class=\"left\">\n      <div class=\"nowtime\">0:00</div>\n    </div>\n    <i class=\"iconfont icon-s\"></i>\n    <i class=\"iconfont icon-play\"></i>\n    <i class=\"iconfont icon-stop\" style=\"display: none;\"></i>\n    <i class=\"iconfont icon-x\"></i>\n    <div class=\"right\">\n      <div class=\"sound\">\n        <div class=\"sound-ranger\">\n          <div class=\"sound-ranger-a\">\n            <div class=\"sound-ranger-b\"></div>\n          </div>\n        </div>\n        <i class=\"iconfont icon-yinliang\"></i>\n      </div>\n      <i class=\"iconfont icon-xunhuan xunhuan\"></i>\n      <i class=\"iconfont icon-ttpodicon xunhuan\" style=\"display: none;\"></i>\n      <div class=\"alltime\">1:00</div></div>\n  </div>\n  <div class=\"longarr\"></div>\n  <style type=\"text/css\" class=\"css\"></style>\n</div>";
+  }
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(3);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!./style.css", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!./style.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\r\n@font-face {font-family: \"iconfont\";\r\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060'); /* IE9*/\r\n  src: url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.eot?t=1494255783060#iefix') format('embedded-opentype'), /* IE6-IE8 */\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.woff?t=1494255783060') format('woff'), /* chrome, firefox */\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.ttf?t=1494255783060') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\r\n  url('https://at.alicdn.com/t/font_dx3vz7ez48udte29.svg?t=1494255783060#iconfont') format('svg'); /* iOS 4.1- */\r\n}\r\n\r\n.iconfont {\r\n  font-family:\"iconfont\" !important;\r\n  font-size:16px;\r\n  font-style:normal;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n.icon-play:before { content: \"\\E633\"; }\r\n\r\n.icon-yinliang:before { content: \"\\E60A\"; }\r\n\r\n.icon-ttpodicon:before { content: \"\\E6BD\"; }\r\n\r\n.icon-s:before { content: \"\\E61E\"; }\r\n\r\n.icon-x:before { content: \"\\E620\"; }\r\n\r\n.icon-xunhuan:before { content: \"\\E605\"; }\r\n\r\n.icon-stop:before { content: \"\\E669\"; }\r\n\r\n.hmusic {\r\n\tfont-size:16px;\r\n\theight:500px;\r\n\tbox-shadow:0 3px 8px rgba(0, 0, 0, .25);\r\n\tfont-family:Avenir Next,Helvetica,Arial,Lantinghei SC,Microsoft YaHei,sans-serif;\r\n\tborder-radius: 6px;\r\n    overflow: hidden;\r\n}\r\n\r\n.hmusic>.banner {\r\n\tposition: relative;\r\n\theight:200px;\r\n\toverflow:hidden;\r\n\tbackground-color:rgba(0,0,0,.3);\r\n\tcolor:#fff\r\n}\r\n.hmusic>.banner>.songname {\r\n\tposition: relative;\r\n\tpadding-top:5px;\r\n\theight:25px;\r\n\ttext-align:center;\r\n\tfont-size:1.2em;\r\n\twhite-space:nowrap;\r\n\tz-index: 4\r\n}\r\n.hmusic>.banner>.lrc-warp {\r\n\tposition: relative;\r\n\toverflow:hidden;\r\n\theight:10pc;\r\n\tz-index: 4\r\n}\r\n.hmusic>.banner>.lrc-warp>.lrc {\r\n\ttext-align:center;\r\n\ttransition:all .3s ease-out;\r\n\ttransform:translateY(-10px)\r\n}\r\n.hmusic>.banner>.lrc-warp>.lrc>p {\r\n\twhite-space:nowrap;\r\n\tmargin:0;\r\n\tpadding:0;\r\n\tline-height:30px;\r\n\tfont-size:12px\r\n}\r\n.hmusic>.banner>.lrc-warp>.lrc>.nowlrcp {\r\n\tfont-size:24px;\r\n\twhite-space:inherit;\r\n}\r\n.hmusic>.banner>.banner-img {\r\n\tposition: absolute;\r\n\theight: auto;\r\n    width: 100%;\r\n    top: 0;\r\n    left: 0;\r\n\tbackground-position:center;\r\n\tbackground-size:cover;\r\n\tbackground-image: url(https://ooo.0o0.ooo/2017/06/20/59488f02d6903.jpg);\r\n\t-webkit-filter:saturate(1.4);\r\n\t-moz-filter:saturate(1.4);\r\n\tfilter:saturate(1.4);\r\n\tz-index: 2;\r\n}\r\n.hmusic>.banner>.banner-color{\r\n\tposition: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    background-color: rgba(0, 0, 0, 0.19);\r\n    z-index: 3;\r\n}\r\n.hmusic>.banner>.ranger {\r\n\tposition: relative;\r\n\tcursor:pointer;\r\n\theight:9pt;\r\n\tbackground-color:rgba(59,65,67,.39);\r\n\tz-index: 4;\r\n}\r\n.hmusic>.banner>.ranger>.ranger-n {\r\n\twidth:20%;\r\n\theight:100%;\r\n\tbackground-color:rgba(249, 73, 73, 0.6)\r\n}\r\n.hmusic>.con {\r\n\tposition: relative;\r\n\ttop:0px;\r\n\theight:40px;\r\n\ttext-align:center;\r\n\tuser-select:none\r\n}\r\n.hmusic>.con .sound-ranger {\r\n\theight:80px;\r\n\twidth:16px;\r\n\tbackground-color:rgba(255,255,255,.4);\r\n\tcursor:pointer;\r\n\tdisplay:none\r\n}\r\n.hmusic>.con .sound-ranger>.sound-ranger-a {\r\n\theight:100%;\r\n\tposition:relative\r\n}\r\n.hmusic>.con .sound-ranger>.sound-ranger-a>.sound-ranger-b {\r\n\theight:82px;\r\n\tposition:absolute;\r\n\twidth:100%;\r\n\tbottom:0;\r\n\tbackground-color:rgba(228, 99, 99, 0.92)\r\n}\r\n.hmusic>.con .iconfont {\r\n\tcolor:#E05865;\r\n\tfont-size:1.6em;\r\n\tcursor:pointer\r\n}\r\n.hmusic>.con .iconfont:hover {\r\n\tcolor:#F33838\r\n}\r\n.hmusic>.con>.icon-s,.hmusic>.con>.icon-x{\r\n\tfont-size: 2em;\r\n    line-height: 40px;\r\n    position: absolute;\r\n}\r\n.hmusic>.con>.icon-s{\r\n\tleft: 16%;\r\n}\r\n.hmusic>.con>.icon-x{\r\n\tright: 16%;\r\n}\r\n.hmusic>.con>.icon-play,.hmusic>.con>.icon-stop {\r\n\tposition:relative;\r\n\tfont-size:2em;\r\n\tline-height:40px;\r\n}\r\n.hmusic>.con>.right {\r\n\tfloat:right;\r\n\theight: 100%;\r\n\tpadding:0 4px;\r\n\tposition:relative\r\n}\r\n.hmusic>.con>.left {\r\n\tfloat:left;\r\n\tpadding:0 4px;\r\n\theight: 100%;\r\n\tposition:relative\r\n}\r\n.hmusic>.con>.left>.nowtime,.hmusic>.con>.right>.alltime {\r\n\tdisplay:inline-block;\r\n\tfont-size:.6em\r\n}\r\n.hmusic>.con .sound {\r\n\tposition:absolute;\r\n\tbottom:2px;\r\n\tright:24px;\r\n\tz-index:10\r\n}\r\n.hmusic>.con .sound>.icon-yinliang {\r\n\tfont-size:1em\r\n}\r\n.hmusic>.con .xunhuan {\r\n\tfont-size:.9em;\r\n\tposition:absolute;\r\n\tbottom:1px;\r\n\tright:4px\r\n}\r\n.hmusic>.longarr {\r\n\twidth:100%;\r\n\toverflow-x:hidden;\r\n\toverflow-y:auto;\r\n\theight:260px;\r\n\tbackground-color:#fafafa\r\n}\r\n.hmusic>.longarr>li {\r\n\twhite-space:nowrap;\r\n\tpadding:3px 0 3px 20px;\r\n\tcursor:pointer;\r\n\tcolor: #434343;\r\n}\r\n.hmusic>.longarr>li:hover {\r\n\tpadding:3px 0 3px 24px;\r\n\tbackground-color:hsla(0,0%,69%,.9)\r\n}\r\n/*滚动条*/\r\n.longarr::-webkit-scrollbar-track\r\n{\r\n    border-radius: 10px;\r\n    background-color: rgba(19, 19, 19, 0.04);\r\n}\r\n\r\n.longarr::-webkit-scrollbar\r\n{\r\n    width: 6px;\r\n    background-color: #F5F5F5;\r\n}\r\n\r\n.longarr::-webkit-scrollbar-thumb\r\n{\r\n\t  border-radius: 10px;\r\n    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);\r\n    background-color: rgba(245, 50, 50, 0.67);\r\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(6);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ })
+/******/ ]);

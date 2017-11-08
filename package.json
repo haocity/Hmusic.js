@@ -9,16 +9,16 @@
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
-    "css-loader": "^0.28.2",
+    "css-loader": "^0.28.7",
     "file-loader": "^0.11.1",
-    "style-loader": "^0.18.1",
+    "style-loader": "^0.18.2",
     "url-loader": "^0.5.8"
   },
   "scripts": {
     "buid": "webpack -p",
-    "dev":"webpack"
+    "dev": "webpack"
   },
   "author": "",
   "license": "ISC"
