@@ -20,7 +20,6 @@ module.exports = {
 				include: /src/,
                 exclude: /node_modules/
 			}
-
         ]
     }
 };
