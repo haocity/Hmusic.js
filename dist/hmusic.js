@@ -239,8 +239,13 @@ var Hmusic = function () {
 			});
 			this.to(0, true);
 
-			setTimeout(this.getalltime.bind(this), 500);
-			setInterval(this.interval1s.bind(this), 1000);
+			this.e.audio.addEventListener("durationchange", function () {
+				_this.getalltime();
+			});
+
+			this.e.audio.addEventListener("timeupdate", function () {
+				_this.timeup();
+			});
 
 			for (var i = 0; i < this.p.length; i++) {
 				var e = document.createElement('li');
@@ -441,18 +446,16 @@ var Hmusic = function () {
 				this.to(0);
 			}
 			this.changersound(this.volume);
-			setTimeout(this.getalltime.bind(this), 500);
+			var _this = this;
+			this.e.audio.addEventListener("durationchange", function () {
+				_this.getalltime();
+			});
 		}
 	}, {
 		key: 'getalltime',
 		value: function getalltime() {
-			var getvtime = this.getvtime;
-			if (this.e.audio.duration > 1) {
-				this.alltime = this.e.audio.duration;
-				this.e.alltime.innerHTML = getvtime(this.alltime).m + ':' + getvtime(this.alltime).s;
-			} else {
-				setTimeout(this.getalltime.bind(this), 500);
-			}
+			this.alltime = this.e.audio.duration;
+			this.e.alltime.innerHTML = this.getvtime(this.alltime).m + ':' + this.getvtime(this.alltime).s;
 		}
 	}, {
 		key: 'getvtime',
@@ -469,11 +472,9 @@ var Hmusic = function () {
 				s: tm
 			};
 		}
-		//定时器1s
-
 	}, {
-		key: 'interval1s',
-		value: function interval1s() {
+		key: 'timeup',
+		value: function timeup() {
 			this.e.nrange.style.width = this.e.audio.currentTime / this.alltime * 100 + '%';
 			this.e.nowtime.innerHTML = this.getvtime(this.e.audio.currentTime).m + ':' + this.getvtime(this.e.audio.currentTime).s;
 		}

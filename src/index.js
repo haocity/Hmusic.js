@@ -60,7 +60,7 @@ class Hmusic{
    		this.e={"audiowarp":$c('.hmusic'),
 			"audio":$c('.hmusic>.hm-audio'),
 			"banner":$c('.banner'),
-            "bannerimg":$c('.banner-img'),
+      "bannerimg":$c('.banner-img'),
 			"btnplay":$c('.icon-play'),
 			"btnstop":$c('.icon-stop'),
 			"title":$c('.songname'),
@@ -154,8 +154,14 @@ class Hmusic{
 		})
 		this.to(0,true);
 		
-		setTimeout(this.getalltime.bind(this),500);
-		setInterval(this.interval1s.bind(this),1000);
+		this.e.audio.addEventListener("durationchange",function(){
+			_this.getalltime();
+		})
+		
+		this.e.audio.addEventListener("timeupdate",function(){
+			_this.timeup();
+		});
+		
 		
 		for (let i = 0; i < this.p.length; i++) {
 	   		let e=document.createElement('li');
@@ -337,17 +343,15 @@ class Hmusic{
 	    		this.to(0)
 	    	}
 	    	this.changersound(this.volume);
-	    	setTimeout(this.getalltime.bind(this),500);
+	    	let _this=this;
+	    	this.e.audio.addEventListener("durationchange",function(){
+					_this.getalltime()
+				})
 	    }
 		
 		getalltime(){
-			let getvtime=this.getvtime;
-			if(this.e.audio.duration>1){
 				this.alltime=this.e.audio.duration;
-				this.e.alltime.innerHTML=`${getvtime(this.alltime).m}:${getvtime(this.alltime).s}`;
-			}else{
-				setTimeout(this.getalltime.bind(this),500)
-			}
+				this.e.alltime.innerHTML=`${this.getvtime(this.alltime).m}:${this.getvtime(this.alltime).s}`;
 		}
 		getvtime(time) {
 	        let tm;
@@ -362,8 +366,8 @@ class Hmusic{
 	            s:tm
 	        };
 	    }
-		//定时器1s
-		interval1s() {
+		
+		timeup() {
 			this.e.nrange.style.width=`${this.e.audio.currentTime/this.alltime*100}%`;
 			this.e.nowtime.innerHTML=`${this.getvtime(this.e.audio.currentTime).m}:${this.getvtime(this.e.audio.currentTime).s}`;
 		}
