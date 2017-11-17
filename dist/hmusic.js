@@ -243,10 +243,6 @@ var Hmusic = function () {
 				_this.getalltime();
 			});
 
-			this.e.audio.addEventListener("timeupdate", function () {
-				_this.timeup();
-			});
-
 			for (var i = 0; i < this.p.length; i++) {
 				var e = document.createElement('li');
 				e.innerHTML = this.p[i].title;
@@ -396,6 +392,7 @@ var Hmusic = function () {
 			};
 			var _this = this;
 			this.e.audio.addEventListener('timeupdate', function (c) {
+				_this.timeup();
 				var t = _this.e.audio.currentTime.toFixed(1) * 10;
 				if (_this.lrc) {
 					if (_this.lrc.b[_this.nowlrc + 1] <= t) {

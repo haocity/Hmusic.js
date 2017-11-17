@@ -158,10 +158,7 @@ class Hmusic{
 			_this.getalltime();
 		})
 		
-		this.e.audio.addEventListener("timeupdate",function(){
-			_this.timeup();
-		});
-		
+
 		
 		for (let i = 0; i < this.p.length; i++) {
 	   		let e=document.createElement('li');
@@ -292,6 +289,7 @@ class Hmusic{
 			};
 			let _this=this
 			this.e.audio.addEventListener('timeupdate',c => {
+			_this.timeup();
 			let t=_this.e.audio.currentTime.toFixed(1)*10;
 			if(_this.lrc){
 				if(_this.lrc.b[_this.nowlrc+1]<=t){
