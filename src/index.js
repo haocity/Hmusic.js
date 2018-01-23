@@ -143,9 +143,19 @@ class Hmusic{
 			let e = event || window.event || arguments.callee.caller.arguments[0];
 			let bl = show_coords(e,this);
 			_this.e.soundb.style.height=`${bl.h*bl.ybl}px`;
+			_this.volume=bl.ybl;
 			_this.changersound(bl.ybl);
 		})
-
+		this.e.sbtn.addEventListener('click',function(){
+			if(_this.volume2){
+				_this.volume2=false
+				this.className='iconfont icon-yinliang';
+			}	else{
+				_this.volume2=true
+				this.className='iconfont icon-yinliang2';
+			}
+			_this.changersound()
+		})
 		this.e.msound.addEventListener('mouseover',() => {
 			_this.e.wsound.style.display='block';
 		})
@@ -176,8 +186,7 @@ class Hmusic{
    }
   		
   		
-  		play(){
-			
+  play(){
 			this.e.btnplay.style.display='none';
 			this.e.btnstop.style.display='inline-block';
 			if(this.e.audio.paused){
@@ -230,8 +239,14 @@ class Hmusic{
 			})
 	   	}
 		changersound(i) {
-			this.e.audio.volume=i;
-			this.volume=i;
+			if(this.volume2){
+				 this.e.audio.volume=0;
+			}else if(i){
+				this.e.audio.volume=i;
+				this.volume=i;
+			}else{
+				this.e.audio.volume=this.volume;
+			}
 		}
 		getlrc(url) {
 	    	let	xmlhttp=new XMLHttpRequest();
