@@ -15,7 +15,7 @@ class Hmusic{
 		//歌单播放
 		if(list.playlist){
 			let arr=new Array;
-			let api='https://t5.haotown.cn/yunmusic/';
+			let api='https://api.haotown.cn/yunmusic/';
 			let	xmlhttp=new XMLHttpRequest();
 			let obj=new Object;
 			xmlhttp.onreadystatechange=() => {
@@ -338,7 +338,7 @@ class Hmusic{
 	    		this.e.lrc.style.transform='translateY(60px)';
 	    		this.e.title.innerHTML=this.p[this.nowduan].title;
 	    		if(this.p[this.nowduan].yunid){
-	    			this.getcloudurl(`https://t5.haotown.cn/yunmusic/?type=song&id=${this.p[this.nowduan].yunid}&br=128000`,stop,this.loadmusic(stop));
+	    			this.getcloudurl(`https://api.haotown.cn/yunmusic/?type=song&id=${this.p[this.nowduan].yunid}&br=128000`,stop,this.loadmusic(stop));
 	    		}else{
 	    			this.e.audio.src=this.p[this.nowduan].audio;
 	    			this.loadmusic(stop);
