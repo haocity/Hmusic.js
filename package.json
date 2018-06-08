@@ -18,8 +18,8 @@
   },
   "scripts": {
     "buid": "webpack -p",
-    "dev": "webpack"
+    "dev": "webpack --watch"
   },
   "author": "",
   "license": "ISC"
-} 
+}

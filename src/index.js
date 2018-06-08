@@ -16,6 +16,7 @@ class Hmusic{
 		if(list.playlist){
 			let arr=new Array;
 			let api='https://api.haotown.cn/yunmusic/';
+			//let api='https://api.imjad.cn/cloudmusic/'
 			let	xmlhttp=new XMLHttpRequest();
 			let obj=new Object;
 			xmlhttp.onreadystatechange=() => {
@@ -257,11 +258,23 @@ class Hmusic{
 						this.lrc.b=new Array;
 						this.lrc.c=new Array;
 						this.lrc.d='';
-						try{
-						  t=JSON.parse(xmlhttp.responseText).lrc.lyric;
-						}catch(e){
+						let d=JSON.parse(xmlhttp.responseText)
+						
+						
+						
+						if(d&&d.lrc&&d.lrc.lyric){
+							if(d.tlyric&&d.tlyric.lyric!=null){
+								t=d.lrc.lyric+d.tlyric.lyric
+							}else{
+								t=d.lrc.lyric
+							}
+							
+							
+						}else{
 							t='[00:00.72]歌词不存在'
 						}
+						 
+						
 						this.parseLyric(t);
 						this.lrc.a=this.parseLyric(t);
 						for(let i in this.lrc.a){
@@ -386,11 +399,11 @@ class Hmusic{
 		}
 		
 		parseLyric(lrc){
-	    	//console.log(lrc);
 		    let lyrics = lrc.split("\n");
 		    let lrcObj = {};
+		  
 		    for(let i=0;i<lyrics.length;i++){
-		        let lyric = decodeURIComponent(lyrics[i]);
+		        let lyric = lyrics[i];
 		        let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
 		        let timeRegExpArr = lyric.match(timeReg);
 		        if(!timeRegExpArr)continue;
@@ -400,7 +413,12 @@ class Hmusic{
                     let min = Number(String(t.match(/\[\d*/i)).slice(1));
                     let sec = Number(String(t.match(/\:\d*\.*\d*/i)).slice(1));
                     let time = (min * 60 + sec).toFixed(1)*10;
-                    lrcObj[time] = clause;
+                    if(lrcObj[time]){
+                    	lrcObj[time-1] =clause;
+                    }else{
+                    	lrcObj[time] = clause;
+                    }
+                    
                 }
 		    }
 		    return lrcObj;
